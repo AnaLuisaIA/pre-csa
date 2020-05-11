@@ -1,0 +1,39 @@
+.form-group.form-md-line-input.has-error .form-control.edited:not([readonly])~label:after,
+.form-group.form-md-line-input.has-error .form-control.edited:not([readonly])~.form-control-focus:after,
+.form-group.form-md-line-input.has-error .form-control.form-control-static~label:after,
+.form-group.form-md-line-input.has-error .form-control.form-control-static~.form-control-focus:after,
+.form-group.form-md-line-input.has-error .form-control:focus:not([readonly])~label:after,
+.form-group.form-md-line-input.has-error .form-control:focus:not([readonly])~.form-control-focus:after,
+.form-group.form-md-line-input.has-error .form-control.focus:not([readonly])~label:after,
+.form-group.form-md-line-input.has-error .form-control.focus:not([readonly])~.form-control-focus:after {
+    background: #a94442;
+}
+
+.form-group.form-md-line-input.has-error .form-control.edited:not([readonly])~label,
+.form-group.form-md-line-input.has-error .form-control.form-control-static~label,
+.form-group.form-md-line-input.has-error .form-control:focus:not([readonly])~label,
+.form-group.form-md-line-input.has-error .form-control.focus:not([readonly])~label {
+    color: #a94442;
+}
+
+.form-group.form-md-line-input.has-error .form-control.edited:not([readonly])~i,
+.form-group.form-md-line-input.has-error .form-control.form-control-static~i,
+.form-group.form-md-line-input.has-error .form-control:focus:not([readonly])~i,
+.form-group.form-md-line-input.has-error .form-control.focus:not([readonly])~i {
+    color: #a94442;
+}
+
+.form-group.form-md-line-input.has-error .form-control.edited:not([readonly])~.help-block,
+.form-group.form-md-line-input.has-error .form-control.form-control-static~.help-block,
+.form-group.form-md-line-input.has-error .form-control:focus:not([readonly])~.help-block,
+.form-group.form-md-line-input.has-error .form-control.focus:not([readonly])~.help-block {
+    color: #a94442;
+}
+
+.form-group.form-md-line-input.has-error .input-group-addon {
+    color: #a94442;
+}
+
+.form-horizontal .form-group.form-md-line-input.has-error>label {
+    color: #a94442;
+}
