@@ -3,7 +3,6 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@page pageEncoding="UTF-8" %>
 
-<sec:authorize access="hasAnyRole('ALTA_ROL', 'ALTA_USUARIO', 'SUPER ADMINISTRADOR', 'ADMINISTRADOR')">
     <li id="catalogos">
         <a href="javascript:;">
             <i class="icon-folder"></i>
@@ -13,14 +12,12 @@
         </a>
 
         <ul class="sub-menu">
-
-            <sec:authorize access="hasAnyRole('ALTA_USUARIO')">
-                <li id="usuariosMenu">
+                <li id="catalogosMenu">
                     <a href="<c:url value='/usuarios/'/>">
                         <i class="fa fa-users"></i>
                         Usuarios </a>
                 </li>
-            </sec:authorize>
+           
 
             <sec:authorize access="hasAnyRole('ALTA_ROL')">
                 <li id="rolesMenu">
@@ -40,4 +37,3 @@
 
         </ul>
     </li>
-</sec:authorize>
