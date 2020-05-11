@@ -12,8 +12,41 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
+	<!-- Converters -->
+	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<beans:property name="registerDefaultFormatters" value="false" />
+		<beans:property name="formatters">
+		    <beans:set>
+		        <beans:bean class="org.springframework.format.number.NumberFormatAnnotationFormatterFactory" />
+		    </beans:set>
+		</beans:property>
+		
+		<beans:property name="converters">
+			<beans:list merge="true">
+<!-- 				<beans:bean class="com.argosaegon.converter.DateConverter" /> -->
+<!-- 				<beans:bean class="com.argosaegon.converter.PermisoConverter" /> -->
+<!-- 				<beans:bean class="com.argosaegon.converter.LocalTimeConverter" /> -->
+<!-- 				<beans:bean class="com.argosaegon.converter.LocalDateConverter" /> -->
+			</beans:list>
+			
+		</beans:property>
+	</beans:bean>
+
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/img/**" location="/img/" />
+	<resources mapping="/js/**" location="/js/" />
+	<resources mapping="/css/**" location="/css/" />
+	<resources mapping="/assets/**" location="/assets/"/>
+	
+		<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+   		<beans:property name="definitions">   
+   			<beans:list>
+   				<beans:value>/WEB-INF/tiles.xml</beans:value>
+   			</beans:list>  
+     		
+	   	</beans:property>
+	 </beans:bean>
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -21,7 +54,24 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.sadss.cs" />
+	    <!-- configuracion de carga de archivos capa web -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<beans:property name="maxUploadSize" value="${upload.max}"/>
+	</beans:bean>
+	
+	<beans:bean class="com.sadss.csa.exceptions.ExceptionHandler">
+		<beans:property name="exceptionMappings">
+			<beans:props>
+				<beans:prop key="java.lang.Exception">errors/exception</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+	
+	
+	<context:property-placeholder location="classpath:/props/config.properties" />
+	
+	<context:component-scan base-package="com.sadss.csa.controller" />
 	
 	
 	

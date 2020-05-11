@@ -1,8 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans:beans 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		">
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
-</beans>
+	<!-- PROPERTIES -->
+	<context:annotation-config />
+	
+	<beans:bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>classpath:/props/config.properties</beans:value>
+			</beans:list>
+		</beans:property>
+		<beans:property name="ignoreUnresolvablePlaceholders"
+			value="true" />
+	</beans:bean>
+
+	<beans:bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>classpath:props/info</beans:value>
+				<beans:value>classpath:props/messages</beans:value>
+				<beans:value>classpath:props/labels</beans:value>
+				<beans:value>classpath:props/menu</beans:value>
+				<beans:value>classpath:props/help</beans:value>
+				<beans:value>classpath:props/email</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<beans:property name="defaultLocale">
+			<beans:value>es</beans:value>
+		</beans:property>
+	</beans:bean>
+
+	<!-- Configuracion base de datos -->
+	<beans:import resource="classpath:config/daoContext.xml" />
+
+	<!-- SERVICIOS -->
+	<context:component-scan
+		base-package="com.sads.csa.service" />
+
+	<!-- PERSISTENCIA -->
+	<context:component-scan
+		base-package="com.sads.csa.dao" />
+	<!-- COMPONENTES -->
+	<context:component-scan
+		base-package="com.sadss.csa.util" />
+
+	<!-- TASK -->
+	<task:scheduler id="searchScheduler" pool-size="1" />
+	<task:executor id="searchExecutor" pool-size="1" />
+	<task:annotation-driven
+		executor="searchExecutor" scheduler="searchScheduler" />
+
+	<!-- TRANSACTION MANAGER -->
+	<tx:annotation-driven />
+	<beans:bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<beans:qualifier value="transactionManager" />
+		<beans:property name="sessionFactory"
+			ref="sessionFactory" />
+	</beans:bean>
+</beans:beans>

@@ -1,0 +1,17 @@
+<Context>
+
+	<Resource name = 'jdbc/csa'
+			  auth = 'Container'
+			  type = 'javax.sql.DataSource'
+			  username = 'rootcsa'
+			  password = 'sads2020'
+			  driverClassName = 'com.mysql.jdbc.Driver'
+			  url = 'jdbc:mysql://localhost/csa'
+			  validationQuery = 'select 1'
+			  maxActive = '5'
+			  maxIdle = '10'
+			  maxWait = '5000' />
+		  
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+</Context>
