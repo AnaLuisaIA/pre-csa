@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping
+	package="com.sadss.csa.modelo.entidad">
+	<class name="Tasa" table="tasa_sobre_nomina">
+		<comment>Mapeo de tabla de tasas sobre nómina</comment>
+
+		<id name="id">
+			<column name="id" not-null="true" sql-type="INTEGER" />
+			<generator class="identity" />
+		</id>
+
+		<property name="estado">
+			<column name="estado" length="1" not-null="true"
+				sql-type="BOOLEAN" />
+		</property>
+
+		<property name="valor">
+			<column name="valor" not-null="true" sql-type="NUMERIC" />
+		</property>
+
+		<property name="fechaAplicacion">
+			<column name="fechaAplicacion" length="10" not-null="true"
+				sql-type="DATE" />
+		</property>
+
+		<property name="tipoVariable" column="tipoVariable"
+			not-null="true">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.segurosargos.sac.util.enums.TipoVariableTasa</param>
+				<param name="type">12</param>
+				<param name="useNamed">true</param>
+			</type>
+		</property>
+
+		<property name="tipoNomina" column="tipoNomina"
+			not-null="true">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.segurosargos.sac.util.enums.TipoNomina</param>
+				<param name="type">12</param>
+				<param name="useNamed">true</param>
+			</type>
+		</property>
+
+		<property name="oficina">
+			<column name="oficina" length="200" not-null="true"
+				sql-type="VARCHAR(200)" />
+		</property>
+
+		<set name="registros" table="bitacora_tasas" inverse="true">
+			<key column="idTasaSobreNomina"></key>
+			<one-to-many
+				class="com.segurosargos.sac.modelo.entidad.BitacoraTasas" />
+		</set>
+
+	</class>
+
+</hibernate-mapping>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping
+	package="com.sadss.csa.modelo.entidad">
+	<class name="CalculoISN" table="calculoisn">
+		<comment>Mapeo de tabla de Cálculo ISN</comment>
+
+		<id name="id">
+			<column name="id" not-null="true" sql-type="INTEGER" />
+			<generator class="identity" />
+		</id>
+
+		<property name="claveAgente">
+			<column name="claveAgente" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+
+		<property name="localidad">
+			<column name="localidad" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+
+		<property name="tasa">
+			<column name="tasa" not-null="true" sql-type="NUMERIC"></column>
+		</property>
+
+		<property name="baseGravable">
+			<column name="baseGravable" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+
+		<property name="isnMensual">
+			<column name="isnMensual" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+
+		<property name="isnSemanal">
+			<column name="isnSemanal" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+
+		<property name="fechaCalculo">
+			<column name="fechaCalculo" length="10" not-null="true"
+				sql-type="DATE" />
+		</property>
+
+		<many-to-one name="usuarioCalculo" column="idUsuario"
+			class="com.sadss.csa.modelo.entidad.Usuario" update="true"
+			insert="true" lazy="false">
+		</many-to-one>
+
+		<many-to-one name="calendario" column="idCalendarioISN"
+			class="com.sadss.csa.modelo.entidad.Calendario" update="true"
+			insert="true" lazy="false">
+		</many-to-one>
+
+	</class>
+
+</hibernate-mapping>

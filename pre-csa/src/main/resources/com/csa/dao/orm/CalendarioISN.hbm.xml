@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping
+	package="com.sadss.csa.modelo.entidad">
+	<class name="Calendario" table="calendario_isn">
+		<comment>Mapeo de tabla de calendario isn</comment>
+
+		<id name="id">
+			<column name="id" not-null="true" sql-type="INTEGER" />
+			<generator class="identity" />
+		</id>
+
+		<property name="fechaInicio">
+			<column name="fechaInicio" length="10" not-null="true"
+				sql-type="DATE" />
+		</property>
+
+		<property name="fechaFin">
+			<column name="fechaFin" length="10" not-null="true"
+				sql-type="DATE" />
+		</property>
+
+
+		<property name="trimestre">
+			<column name="trimestre" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+		<property name="anio">
+			<column name="anio" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+		<property name="semana">
+			<column name="semana" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+		<property name="mes">
+			<column name="mes" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+
+		<property name="archivo">
+			<column name="archivo" length="150" not-null="true"
+				sql-type="VARCHAR(150)" />
+		</property>
+
+		<set name="registros" table="bitacora_calendario" inverse="true">
+			<key column="idCalendarioISN"></key>
+			<one-to-many class="com.segurosargos.sac.modelo.entidad.BitacoraCalendario"/>
+		</set>
+
+	</class>
+
+</hibernate-mapping>

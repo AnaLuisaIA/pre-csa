@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping
+	package="com.sadss.csa.modelo.entidad">
+	<class name="CalculoIMSS" table="calculoimss">
+		<comment>Mapeo de tabla de Cálculo IMSS</comment>
+
+		<id name="id">
+			<column name="id" not-null="true" sql-type="INTEGER" />
+			<generator class="identity" />
+		</id>
+
+		<property name="tipoPeriodo" column="tipoPeriodo"
+			not-null="true">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.segurosargos.sac.util.enums.TipoPeriodo</param>
+				<param name="type">12</param>
+				<param name="useNamed">true</param>
+			</type>
+		</property>
+
+		<property name="tipoNomina" column="tipoNomina"
+			not-null="true">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.segurosargos.sac.util.enums.TipoNominaIMSS</param>
+				<param name="type">12</param>
+				<param name="useNamed">true</param>
+			</type>
+		</property>
+
+		<property name="claveAgente">
+			<column name="claveAgente" length="11" not-null="true"
+				sql-type="INTEGER" />
+		</property>
+
+		<property name="cuotaFija">
+			<column name="cuotaFija" not-null="true" sql-type="NUMERIC" />
+		</property>
+
+		<property name="excedenteP">
+			<column name="excedenteP" not-null="true" sql-type="NUMERIC" />
+		</property>
+		<property name="prestacionesP">
+			<column name="prestacionesP" not-null="true"
+				sql-type="NUMERIC" />
+		</property>
+		<property name="gastosMedP">
+			<column name="gastosMedP" not-null="true" sql-type="NUMERIC" />
+		</property>
+		<property name="RTP">
+			<column name="RTP" not-null="true" sql-type="NUMERIC" />
+		</property>
+		<property name="invVidaP">
+			<column name="invVidaP" not-null="true" sql-type="NUMERIC" />
+		</property>
+
+		<property name="totalPatron">
+			<column name="totalPatron" not-null="true" sql-type="NUMERIC" />
+		</property>
+
+		<property name="excedenteT">
+			<column name="excedenteT" not-null="true" sql-type="NUMERIC" />
+		</property>
+
+		<property name="prestacionesT">
+			<column name="prestacionesT" not-null="true"
+				sql-type="NUMERIC" />
+		</property>
+
+		<property name="gastosMedicosT">
+			<column name="gastosMedicosT" not-null="true"
+				sql-type="NUMERIC" />
+		</property>
+		<property name="totalTrabajador">
+			<column name="totalTrabajador" not-null="true"
+				sql-type="NUMERIC" />
+		</property>
+		<property name="totalIMSS">
+			<column name="totalIMSS" not-null="true" sql-type="NUMERIC" />
+		</property>
+		<property name="infonavitPatron">
+			<column name="infonavitPatron" not-null="true"
+				sql-type="NUMERIC" />
+		</property>
+		<property name="infonavitTrabajador">
+			<column name="infonavitTrabajador" not-null="true"
+				sql-type="NUMERIC" />
+		</property>
+		<property name="totalInfonavit">
+			<column name="totalInfonavit" not-null="true"
+				sql-type="NUMERIC" />
+		</property>
+
+		<property name="fechaCalculo">
+			<column name="fechaCalculo" length="10" not-null="true"
+				sql-type="DATE" />
+		</property>
+
+		<many-to-one name="usuarioCalculo" column="idUsuario"
+			class="com.sadss.csa.modelo.entidad.Usuario" update="true"
+			insert="true" lazy="false">
+		</many-to-one>
+
+		<property name="periodoInicio">
+			<column name="periodoInicio" length="10" not-null="true"
+				sql-type="DATE" />
+		</property>
+
+		<property name="periodoFin">
+			<column name="periodoFin" length="10" not-null="true"
+				sql-type="DATE" />
+		</property>
+
+
+
+	</class>
+
+</hibernate-mapping>

@@ -1,0 +1,60 @@
+package com.sadss.csa.modelo.entidad;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import com.sadss.csa.modelo.generic.GenericModel;
+
+public class BitacoraCalendario extends GenericModel<BitacoraCalendario> implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer id;
+	private String accion;
+	private Usuario usuario;
+	private Date fechaAccion;
+	private Calendario calendario;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getAccion() {
+		return accion;
+	}
+
+	public void setAccion(String accion) {
+		this.accion = accion;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Date getFechaAccion() {
+		return fechaAccion;
+	}
+
+	public void setFechaAccion(Date fechaAccion) {
+		this.fechaAccion = fechaAccion;
+	}
+
+	public Calendario getCalendario() {
+		return calendario;
+	}
+
+	public void setCalendario(Calendario calendario) {
+		this.calendario = calendario;
+	}
+
+}

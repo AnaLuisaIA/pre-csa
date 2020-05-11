@@ -1,6 +1,8 @@
 package com.sadss.csa.modelo.entidad;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.sadss.csa.modelo.generic.GenericModel;
 
@@ -14,6 +16,11 @@ public class Usuario extends GenericModel<Usuario> implements Serializable {
 	private String nombres;
 	private String aPaterno;
 	private String aMaterno;
+
+	private Set<Bitacora> accionesSistema = new HashSet<Bitacora>();
+	private Set<BitacoraCalendario> accionesCalendario = new HashSet<BitacoraCalendario>();
+	private Set<BitacoraTasas> accionesTasas = new HashSet<BitacoraTasas>();
+	private Set<BitacoraVariables> accionesVariables = new HashSet<BitacoraVariables>();
 
 	public Integer getId() {
 		return id;
@@ -61,6 +68,38 @@ public class Usuario extends GenericModel<Usuario> implements Serializable {
 
 	public void setaMaterno(String aMaterno) {
 		this.aMaterno = aMaterno;
+	}
+
+	public Set<Bitacora> getAccionesSistema() {
+		return accionesSistema;
+	}
+
+	public void setAccionesSistema(Set<Bitacora> accionesSistema) {
+		this.accionesSistema = accionesSistema;
+	}
+
+	public Set<BitacoraCalendario> getAccionesCalendario() {
+		return accionesCalendario;
+	}
+
+	public void setAccionesCalendario(Set<BitacoraCalendario> accionesCalendario) {
+		this.accionesCalendario = accionesCalendario;
+	}
+
+	public Set<BitacoraTasas> getAccionesTasas() {
+		return accionesTasas;
+	}
+
+	public void setAccionesTasas(Set<BitacoraTasas> accionesTasas) {
+		this.accionesTasas = accionesTasas;
+	}
+
+	public Set<BitacoraVariables> getAccionesVariables() {
+		return accionesVariables;
+	}
+
+	public void setAccionesVariables(Set<BitacoraVariables> accionesVariables) {
+		this.accionesVariables = accionesVariables;
 	}
 
 }
