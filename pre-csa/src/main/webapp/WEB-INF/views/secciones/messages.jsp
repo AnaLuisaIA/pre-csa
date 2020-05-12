@@ -8,7 +8,7 @@ setTimeout(function() {
 </script>
 
 <div class="row">
-	<div class="col-md-10 col-md-offset-1">
+	<div class="col-md-12">
 			<c:choose>
 				<c:when test="${ not empty errmsg }">
 					<div class="alert alert-danger">${errmsg}</div>

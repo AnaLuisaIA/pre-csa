@@ -27,12 +27,12 @@
 		</property>
 
 		<property name="aPaterno">
-			<column name="aPaternoUsuario" length="100" not-null="true"
+			<column name="aPaterno" length="100" not-null="true"
 				sql-type="VARCHAR(100)" />
 		</property>
 
 		<property name="aMaterno">
-			<column name="aMaternoUsuario" length="100" not-null="true"
+			<column name="aMaterno" length="100" not-null="true"
 				sql-type="VARCHAR(100)" />
 		</property>
 
