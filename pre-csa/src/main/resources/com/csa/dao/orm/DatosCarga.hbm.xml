@@ -79,34 +79,34 @@
 		</property>
 
 		<property name="otroBono1">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono1" sql-type="NUMERIC" />
 		</property>
 		<property name="otroBono2">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono2" sql-type="NUMERIC" />
 		</property>
 		<property name="otroBono3">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono3" sql-type="NUMERIC" />
 		</property>
 		<property name="otroBono4">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono4" sql-type="NUMERIC" />
 		</property>
 		<property name="otroBono5">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono5" sql-type="NUMERIC" />
 		</property>
 		<property name="otroBono6">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono6" sql-type="NUMERIC" />
 		</property>
 		<property name="otroBono7">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono7" sql-type="NUMERIC" />
 		</property>
 		<property name="otroBono8">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono8" sql-type="NUMERIC" />
 		</property>
 		<property name="otroBono9">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono9" sql-type="NUMERIC" />
 		</property>
 		<property name="otroBono10">
-			<column name="otroBono" sql-type="NUMERIC" />
+			<column name="otroBono10" sql-type="NUMERIC" />
 		</property>
 
 

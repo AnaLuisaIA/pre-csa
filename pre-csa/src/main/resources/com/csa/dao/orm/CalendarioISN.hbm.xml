@@ -46,7 +46,7 @@
 
 		<set name="registros" table="bitacora_calendario" inverse="true">
 			<key column="idCalendarioISN"></key>
-			<one-to-many class="com.segurosargos.sac.modelo.entidad.BitacoraCalendario"/>
+			<one-to-many class="com.sadss.csa.modelo.entidad.BitacoraCalendario"/>
 		</set>
 
 	</class>

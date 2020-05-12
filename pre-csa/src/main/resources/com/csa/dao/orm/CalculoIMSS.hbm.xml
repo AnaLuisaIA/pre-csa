@@ -14,7 +14,7 @@
 		<property name="tipoPeriodo" column="tipoPeriodo"
 			not-null="true">
 			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">com.segurosargos.sac.util.enums.TipoPeriodo</param>
+				<param name="enumClass">com.sadss.csa.util.enums.TipoPeriodo</param>
 				<param name="type">12</param>
 				<param name="useNamed">true</param>
 			</type>
@@ -23,7 +23,7 @@
 		<property name="tipoNomina" column="tipoNomina"
 			not-null="true">
 			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">com.segurosargos.sac.util.enums.TipoNominaIMSS</param>
+				<param name="enumClass">com.sadss.csa.util.enums.TipoNominaIMSS</param>
 				<param name="type">12</param>
 				<param name="useNamed">true</param>
 			</type>
@@ -34,8 +34,8 @@
 				sql-type="INTEGER" />
 		</property>
 
-		<property name="cuotaFija">
-			<column name="cuotaFija" not-null="true" sql-type="NUMERIC" />
+		<property name="cuotaFijaP">
+			<column name="cuotaFijaP" not-null="true" sql-type="NUMERIC" />
 		</property>
 
 		<property name="excedenteP">

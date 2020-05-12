@@ -3,7 +3,7 @@
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping
 	package="com.sadss.csa.modelo.entidad">
-	<class name="Tasa" table="tasa_sobre_nomina">
+	<class name="TasaSobreNomina" table="tasa_sobre_nomina">
 		<comment>Mapeo de tabla de tasas sobre nómina</comment>
 
 		<id name="id">
@@ -28,7 +28,7 @@
 		<property name="tipoVariable" column="tipoVariable"
 			not-null="true">
 			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">com.segurosargos.sac.util.enums.TipoVariableTasa</param>
+				<param name="enumClass">com.sadss.csa.util.enums.TipoVariableTasa</param>
 				<param name="type">12</param>
 				<param name="useNamed">true</param>
 			</type>
@@ -37,7 +37,7 @@
 		<property name="tipoNomina" column="tipoNomina"
 			not-null="true">
 			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">com.segurosargos.sac.util.enums.TipoNomina</param>
+				<param name="enumClass">com.sadss.csa.util.enums.TipoNomina</param>
 				<param name="type">12</param>
 				<param name="useNamed">true</param>
 			</type>
@@ -51,7 +51,7 @@
 		<set name="registros" table="bitacora_tasas" inverse="true">
 			<key column="idTasaSobreNomina"></key>
 			<one-to-many
-				class="com.segurosargos.sac.modelo.entidad.BitacoraTasas" />
+				class="com.sadss.csa.modelo.entidad.BitacoraTasas" />
 		</set>
 
 	</class>

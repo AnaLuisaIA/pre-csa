@@ -37,7 +37,7 @@
 
 		<property name="tipo" column="tipo" not-null="true">
 			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">com.segurosargos.sac.util.enums.TipoVariable</param>
+				<param name="enumClass">com.sadss.csa.util.enums.TipoVariable</param>
 				<param name="type">12</param>
 				<param name="useNamed">true</param>
 			</type>
@@ -46,7 +46,7 @@
 		<set name="registros" table="bitacora_variables" inverse="true">
 			<key column="idVariable"></key>
 			<one-to-many
-				class="com.segurosargos.sac.modelo.entidad.BitacoraVariables" />
+				class="com.sadss.csa.modelo.entidad.BitacoraVariables" />
 		</set>
 
 	</class>

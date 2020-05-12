@@ -52,11 +52,11 @@
 
 	<!-- SERVICIOS -->
 	<context:component-scan
-		base-package="com.sads.csa.service" />
+		base-package="com.sadss.csa.service" />
 
 	<!-- PERSISTENCIA -->
 	<context:component-scan
-		base-package="com.sads.csa.dao" />
+		base-package="com.sadss.csa.dao" />
 	<!-- COMPONENTES -->
 	<context:component-scan
 		base-package="com.sadss.csa.util" />

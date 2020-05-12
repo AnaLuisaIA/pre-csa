@@ -43,7 +43,7 @@ public class DatosCarga extends GenericModel<DatosCarga> implements Serializable
 	private BigDecimal otroBono7;
 	private BigDecimal otroBono8;
 	private BigDecimal otroBono9;
-	private BigDecimal otroBono;
+	private BigDecimal otroBono10;
 
 	public Integer getId() {
 		return id;
@@ -285,12 +285,12 @@ public class DatosCarga extends GenericModel<DatosCarga> implements Serializable
 		this.otroBono9 = otroBono9;
 	}
 
-	public BigDecimal getOtroBono() {
-		return otroBono;
+	public BigDecimal getOtroBono10() {
+		return otroBono10;
 	}
 
-	public void setOtroBono(BigDecimal otroBono) {
-		this.otroBono = otroBono;
+	public void setOtroBono10(BigDecimal otroBono10) {
+		this.otroBono10 = otroBono10;
 	}
 
 }
