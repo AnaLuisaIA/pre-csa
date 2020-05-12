@@ -34,6 +34,11 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404</location>
+	</error-page>
+
 	<resource-ref>
 		<description>csa Connection</description>
 		<res-ref-name>jdbc/csa</res-ref-name>

@@ -11,7 +11,6 @@ public class CalendarioController {
 
 	@RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
 	public String verCalendarios(Model model) {
-		model.addAttribute("titulo", "Calendario");
 		return "catalogo/calendario/calendario";
 	}
 }
