@@ -36,7 +36,7 @@
 							<i class="fa fa-calendar"></i>Catálogo de Calendarios ISN
 						</div>
 						<div class="actions">
-							<a class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Agregar Calendario</a>
+							<a class="btn default btn-sm"><i class="fa fa-plus"></i> Agregar Calendario</a>
 						</div>
 
 					</div>
