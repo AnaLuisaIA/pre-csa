@@ -3,16 +3,14 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <tiles:insertDefinition name="defaultTemplate">
-
 	<tiles:putAttribute name="styles">
 		<link
 			href="<c:url value='/assets/global/plugins/select2/select2.css'/>"
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
-
 	<tiles:putAttribute name="title">Registro IMSS e INFONAVIT</tiles:putAttribute>
 
 	<!-- Menu de navegación -->
@@ -20,7 +18,6 @@
 		<li><a href='<c:url value="/usuarios/"/>'>Alta</a> <i
 			class="fa fa-angle-right"></i></li>
 	</tiles:putAttribute>
-
 	<body>
 
 		<tiles:putAttribute name="body">
@@ -43,38 +40,54 @@
 						</div>
 
 						<div class="portlet-body form">
-							<!-- Comienza formulario para registro de usuario -->
+							<!-- Comienza formulario para registro de variables-->
 							<form:form id="addUser" action="add" method="POST"
 								modelAttribute="" usuarioPerfil="form">
 
 								<div class="form-body">
-
 									<!-- Mensaje de error, validación backend -->
-
-
 									<!-- Bloques de campos de formulario a llenar -->
 									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="variable">Variable</label> 
-												<input />
-												
-												<label for="descripcion">Descripción</label> 
-												<input />
-												
-												<label for="valor">Valor</label>
-												<input type="radio"id="male" name="gender" value="male">
-												<labelfor="patron">Patron</label>
-												<input type="radio"id="female" name="gender" value="female"> 
-												<label for="trabajador">Trabajador</label>
-												<input type="radio" id="other" name="gender" value="other"> 
-												<label for="generico">Genérico</label><br>
-												
-												<label for="tipo">Tipo</label> 
-												<input />
-												
-												<label for="fecha">Fecha Aplicación</label> 
-												<input />
+											<div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="variable">Variable:</label>
+                                                    <input name="variable" id="variable" class="form-control" placeholder="Ingrese el nombre de la variable"/>
+                                                </div>
+											</div>
+											<div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="descripcion">Descripción:</label>
+                                                    <input name="descripcion" id="descripcion" class="form-control" placeholder="Ingrese una descripción"/>
+                                                </div>
+											</div>
+											<div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="valor">Valor:</label>
+                                                    <input name="valor" id="valor" class="form-control" placeholder="Ingrese una descripción"/>
+                                                </div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="tipo">Tipo:</label>
+                                                    <div class="form-group">
+                                                    <label class="content-input">Patrón
+                                                    <input class="content-input" type="radio" name="tipo" id="patron">
+                                                    <span class="i"></span>
+                                                    </label>
+                                                    <label for="trabajador">Trabajador</label>
+                                                    <input class="css-checkbox" type="radio" name="tipo" id="trabajador">
+                                                    <label for="generico">Genérico</label>
+                                                    <input class="css-checkbox" type="radio" name="tipo" id="generico">
+													</div>
+                                                </div>
+											</div>
+											<div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="fechaA">Fecha Aplicación:</label>
+                                                    <input name="fechaA" id="fechaA" class="form-control" type="date"/>
+                                                </div>
 											</div>
 										</div>
 									</div>

@@ -73,6 +73,40 @@
 				</div>
 			</div>
 		</div>
+				<div class="row">
+			<div class="col-md-9 col-md-offset-2">
+				<div class="portlet light portlet-fit bordered">
+					<div class="portlet-title">
+						<div class="caption">
+							<i class="fa fa-pencil-square-o"></i>Bitácora de cambios
+						</div>
+						<div class="tools">
+							<a href="" class="expand"></a>
+						</div>
+					</div>
+
+					<div class="portlet-body portlet-collapsed" style="display: none;">
+						<div
+							class="table-scrollable table-scrollable-borderless table-responsive">
+							<table id="tablaBitacora" class="table table-hover table-light">
+								<thead>
+									<tr>
+										<th>Acción</th>
+										<th>Fecha y Hora</th>
+										<th>Colaborador</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="scripts">
