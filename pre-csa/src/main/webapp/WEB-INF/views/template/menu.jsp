@@ -25,11 +25,10 @@
 	<c:import url="/WEB-INF/views/template/menu/catalogos.jsp"></c:import>
 	
 	<!-- Menï¿½ de Bitï¿½cora del sistema -->
-	<sec:authorize access="hasAnyRole('SUPER ADMINISTRADOR', 'ADMINISTRADOR')">
 	    <li id="bitacora">
 	        <a href="javascript:;">
 	            <i class="icon-folder"></i>
-	            <span class="title">Bitacoras</span>
+	            <span class="title">Bitácoras</span>
 	            <span class="selected"></span>
 	            <span class="arrow"></span>
 	        </a>
@@ -44,6 +43,5 @@
 	
 	        </ul>
 	    </li>
-	</sec:authorize>
 
 </ul>

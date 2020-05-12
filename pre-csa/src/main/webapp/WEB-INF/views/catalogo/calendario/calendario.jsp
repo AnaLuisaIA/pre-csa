@@ -35,7 +35,9 @@
 						<div class="caption">
 							<i class="fa fa-calendar"></i>Catálogo de Calendarios ISN
 						</div>
-						<div class="actions"></div>
+						<div class="actions">
+							<a class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Agregar Calendario</a>
+						</div>
 
 					</div>
 					<div class="portlet-body">
@@ -62,6 +64,41 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-md-9 col-md-offset-2">
+				<div class="portlet light portlet-fit bordered">
+					<div class="portlet-title">
+						<div class="caption">
+							<i class="fa fa-pencil-square-o"></i>Bitácora de cambios
+						</div>
+						<div class="tools">
+							<a href="" class="expand"></a>
+						</div>
+					</div>
+
+					<div class="portlet-body portlet-collapsed" style="display: none;">
+						<div
+							class="table-scrollable table-scrollable-borderless table-responsive">
+							<table id="tablaBitacora" class="table table-hover table-light">
+								<thead>
+									<tr>
+										<th>Acción</th>
+										<th>Fecha y Hora</th>
+										<th>Colaborador</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="scripts">
@@ -86,10 +123,13 @@
 
 	</tiles:putAttribute>
 
-
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open");
 		$('#tablaCalendario').DataTable();
    </tiles:putAttribute>
+
+	<tiles:putAttribute name="footer">
+		<c:import url="/WEB-INF/views/template/footer.jsp"></c:import>
+	</tiles:putAttribute>
 
 </tiles:insertDefinition>
