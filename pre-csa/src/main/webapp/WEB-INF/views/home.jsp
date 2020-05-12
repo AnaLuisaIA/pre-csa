@@ -1,6 +1,6 @@
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
-<%@page pageEncoding="UTF-8" %>
 
 <tiles:insertDefinition name="defaultTemplate">
 	<tiles:putAttribute name="styles">
@@ -8,6 +8,7 @@
 		<link href="<c:url value='/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css'/>" rel="stylesheet" type="text/css"/>
 		<link href="<c:url value='/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css'/>" rel="stylesheet" type="text/css"/>		
 	</tiles:putAttribute>
+	<meta charset="UTF-8">
 	<tiles:putAttribute name="title">Bienvenido</tiles:putAttribute>
 	
 	<tiles:putAttribute name="nav">

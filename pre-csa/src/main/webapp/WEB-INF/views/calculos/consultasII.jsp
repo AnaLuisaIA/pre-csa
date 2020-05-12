@@ -1,10 +1,11 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<tiles:insertDefinition name="defaultTemplate">
 
+<tiles:insertDefinition name="defaultTemplate">
 	<tiles:putAttribute name="styles">
 		<link
 			href="<c:url value='/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css'/>"
@@ -17,11 +18,11 @@
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
 	<tiles:putAttribute name="nav">
-		<li><a href='<c:url value="/"/>'>Variables IMSS e
-				INFONAVIT</a> <i class="fa fa-angle-right"></i></li>
+		<li><a href='<c:url value="/"/>'>Consultas IMSS e INFONAVIT</a> <i
+			class="fa fa-angle-right"></i></li>
 	</tiles:putAttribute>
 	<meta charset="UTF-8">
-	<tiles:putAttribute name="title">Variables IMSS e INFONAVIT</tiles:putAttribute>
+	<tiles:putAttribute name="title">Consultas IMSS e INFONAVIT</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
 		<div class="row">
@@ -30,31 +31,30 @@
 				<div class="portlet box green-jungle">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-globe"></i>Catálogo de Variables IMSS e
-							INFONAVIT
+							<i class="fa fa-globe"></i>Consultas IMSS e INFONAVIT
 						</div>
 						<div class="actions">
-						<a href="alta" class="btn default green-stripe">
-							<i class="fa fa-plus"></i>
-							<span class="hidden-480">
-							AGREGAR VARIABLE </span>
-							</a>				
+							<a href="alta" class="btn default green-stripe"> <i
+								class="fa fa-plus"></i> <span class="hidden-480">Exportar Seleccionados</span>
+							</a>
 						</div>
-
 					</div>
 					<div class="portlet-body">
 						<table id="tablaVariables"
 							class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>Variable</th>
-									<th>Descripcion</th>
-									<th>Valor</th>
-									<th>Tipo</th>
-									<th>Fecha de Aplicación</th>
-									<th>Acciones</th>
+									<th>Seleccionar Todos</th>
+									<th>Período</th>
+									<th>Total Pagado Patrón</th>
+									<th>Total Trabajador</th>
+									<th>Total IMSS</th>
+									<th>INFONAVIT Patrón</th>
+									<th>INFONAVIT Trabajador</th>
+									<th>Total INFONAVIT</th>
+									<th>Fecha de Calculo</th>
+									<th>Calculado por</th>
 								</tr>
-							</thead>
 							<tbody>
 								<!--<c:forEach var="c" items="${correos}">
 									<tr>

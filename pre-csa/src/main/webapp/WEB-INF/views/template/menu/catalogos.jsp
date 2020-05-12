@@ -13,27 +13,24 @@
 
         <ul class="sub-menu">
                 <li id="catalogosMenu">
-                    <a href="<c:url value='/usuarios/'/>">
-                        <i class="fa fa-users"></i>
-                        Usuarios </a>
+                    <a href="<c:url value='/variables/'/>">
+                        <i class=""></i>
+                        Variables IMSS/INFONAVIT </a>
                 </li>
-           
-
-            <sec:authorize access="hasAnyRole('ALTA_ROL')">
-                <li id="rolesMenu">
-                    <a href="<c:url value='/roles/'/>">
-                        <i class="fa fa-tags"></i>
-                        Roles</a>
+                <li id="TSN">
+                    <a href="<c:url value='/'/>">
+                        <i class=""></i>
+                        Tasa Sobre Nomina</a>
                 </li>
-            </sec:authorize>
-            
-            <sec:authorize access="hasAnyRole('SUPER ADMINISTRADOR', 'ADMINISTRADOR')">
-                <li id="correosMenu">
-                    <a href="<c:url value='/correo/'/>">
-                        <i class="fa fa-envelope"></i>
-                        Correos</a>
+                <li id="calendarioISN">
+                    <a href="<c:url value='/'/>">
+                        <i class=""></i>
+                        Calendario ISN</a>
                 </li>
-            </sec:authorize>
-
+                <li id="calendarioISN">
+                    <a href="<c:url value='/'/>">
+                        <i class=""></i>
+                        Usuarios</a>
+                </li>
         </ul>
     </li>
