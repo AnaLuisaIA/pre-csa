@@ -33,7 +33,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "catalogo/variables/registroIMSS-INFONAVIT";
+		return "catalogo/variables/IMSS-INFONAVIT";
 	}
 	
 }
