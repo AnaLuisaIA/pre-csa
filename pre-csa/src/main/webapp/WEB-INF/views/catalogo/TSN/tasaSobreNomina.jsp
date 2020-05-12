@@ -1,4 +1,5 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -17,11 +18,10 @@
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
 	<tiles:putAttribute name="nav">
-		<li><a href='<c:url value="/"/>'>Variables IMSS e
-				INFONAVIT</a> <i class="fa fa-angle-right"></i></li>
+		<li><a href='<c:url value="/"/>'>Tasa de Impuestos sobre Nómina</a> <i class="fa fa-angle-right"></i></li>
 	</tiles:putAttribute>
 	<meta charset="UTF-8">
-	<tiles:putAttribute name="title">Variables IMSS e INFONAVIT</tiles:putAttribute>
+	<tiles:putAttribute name="title">Catálogo Tasas de Impuestos sobre Nómina</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
 		<div class="row">
@@ -30,14 +30,13 @@
 				<div class="portlet box green-jungle">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-globe"></i>Catálogo de Variables IMSS e
-							INFONAVIT
+							<i class="fa fa-globe"></i>Catálogo Tasas de Impuestos sobre Nómina
 						</div>
 						<div class="actions">
 						<a href="alta" class="btn default green-stripe">
 							<i class="fa fa-plus"></i>
 							<span class="hidden-480">
-							AGREGAR VARIABLE </span>
+							AGREGAR TASA </span>
 							</a>				
 						</div>
 
@@ -47,10 +46,11 @@
 							class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>Variable</th>
-									<th>Descripcion</th>
+									<th>Estado</th>
+									<th>Tipo Nómina</th>
+									<th>Tipo Variable</th>
 									<th>Valor</th>
-									<th>Tipo</th>
+									<th>Oficina</th>
 									<th>Fecha de Aplicación</th>
 									<th>Acciones</th>
 								</tr>

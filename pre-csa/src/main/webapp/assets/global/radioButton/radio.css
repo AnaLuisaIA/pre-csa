@@ -1,0 +1,36 @@
+.container-animacion-1{
+  position: fixed;
+  width: 150px;
+  top:0;
+  right: -160px;
+  bottom: 0;
+  background: orange;
+  transition:0.2s ease;
+}
+.container-animacion-2{
+  position: fixed;
+  width: 150px;
+  top:0;
+  right: -160px;
+  bottom: 0;
+  background: blue;
+  transition:0.2s ease;
+}
+.container-animacion-3{
+  position: fixed;
+  width: 150px;
+  top:0;
+  right: -160px;
+  bottom: 0;
+  background: green;
+  transition:0.2s ease;
+}
+#control-div-1:checked ~ .container-animacion-1{
+  right: 0
+}
+#control-div-2:checked ~ .container-animacion-2{
+  right: 0
+}
+#control-div-3:checked ~ .container-animacion-3{
+  right: 0
+}
