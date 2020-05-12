@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping
+	package="com.sadss.csa.modelo.entidad">
+	<class name="BitacoraVariables" table="bitacora_variables">
+		<comment>Mapeo de tabla de bitácora de variables</comment>
+
+		<id name="id">
+			<column name="id" not-null="true" sql-type="INTEGER" />
+			<generator class="identity" />
+		</id>
+
+		<property name="accion">
+			<column name="accion" length="100" not-null="true"
+				sql-type="VARCHAR(200)" />
+		</property>
+
+		<property name="fechaAccion">
+			<column name="fechaAccion" length="10" not-null="true"
+				sql-type="DATETIME" />
+		</property>
+
+		<property name="justificacion">
+			<column name="justificacion" length="100" not-null="true"
+				sql-type="VARCHAR(250)" />
+		</property>
+
+		<many-to-one name="usuario" column="idUsuario"
+			class="com.sadss.csa.modelo.entidad.Usuario" update="true"
+			insert="true" lazy="false">
+		</many-to-one>
+
+		<many-to-one name="variable" column="idVariable"
+			class="com.sadss.csa.modelo.entidad.Variable" update="true"
+			insert="true" lazy="false">
+		</many-to-one>
+
+	</class>
+
+</hibernate-mapping>
