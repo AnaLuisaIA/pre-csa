@@ -40,27 +40,27 @@
 			inverse="true">
 			<key column="idUsuario"></key>
 			<one-to-many
-				class="com.segurosargos.sac.modelo.entidad.BitacoraCalendario" />
+				class="com.sadss.csa.modelo.entidad.BitacoraCalendario" />
 		</set>
 
 		<set name="accionesTasas" table="bitacora_tasas" inverse="true">
 			<key column="idUsuario"></key>
 			<one-to-many
-				class="com.segurosargos.sac.modelo.entidad.BitacoraTasas" />
+				class="com.sadss.csa.modelo.entidad.BitacoraTasas" />
 		</set>
 
 		<set name="accionesVariables" table="bitacora_variables"
 			inverse="true">
 			<key column="idUsuario"></key>
 			<one-to-many
-				class="com.segurosargos.sac.modelo.entidad.BitacoraVariables" />
+				class="com.sadss.csa.modelo.entidad.BitacoraVariables" />
 		</set>
 
 		<set name="accionesSistema" table="bitacora_general"
 			inverse="true">
 			<key column="idUsuario"></key>
 			<one-to-many
-				class="com.segurosargos.sac.modelo.entidad.Bitacora" />
+				class="com.sadss.csa.modelo.entidad.Bitacora" />
 		</set>
 
 	</class>

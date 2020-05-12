@@ -174,7 +174,9 @@
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
 <div class="page-footer">
-	<tiles:insertAttribute name="footer"></tiles:insertAttribute>
+	<tiles:insertAttribute name="footer">
+		<c:import url="/WEB-INF/views/template/footer.jsp"></c:import>
+	</tiles:insertAttribute>
 </div>
 <!-- END FOOTER -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
