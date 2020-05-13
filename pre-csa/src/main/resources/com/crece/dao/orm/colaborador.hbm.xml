@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.segurosargos.crece.modelo.entidad">
+	<class name="Colaborador" table="COLABORADOR" schema="CRECE">
+    	<comment>Mapeo tabla colaboradores</comment>
+        <id name="id">
+            <column name="id" length="10" not-null="true" sql-type="NUMBER(10, 0)"/>
+            <generator class="identity"/>
+        </id>
+        <property name="direccionID">
+        	<column name="direccion_id"  length="3" not-null="true" sql-type="NUMBER(3,0)"/>
+        </property>
+        <property name="deptoID">
+        	<column name="depto_id" length="5" not-null="true" sql-type="NUMBER(5,0)"/>
+        </property>
+        <property name="liderID">
+        	<column name="lider_id" length="5" not-null="true" sql-type="NUMBER(5,0)"/>
+        </property>
+       <property name="rolID">
+        	<column name="rol_id" length="3" not-null="true" sql-type="NUMBER(3,0)"/>
+        </property>
+        <property name="puestoID">
+        	<column name="puesto_id" length="5" not-null="true" sql-type="NUMBER(5,0)"/>
+        </property>
+        <property name="ciudadID">
+        	<column name="ciudad_id" length="2" not-null="true" sql-type="NUMBER(2,0)"/>
+        </property>
+        <property name="ubicacionID">
+        	<column name="ubicacion_id" length="2" not-null="true" sql-type="NUMBER(2,0)"/>
+        </property>
+        <property name="estatus">
+        	<column name="estatus_id" length="1" not-null="true" sql-type="VARCHAR(1)"/>
+        </property>
+        <property name="numeroColaborador">
+        	<column name="num_colaborador" length="9" not-null="true" sql-type="VARCHAR2(9)"/>
+        </property>
+        <property name="password">
+        	<column name="pswd" length="70" not-null="true" sql-type="VARCHAR2(70)"/>
+        </property>
+         <property name="correo">
+        	<column name="correo_elec" length="70" not-null="true" sql-type="VARCHAR(70)"/>
+        </property>
+        <property name="primer">
+        	<column name="primer_acceso" length="1" not-null="true" sql-type="VARCHAR(1)"/>
+        </property>
+        <property name="nombre">
+        	<column name="nombre" length="45" not-null="true" sql-type="VARCHAR(45)"/>
+        </property>
+        <property name="apPaterno">
+        	<column name="ap_paterno" length="45" not-null="false" sql-type="VARCHAR(45)"/>
+        </property>
+        <property name="apMaterno">
+        	<column name="ap_materno" length="45" not-null="false" sql-type="VARCHAR(45)"/>
+        </property>
+         <property name="fechaIngreso">
+        	<column name="fecha_ingreso" not-null="false" sql-type="DATE"/>
+        </property>
+        <property name="horaEntrada">
+        	<column name="hora_entrada" not-null="false" sql-type="DATE"/>
+        </property>
+        <property name="horaSalida">
+        	<column name="hora_salida" not-null="false" sql-type="DATE"/>
+        </property>
+        <property name="centroCostosID">
+        	<column name="centro_costos_id" length="3" not-null="false" sql-type="VARCHAR(45)"/>
+        </property>
+        <property name="telefono">
+        	<column name="telefono" length="45" not-null="false" sql-type="VARCHAR(45)"/>
+        </property>
+        <property name="extension">
+        	<column name="extension" length="10" not-null="false" sql-type="VARCHAR(10)"/>
+        </property>
+        <property name="celular">
+        	<column name="celular" length="45" not-null="false" sql-type="VARCHAR(45)"/>
+        </property>
+        
+         <many-to-one name="direccion" column="direccion_id" foreign-key="direccion_id" class="com.segurosargos.crece.modelo.entidad.Direccion"
+		update="false" insert="false"></many-to-one>
+		 <many-to-one name="departamento" column="depto_id" foreign-key="depto_id" class="com.segurosargos.crece.modelo.entidad.Departamento"
+		update="false" insert="false"></many-to-one>
+		 <many-to-one name="lider" column="lider_id" foreign-key="id" class="com.segurosargos.crece.modelo.entidad.Colaborador"
+		update="false" insert="false"></many-to-one>
+		 <many-to-one name="puesto" column="puesto_id" foreign-key="puesto_id" class="com.segurosargos.crece.modelo.entidad.Puesto"
+		update="false" insert="false"></many-to-one>
+		 <many-to-one name="ciudad" column="ciudad_id" foreign-key="ciudad_id" class="com.segurosargos.crece.modelo.entidad.Ciudad"
+		update="false" insert="false"></many-to-one>
+        
+        <set name="permisos">
+            <key column="colaborador_id" />
+            <one-to-many class="Permiso" />
+        </set>
+        
+     </class>
+</hibernate-mapping>

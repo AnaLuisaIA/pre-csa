@@ -44,8 +44,9 @@
 										archivo que contiene el calendario a importar</label>
 
 									<div class="col-md-6 col-md-offset-1">
-										<form:input type="file" path="archivo" accept=".xls, .xlsx"
-											class="form-control-file" required="true" />
+										<form:input type="file" path="archivo" 
+											accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+											class="form-control-file" required="true" name="archivo"/>
 									</div>
 								</div>
 							</div>
@@ -70,36 +71,16 @@
 			</div>
 		</div>
 	</tiles:putAttribute>
+	
+	<tiles:putAttribute name="scripts">
+		<script src="<c:url value='/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/assets/global/plugins/jquery-validation/js/additional-methods.min.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/assets/csa/js/alta.calendario.js'/>" type="text/javascript"></script>
+	</tiles:putAttribute>
 
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open")
 		$('#calendariosMenu').addClass("active");
-		
-		$('#btnGuardar').click(function(e){
-			e.preventDefault();
-			
-			var nombreArchivo = $('#archivo')[0].files[0]['name'];
-			var anio = nombreArchivo.substring(11,15);
-			
-			if(/^(19|20)\d{2}$/.test(anio) === true){
-				bootbox.setLocale('es');
-				bootbox.confirm({
-			        message: "<b>¿Está seguro de cargar el calendario para el año " + anio + "?</b>",
-			        callback: function(result){
-				        if(result){
-				        	$('#anio').val(anio);
-				        	$('#fileName').val(nombreArchivo);
-			       			$('#formCalendario').submit();
-		        		}
-		        	}
-	       		});
-	       		
-			} else {
-				bootbox.setLocale('es');
-				bootbox.alert("<b>El nombre del archivo es incorrecto. Debe contener el año del calendario.</b>");
-			}
-			
-		});
 		
 	</tiles:putAttribute>
 

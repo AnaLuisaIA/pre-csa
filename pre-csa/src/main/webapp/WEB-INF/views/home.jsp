@@ -1,15 +1,10 @@
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <tiles:insertDefinition name="defaultTemplate">
 	<tiles:putAttribute name="styles">
-		<link
-			href="<c:url value='/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css'/>"
-			rel="stylesheet" type="text/css" />
-		<link
-			href="<c:url value='/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css'/>"
-			rel="stylesheet" type="text/css" />
 		<link
 			href="<c:url value='/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css'/>"
 			rel="stylesheet" type="text/css" />
@@ -18,7 +13,7 @@
 	<tiles:putAttribute name="title">Bienvenido</tiles:putAttribute>
 
 	<tiles:putAttribute name="nav">
-		<li><a href='<c:url value="/"/>'>Cálculos</a> <i
+		<li><a href='<c:url value="/calculos/"/>'>Cálculos</a> <i
 			class="fa fa-angle-right"></i></li>
 	</tiles:putAttribute>
 
@@ -29,7 +24,7 @@
 				<div class="portlet box green-jungle">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-globe"></i>Realizar cálculos de carga social
+							<i class="fa fa-calculator"></i>Cálculos de Carga Social
 						</div>
 						<!-- <div class="actions">
 							<a href="" class="btn default green-stripe">
@@ -49,33 +44,17 @@
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="scripts">
-
-		<script type="text/javascript"
-			src="<c:url value='/assets/global/plugins/datatables/media/js/jquery.dataTables.js'/>"></script>
-
-		<script type="text/javascript"
-			src="<c:url value='/assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js'/>"></script>
-		<script type="text/javascript"
-			src="<c:url value='/assets/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js'/>"></script>
-		<script type="text/javascript"
-			src="<c:url value='/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js'/>"></script>
-		<script type="text/javascript"
-			src="<c:url value='/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js'/>"></script>
-		<script type="text/javascript"
-			src="<c:url value='/assets/admin/pages/scripts/argostable.js'/>"></script>
 		<script type="text/javascript"
 			src="<c:url value='/assets/global/scripts/jquery.spring-friendly.js'/>"></script>
 		<script type="text/javascript"
 			src="<c:url value='/assets/admin/pages/scripts/ui-idletimeout.js'/>"></script>
-
-
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="ready"> 
-			$('#solicitudesMain').addClass("start active open")
-			$('#tablaSolicitudes').DataTable();
-			$('#solicitudesMenu').addClass("active");
-		</tiles:putAttribute>
+			$('#calculosMain').addClass("start active open")
+			$('#calculosMenu').addClass("active");
+	
+	</tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">
 		<c:import url="/WEB-INF/views/template/footer.jsp"></c:import>

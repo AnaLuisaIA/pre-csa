@@ -36,6 +36,13 @@
 				sql-type="VARCHAR(100)" />
 		</property>
 
+		<set name="permisos" table="permisos" cascade="save-update"
+			lazy="false">
+			<key column="idUsuario" />
+			<element column="permiso" length="100"
+				type="java.lang.String"></element>
+		</set>
+
 		<set name="accionesCalendario" table="bitacora_calendario"
 			inverse="true">
 			<key column="idUsuario"></key>

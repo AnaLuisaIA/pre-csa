@@ -59,8 +59,7 @@
 <!-- BEGIN PAGE STYLES -->
 <link href="<c:url value='/assets/admin/pages/css/tasks.css'/>"
 	rel="stylesheet" type="text/css" />
-<script src="<c:url value='/assets/sac/js/autoNumeric.min.js'/>"
-	type="text/javascript"></script>
+
 <!-- END PAGE STYLES -->
 <!-- BEGIN THEME STYLES -->
 
@@ -262,8 +261,7 @@
 	<script src="<c:url value='/assets/admin/layout/scripts/layout.js'/>"
 		type="text/javascript"></script>
 	<!-- waiting for -->
-	<script
-		src="<c:url value='/assets/sac/js/bootstrap-waitingfor.min.js'/>"></script>
+
 	<!-- END PAGE LEVEL SCRIPTS -->
 
 	<tiles:insertAttribute name="scripts" />

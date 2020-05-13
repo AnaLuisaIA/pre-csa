@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.segurosargos.crece.modelo.entidad">
+	<class name="Ciclos" table="CICLOS" schema="CRECE">
+    	<comment>Mapeo tabla CICLOS</comment>
+        <id name="cicloID">
+            <column name="ciclo_id" length="5" not-null="true" sql-type="NUMBER(5, 0)"/>
+            <generator class="identity"/>
+        </id>
+        <property name="label">
+        	<column name="label" length="150" not-null="true" sql-type="VARCHAR(150)"/>
+        </property>
+        <property name="automatico">
+        	<column name="automatico" length="1" not-null="true" sql-type="TINYINT(1)"/>
+        </property>
+       <property name="activo">
+        	<column name="activo" length="1" not-null="true" sql-type="TINYINT(1)"/>
+        </property>
+        <property name="fechaProgramada">
+        	<column name="fecha_programada" sql-type="DATE"/>
+        </property>
+        
+     </class>
+</hibernate-mapping>

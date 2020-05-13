@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans 
+<beans:beans
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:tx="http://www.springframework.org/schema/tx"
@@ -14,7 +14,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- PROPERTIES -->
 	<context:annotation-config />
-	
+
 	<beans:bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<beans:property name="locations">
@@ -47,6 +47,10 @@
 		</beans:property>
 	</beans:bean>
 
+	<!-- Configuracion Spring Security -->
+	<beans:import
+		resource="classpath:config/securityContext.xml" />
+
 	<!-- Configuracion base de datos -->
 	<beans:import resource="classpath:config/daoContext.xml" />
 
@@ -60,6 +64,16 @@
 	<!-- COMPONENTES -->
 	<context:component-scan
 		base-package="com.sadss.csa.util" />
+	<context:component-scan
+		base-package="com.sadss.csa.scheduled" />
+
+	<!-- Externo -->
+	<context:component-scan
+		base-package="com.segurosargos.crece.api"></context:component-scan>
+	<context:component-scan
+		base-package="com.segurosargos.crece.service"></context:component-scan>
+	<context:component-scan
+		base-package="com.segurosargos.util"></context:component-scan>
 
 	<!-- TASK -->
 	<task:scheduler id="searchScheduler" pool-size="1" />
