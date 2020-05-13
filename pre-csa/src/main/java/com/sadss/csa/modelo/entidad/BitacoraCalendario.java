@@ -15,7 +15,6 @@ public class BitacoraCalendario extends GenericModel<BitacoraCalendario> impleme
 	private String accion;
 	private Usuario usuario;
 	private Date fechaAccion;
-	private Calendario calendario;
 
 	public Integer getId() {
 		return id;
@@ -47,14 +46,6 @@ public class BitacoraCalendario extends GenericModel<BitacoraCalendario> impleme
 
 	public void setFechaAccion(Date fechaAccion) {
 		this.fechaAccion = fechaAccion;
-	}
-
-	public Calendario getCalendario() {
-		return calendario;
-	}
-
-	public void setCalendario(Calendario calendario) {
-		this.calendario = calendario;
 	}
 
 }

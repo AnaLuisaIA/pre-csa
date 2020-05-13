@@ -26,11 +26,6 @@
 			insert="true" lazy="false">
 		</many-to-one>
 
-		<many-to-one name="calendario" column="idCalendarioISN"
-			class="com.sadss.csa.modelo.entidad.Calendario" update="true"
-			insert="true" lazy="false">
-		</many-to-one>
-
 	</class>
 
 </hibernate-mapping>
