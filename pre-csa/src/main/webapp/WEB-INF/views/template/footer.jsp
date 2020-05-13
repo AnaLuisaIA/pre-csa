@@ -1,6 +1,3 @@
-<div class="page-footer-inner">							  
-	2020 &copy; <a href="http://www.segurosargos.com/" title="Seguros Argos" target="_blank">Seguros Argos</a>
-</div>
-<div class="scroll-to-top">
-	<i class="icon-arrow-up"></i>
-</div>
+<tiles:putAttribute name="footer">
+		<c:import url="/WEB-INF/views/template/footer.jsp"></c:import>
+</tiles:putAttribute>

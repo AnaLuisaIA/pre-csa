@@ -94,7 +94,7 @@
 									<div class="form-actions">
 										<button type="submit" class="btn btn-primary"
 											id="btnGuardarUser">Guardar</button>
-										<a href="../usuarios/" id="cancelar" class="btn default">Cancelar</a>
+										<a href="../usuarios/"  id="cancelar" class="btn default">Cancelar</a>
 									</div>
 								</div>
 							</form:form>

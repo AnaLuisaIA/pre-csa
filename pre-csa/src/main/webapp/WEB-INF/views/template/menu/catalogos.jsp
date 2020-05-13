@@ -10,7 +10,7 @@
 </a>
 
 	<ul class="sub-menu">
-		<li id="catalogosMenu"><a href="<c:url value='/usuarios/'/>">
+		<li id="catalogosMenu"><a href="<c:url value='variables/IMSS-INFONAVIT'/>">
 				<i class="fa fa-calendar-o"></i> Variables IMSS INFONAVIT
 		</a>
 		</li>
