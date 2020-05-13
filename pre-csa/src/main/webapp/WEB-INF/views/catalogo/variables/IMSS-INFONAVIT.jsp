@@ -1,4 +1,4 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -30,7 +30,7 @@
 				<div class="portlet box green-jungle">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-globe"></i>Catálogo de Variables IMSS e
+							<i class="fa fa-globe"></i>CatÃ¡logo de Variables IMSS e
 							INFONAVIT
 						</div>
 						<div class="actions">
@@ -51,7 +51,7 @@
 									<th>Descripcion</th>
 									<th>Valor</th>
 									<th>Tipo</th>
-									<th>Fecha de Aplicación</th>
+									<th>Fecha de AplicaciÃ³n</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
@@ -78,7 +78,7 @@
 				<div class="portlet light portlet-fit bordered">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-pencil-square-o"></i>Bitácora de cambios
+							<i class="fa fa-pencil-square-o"></i>BitÃ¡cora de cambios
 						</div>
 						<div class="tools">
 							<a href="" class="expand"></a>
@@ -91,7 +91,7 @@
 							<table id="tablaBitacora" class="table table-hover table-light">
 								<thead>
 									<tr>
-										<th>Acción</th>
+										<th>AcciÃ³n</th>
 										<th>Fecha y Hora</th>
 										<th>Colaborador</th>
 									</tr>

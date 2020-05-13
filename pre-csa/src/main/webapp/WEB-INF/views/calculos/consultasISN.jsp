@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -46,15 +46,15 @@
 								<tr>
 									<th>Seleccionar Todos</th>
 									<th>Clave Agente</th>
-									<th>Período</th>
+									<th>PerÃ­odo</th>
 									<th>Localidad</th>
 									<th>Tasa</th>
 									<th>Base Gravable</th>
 									<th>ISN Mensual</th>
 									<th>ISN Semanal</th>
-									<th>Relizó Cálculo</th>
-									<th>Fecha Elaboración</th>
-									<th>Acción</th>
+									<th>RelizÃ³ CÃ¡lculo</th>
+									<th>Fecha ElaboraciÃ³n</th>
+									<th>AcciÃ³n</th>
 								</tr>
 							<tbody>
 								<!--<c:forEach var="c" items="${correos}">

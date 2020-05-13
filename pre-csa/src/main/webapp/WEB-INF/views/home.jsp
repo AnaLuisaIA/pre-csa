@@ -4,11 +4,6 @@
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <tiles:insertDefinition name="defaultTemplate">
-	<tiles:putAttribute name="styles">
-		<link
-			href="<c:url value='/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css'/>"
-			rel="stylesheet" type="text/css" />
-	</tiles:putAttribute>
 
 	<tiles:putAttribute name="title">Bienvenido</tiles:putAttribute>
 
@@ -35,9 +30,23 @@
 						</div> -->
 
 					</div>
-					<div class="portlet-body"></div>
-
-
+					<div class="portlet-body">
+						<div class="row">
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-offset-lg-2">
+								<a href="<c:url value='/calculos/imss'/>" 
+									class="dashboard-stat dashboard-stat-v2 grey-cascade">
+									<div class="visual">
+										<i class="fa fa-calculator"></i>
+									</div>
+									<div class="details">
+										<div class="number">
+											<span>Iniciar cálculos</span>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -46,8 +55,6 @@
 	<tiles:putAttribute name="scripts">
 		<script type="text/javascript"
 			src="<c:url value='/assets/global/scripts/jquery.spring-friendly.js'/>"></script>
-		<script type="text/javascript"
-			src="<c:url value='/assets/admin/pages/scripts/ui-idletimeout.js'/>"></script>
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="ready"> 

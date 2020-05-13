@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -13,7 +13,7 @@
 	</tiles:putAttribute>
 	<tiles:putAttribute name="title">Alta de Usuario</tiles:putAttribute>
 
-	<!-- Menu de navegaciÛn -->
+	<!-- Menu de navegaci√≥n -->
 	<tiles:putAttribute name="nav">
 		<li><a href='<c:url value="/usuarios/"/>'>Alta de Perfil de
 				Usuario</a> <i class="fa fa-angle-right"></i></li>
@@ -45,7 +45,7 @@
 								modelAttribute="" usuarioPerfil="form">
 
 								<div class="form-body">
-									<!-- Mensaje de error, validaciÛn backend -->
+									<!-- Mensaje de error, validaci√≥n backend -->
 									<!-- Bloques de campos de formulario a llenar -->
 									<div class="row">
 										<div class="col-md-4">
@@ -117,7 +117,7 @@
 		
 			bootbox.setLocale('es');
 			bootbox.confirm({
-				message: "No se guardar· informaciÛn del usuario. øCancelar?",
+				message: "No se guardar√° informaci√≥n del usuario. ¬øCancelar?",
 				callback: function(result){
 					if(result){
 						window.location.href = linkRedireccion;
@@ -132,39 +132,39 @@
 			
 		    if ($("#es_colaborador").val() == '1') {	
 		        if($("#inputNumColaborador").val() === ''){
-		        	mensaje+= "El campo de <strong>Colaborador</strong> est· vacÌo.<br>"
+		        	mensaje+= "El campo de <strong>Colaborador</strong> est√° vac√≠o.<br>"
 		        };
 		    }
 		    else {
 		    
 		    	if($("#username").val() == ''){
-		    		mensaje+= "El campo de <strong>Nombre de usuario</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Nombre de usuario</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#password").val() == ''){
-		    		mensaje+= "El campo de <strong>ContraseÒa</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Contrase√±a</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#email").val() == '' || $("#email")[0].validity.typeMismatch){
-		    		mensaje+= "El campo de <strong>Correo</strong> est· vacÌo / es incorrecto.<br>"
+		    		mensaje+= "El campo de <strong>Correo</strong> est√° vac√≠o / es incorrecto.<br>"
 		    	};
 
 		    	if($("#nombreUser").val() == ''){
-		    		mensaje+= "El campo de <strong>Nombre(s)</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Nombre(s)</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#aPaterno").val() == ''){
-		    		mensaje+= "El campo de <strong>Apellido Paterno</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Apellido Paterno</strong> est√° vac√≠o.<br>"
 		    	};
 
 				if($("#aMaterno").val() == ''){
-		    		mensaje+= "El campo de <strong>Apellido Materno</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Apellido Materno</strong> est√° vac√≠o.<br>"
 		    	};
 		
 		    }
 		    
 		   	if($("#inputRolFV").val() == ''){
-		    	mensaje+= "El campo de <strong>Rol asignado</strong> est· vacÌo.<br>"
+		    	mensaje+= "El campo de <strong>Rol asignado</strong> est√° vac√≠o.<br>"
 		    };
 			
 			if(mensaje != ''){
@@ -172,7 +172,7 @@
 			} else {
 		        bootbox.confirm({
 		        	title: "Agregar Usuario",
-			        message: "øEst· seguro de que desea continuar? Una vez creado el Usuario, la acciÛn no se podr· deshacer.",
+			        message: "¬øEst√° seguro de que desea continuar? Una vez creado el Usuario, la acci√≥n no se podr√° deshacer.",
 			        buttons: {
 			        	cancel: {
 				            label: '<i class="fa fa-times"></i> Regresar'
