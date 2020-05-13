@@ -10,7 +10,6 @@
 </a>
 
 	<ul class="sub-menu">
-<<<<<<< HEAD
 		<li id="catalogosMenu"><a href="<c:url value='variables/IMSS-INFONAVIT'/>">
 				<i class="fa fa-calendar-o"></i> Variables IMSS INFONAVIT
 		</a>
@@ -27,9 +26,8 @@
 		</li>
 
 		<li id="catalogosMenu"><a href="<c:url value='/usuarios/'/>">
-=======
+
 		<li id="usuariosMenu"><a href="<c:url value='/usuarios/'/>">
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 				<i class="fa fa-users"></i> Usuarios
 		</a></li>
 
@@ -45,17 +43,13 @@
 				<i class="fa fa-calendar-o"></i> Calendarios
 		</a></li>
 
-		<sec:authorize access="hasAnyRole('ALTA_ROL')">
 			<li id="rolesMenu"><a href="<c:url value='/roles/'/>"> <i
 					class="fa fa-tags"></i> Roles
 			</a></li>
-		</sec:authorize>
 
-		<sec:authorize
-			access="hasAnyRole('SUPER ADMINISTRADOR', 'ADMINISTRADOR')">
+
 			<li id="correosMenu"><a href="<c:url value='/correo/'/>"> <i
 					class="fa fa-envelope"></i> Correos
 			</a></li>
-		</sec:authorize>
 
 	</ul></li>
