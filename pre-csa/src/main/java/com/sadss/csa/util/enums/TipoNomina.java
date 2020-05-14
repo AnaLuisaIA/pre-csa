@@ -1,5 +1,8 @@
 package com.sadss.csa.util.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum TipoNomina {
 	
 	SMA("SMA", "Semanal"),
@@ -32,5 +35,16 @@ public enum TipoNomina {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public static List<TipoNomina> valuesMenu(){
+		
+		List<TipoNomina> vals = new ArrayList<TipoNomina>();
+		for (TipoNomina t : TipoNomina.values()) {
+			 vals.add(t);
+		}
+		
+		return vals;
+		
 	}
 }

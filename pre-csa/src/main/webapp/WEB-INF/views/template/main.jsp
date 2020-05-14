@@ -18,8 +18,7 @@
 <meta charset="utf-8" />
 <title><fmt:message key="messages.title" /> | Seguros Argos
 	Bienvenido</title>
-<link
-	href="<c:url value='/assets/global/radioButton/radio.css'/>"
+<link href="<c:url value='/assets/global/radioButton/radio.css'/>"
 	rel="stylesheet" type="text/css" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1" name="viewport" />
@@ -214,14 +213,15 @@
 	<script src="<c:url value='/assets/global/plugins/jquery.min.js'/>"
 		type="text/javascript"></script>
 	<script
+		src="<c:url value='/assets/global/plugins/bootstrap/js/bootstrap.min.js'/>"
+		type="text/javascript"></script>
+	<script
 		src="<c:url value='/assets/global/plugins/jquery-migrate.min.js'/>"
 		type="text/javascript"></script>
+		
 	<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 	<script
 		src="<c:url value='/assets/global/plugins/jquery-ui/jquery-ui.min.js'/>"
-		type="text/javascript"></script>
-	<script
-		src="<c:url value='/assets/global/plugins/bootstrap/js/bootstrap.min.js'/>"
 		type="text/javascript"></script>
 	<script
 		src="<c:url value='/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js'/>"

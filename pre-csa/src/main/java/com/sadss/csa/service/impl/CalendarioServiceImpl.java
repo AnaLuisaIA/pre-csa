@@ -17,10 +17,10 @@ import org.springframework.validation.BindingResult;
 import com.sadss.csa.dao.CalendarioDao;
 import com.sadss.csa.modelo.entidad.BitacoraCalendario;
 import com.sadss.csa.modelo.entidad.Calendario;
-import com.sadss.csa.modelo.entidad.Usuario;
 import com.sadss.csa.modelo.generic.IOperations;
 import com.sadss.csa.service.BitacoraCalendarioService;
 import com.sadss.csa.service.CalendarioService;
+import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.generic.AbstractService;
 import com.sadss.csa.util.FillManager;
 import com.sadss.csa.util.Layouter;
@@ -29,6 +29,9 @@ import com.sadss.csa.util.Writer;
 @Service
 public class CalendarioServiceImpl extends AbstractService<Calendario> implements CalendarioService{
 
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	@Autowired
 	private CalendarioDao dao;
 	
@@ -97,18 +100,10 @@ public class CalendarioServiceImpl extends AbstractService<Calendario> implement
 	@Override
 	public void registrarAccionBitacora(String accion, Date fecha, String user) {
 		
-		Usuario usuarioPrueba = new Usuario();
-		usuarioPrueba.setId(1);
-		usuarioPrueba.setNombres("Laura");
-		usuarioPrueba.setaPaterno("González");
-		usuarioPrueba.setaMaterno("López");
-		usuarioPrueba.setEstado(true);
-		usuarioPrueba.setNumColaborador("LGL-01");
-		
 		BitacoraCalendario bc = new BitacoraCalendario();
 		bc.setAccion(accion);
 		bc.setFechaAccion(fecha);
-		bc.setUsuario(usuarioPrueba);
+		bc.setUsuario(usuarioService.findByUsername(user));
 		
 		bitCalendarioService.create(bc);
 		

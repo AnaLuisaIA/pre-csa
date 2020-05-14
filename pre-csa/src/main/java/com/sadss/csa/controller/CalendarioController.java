@@ -36,6 +36,7 @@ import com.sadss.csa.controller.beans.CalendarioForm;
 import com.sadss.csa.modelo.entidad.Calendario;
 import com.sadss.csa.service.BitacoraCalendarioService;
 import com.sadss.csa.service.CalendarioService;
+import com.sadss.csa.util.SecurityUtils;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
 
 @Controller
@@ -99,6 +100,8 @@ public class CalendarioController {
 			return new ModelAndView("catalogo/calendario/alta_calendario", model);
 		}
 
+		String colaborador  = SecurityUtils.getCurrentUser();
+		
 		InputStream file = calendarioForm.getArchivo().getInputStream();
 
 		@SuppressWarnings("resource")
@@ -139,10 +142,10 @@ public class CalendarioController {
 
 			calendarioService.create(cal);
 
-			calendarioService.registrarAccionBitacora("Creación de Calendario " + cal.getAnio(), new Date(), "");
-
 		}
-
+		
+		calendarioService.registrarAccionBitacora("Creación de Calendario " + calendarioForm.getAnio(), new Date(), colaborador );
+		
 		ra.addFlashAttribute("succmsg", "Los registros del calendario se ha registrado correctamente.");
 		return new ModelAndView("redirect:/calendario/");
 	}

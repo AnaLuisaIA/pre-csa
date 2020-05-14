@@ -73,6 +73,11 @@ public class UsuarioServiceImpl extends AbstractService<Usuario> implements Usua
 		}
 		return permisos;
 	}
+	
+	@Override
+	public Usuario findByUsername(String username) {
+		return this.dao.findByUsername(username);
+	}
 
 	@Override
 	protected IOperations<Usuario> getDao() {

@@ -1,5 +1,8 @@
 package com.sadss.csa.util.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum TipoVariable {
 	
 	GENERICO("GEN", "Genérico"),
@@ -30,5 +33,14 @@ public enum TipoVariable {
 		this.label = label;
 	}
 	
-	
+	public static List<TipoVariable> valuesMenu(){
+		
+		List<TipoVariable> vals = new ArrayList<TipoVariable>();
+		for (TipoVariable t : TipoVariable.values()) {
+			 vals.add(t);
+		}
+		
+		return vals;
+		
+	}
 }
