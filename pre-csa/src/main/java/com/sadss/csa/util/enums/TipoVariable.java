@@ -1,10 +1,13 @@
 package com.sadss.csa.util.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum TipoVariable {
 	
-	GENERICO("GEN", "Genérico"),
-	PATRON("PAT", "Patrón"),
-	TRABAJADOR("TRA", "Trabajador");
+	GENERICO("GENERICO", "Genérico"),
+	PATRON("PATRON", "Patrón"),
+	TRABAJADOR("TRABAJADOR", "Trabajador");
 	
 	private String value;
 	private String label;
@@ -30,5 +33,18 @@ public enum TipoVariable {
 		this.label = label;
 	}
 	
+	public static List<TipoVariable> getTipoVariable(){
+		List<TipoVariable> vals = new ArrayList<TipoVariable>();
+		vals.add(PATRON);
+		vals.add(TRABAJADOR);
+		vals.add(GENERICO);
+		return vals;
+	}
+	
+	public static List<TipoVariable> getEstadoTV(){
+		List<TipoVariable> vals = new ArrayList<TipoVariable>();
+		
+		return vals;
+	}
 	
 }

@@ -38,13 +38,11 @@
 							<i class="fa fa-plus"></i>
 							<span class="hidden-480">
 							AGREGAR VARIABLE </span>
-							</a>				
+							</a>
 						</div>
-
 					</div>
 					<div class="portlet-body">
-						<table id="tablaVariables"
-							class="table table-striped table-bordered table-hover">
+						<table id="tablaVariables" class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
 									<th>Variable</th>
@@ -56,20 +54,25 @@
 								</tr>
 							</thead>
 							<tbody>
-								<!--<c:forEach var="c" items="${correos}">
-									<tr>
-										<td>${c.actividad.label}</td>
-										<td>${c.asunto}</td>
-										<td><a href="editar?id=${c.id}" class="btn btn-primary btn-small">
-												<i class="fa fa-edit"></i></a></td>
-									</tr>
-								</c:forEach>-->
+ 								<c:forEach var="v" items="${variableModelo}"> 
+ 									<tr>
+ 										<td>${v.nombre}</td> 
+ 										<td>${v.descripcion}</td> 
+ 										<td>${v.valor}</td>
+ 										<td>${v.tipo}</td>
+ 										<td><fmt:formatDate value="${v.fechaAplicacion}" pattern="dd/MM/yyyy" /></td>
+ 										<td>
+ 											<a href="editar?id=${v.id}" class="btn btn-primary btn-small">
+											<i class="fa fa-power-off"></i></a>
+ 											<a href="editar?id=${v.id}" class="btn btn-primary btn-small">
+											<i class="fa fa-edit"></i></a>
+											<a href="delete?id=${v.id}" class="btn btn-primary btn-small" id="eliminar">
+											<i class="fa fa-remove (alias)"></i></a></td>
+ 									</tr>
+ 								</c:forEach> 
 							</tbody>
-
 						</table>
 					</div>
-
-
 				</div>
 			</div>
 		</div>
@@ -96,9 +99,7 @@
 										<th>Colaborador</th>
 									</tr>
 								</thead>
-								<tbody>
-
-								</tbody>
+								
 
 							</table>
 						</div>
@@ -133,9 +134,34 @@
 
 
 	<tiles:putAttribute name="ready"> 
-		$('#catalogos1').addClass("start active open");
+		$('#catalogos').addClass("start active open");
 		$('#tablaVariables').DataTable();
 		$('#catalogosMenu').addClass("active");
+		
+		$('#eliminar').click(function(e) {
+			
+			if(mensaje != ''){
+				bootbox.alert(mensaje);
+			} else {
+		        bootbox.confirm({
+		        	title: "Eliminar Variable",
+			        message: "¿Está seguro de que desea continuar?",
+			        buttons: {
+			        	cancel: {
+				            label: '<i class="fa fa-times"></i> Regresar'
+				        },
+				        confirm: {
+				            label: '<i class="fa fa-check"></i> Confirmar'
+				        }
+			        },	        
+			        callback: function(result){
+				        if(result){
+			       			$('#eliminar').click();
+		        		}
+		        	}
+		        });
+		        }
+			});
    </tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">

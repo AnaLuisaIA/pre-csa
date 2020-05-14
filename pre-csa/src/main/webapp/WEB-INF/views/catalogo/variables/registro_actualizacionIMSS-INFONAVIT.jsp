@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
@@ -41,60 +42,76 @@
 
 						<div class="portlet-body form">
 							<!-- Comienza formulario para registro de variables-->
-							<form:form id="addUser" action="add" method="POST"
-								modelAttribute="" usuarioPerfil="form">
+							<form:form id="saveVariable" action="saveVariable" method="POST" modelAttribute="variable" rol="form">
 
 								<div class="form-body">
+								
 									<!-- Mensaje de error, validación backend -->
 									<!-- Bloques de campos de formulario a llenar -->
+									<form:hidden path="id" />
 									<div class="row">
 											<div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="variable">Variable:</label>
-                                                    <input name="variable" id="variable" class="form-control" placeholder="Ingrese el nombre de la variable"/>
+                                                    <form:input path="nombre" name="nombre" class="form-control" placeholder="Ingrese el nombre de la variable"/>
                                                 </div>
 											</div>
 											<div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="descripcion">Descripción:</label>
-                                                    <input name="descripcion" id="descripcion" class="form-control" placeholder="Ingrese una descripción"/>
+                                                    <form:input path="descripcion" name="descripcion" class="form-control" placeholder="Ingrese una descripción"/>
                                                 </div>
 											</div>
 											<div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="valor">Valor:</label>
-                                                    <input name="valor" id="valor" class="form-control" placeholder="Ingrese una descripción"/>
+                                                    <form:input path="valor" name="valor" class="form-control" placeholder="Ingrese una descripción"/>
                                                 </div>
 											</div>
 										</div>
-										<div class="row">
-											<div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="tipo">Tipo:</label>
-                                                    <div class="form-group">
-                                                    <label class="content-input">Patrón
-                                                    <input class="content-input" type="radio" name="tipo" id="patron">
-                                                    <span class="i"></span>
-                                                    </label>
-                                                    <label for="trabajador">Trabajador</label>
-                                                    <input class="css-checkbox" type="radio" name="tipo" id="trabajador">
-                                                    <label for="generico">Genérico</label>
-                                                    <input class="css-checkbox" type="radio" name="tipo" id="generico">
-													</div>
-                                                </div>
-											</div>
+										<div class="row">											
 											<div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="fechaA">Fecha Aplicación:</label>
-                                                    <input name="fechaA" id="fechaA" class="form-control" type="date"/>
+                                                   <!-- <form:input path="fechaAplicacion" name="fechaAplicacion" class="form-control"  type="date"/>-->
+ 												
                                                 </div>
+                                           <div class="input-group input-medium date date-picker" 
+										data-date-format="yyyy/mm/dd"
+										data-date-end-date="0d">
+										<span class="input-group-btn">
+											<button class="btn default" type="button">
+												<i class="fa fa-calendar"></i>
+											</button>
+										</span>
+										<form:input path="fechaAplicacion" type="date" class="form-control"
+											maxlenght="10"/>
+									</div>
 											</div>
+											<div class="col-md-4">
+                                                <div class="form-group">
+                                                   <div class="form-group">
+															<spring:bind path="variable.tipo">
+															<div class="form-group">
+																<label for="tipos">Tipo *</label>
+																<form:select path="tipo" required="true" class="form-control" id="tipos">
+																	<form:option value="">Selecciona Un Tipo</form:option>
+																	<form:options items="${tipovariable}"></form:options>
+																</form:select>
+																<form:errors path="tipo" class="help-block"></form:errors>
+															</div>
+														</spring:bind>
+                                        			</div>
+                                        			<input id="estado" name="estado" type="hidden" value=""/>
+                                        			</div>
+											</div>
+											
 										</div>
 									</div>
 									<div class="form-actions">
 										<button type="submit" class="btn btn-primary"
-											id="btnGuardarUser">Guardar</button>
-										<a href="../usuarios/"  id="cancelar" class="btn default">Cancelar</a>
+											id="btnGuardarVariable">Guardar</button>
+										<a href="../variable/"  id="cancelar" class="btn default">Cancelar</a>
 									</div>
 								</div>
 							</form:form>
@@ -119,7 +136,7 @@
 
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open")
-		$('#usuariosMenu').addClass("active");
+		$('#catalogosMenu').addClass("active");
 		
 		cambiosColaborador();
 		
@@ -129,7 +146,7 @@
 		
 			bootbox.setLocale('es');
 			bootbox.confirm({
-				message: "No se guardará información del usuario. ¿Cancelar?",
+				message: "No se guardará información de la Variable. ¿Desea Cancelar?",
 				callback: function(result){
 					if(result){
 						window.location.href = linkRedireccion;
@@ -138,7 +155,7 @@
 			});
 		});
 		
-		$('#btnGuardarUser').click(function(e) {
+		$('#btnGuardarVariable').click(function(e) {
         	e.preventDefault();
 			mensaje = '';
 			
@@ -149,29 +166,26 @@
 		    }
 		    else {
 		    
-		    	if($("#username").val() == ''){
-		    		mensaje+= "El campo de <strong>Nombre de usuario</strong> está vacío.<br>"
+		    	if($("#nombre").val() == ''){
+		    		mensaje+= "El campo de <strong>Variable</strong> está vacío.<br>"
 		    	};
 		    	
-		    	if($("#password").val() == ''){
-		    		mensaje+= "El campo de <strong>Contraseña</strong> está vacío.<br>"
+		    	if($("#descripcion").val() == ''){
+		    		mensaje+= "El campo de <strong>Descripcion</strong> está vacío.<br>"
 		    	};
 		    	
-		    	if($("#email").val() == '' || $("#email")[0].validity.typeMismatch){
-		    		mensaje+= "El campo de <strong>Correo</strong> está vacío / es incorrecto.<br>"
+		    	if($("#valor").val() == ''){
+		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#fechaAplicacion").val() == 'dd/mm/aaaa'){
+		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#tipo").val() == ''){
+		    		mensaje+= "El campo de <strong>Tipo</strong> está vacío.<br>"
 		    	};
 
-		    	if($("#nombreUser").val() == ''){
-		    		mensaje+= "El campo de <strong>Nombre(s)</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#aPaterno").val() == ''){
-		    		mensaje+= "El campo de <strong>Apellido Paterno</strong> está vacío.<br>"
-		    	};
-
-				if($("#aMaterno").val() == ''){
-		    		mensaje+= "El campo de <strong>Apellido Materno</strong> está vacío.<br>"
-		    	};
 		
 		    }
 		    
@@ -183,8 +197,8 @@
 				bootbox.alert(mensaje);
 			} else {
 		        bootbox.confirm({
-		        	title: "Agregar Usuario",
-			        message: "¿Está seguro de que desea continuar? Una vez creado el Usuario, la acción no se podrá deshacer.",
+		        	title: "Resgitar Variable",
+			        message: "¿Está seguro de que desea continuar?",
 			        buttons: {
 			        	cancel: {
 				            label: '<i class="fa fa-times"></i> Regresar'
@@ -192,10 +206,10 @@
 				        confirm: {
 				            label: '<i class="fa fa-check"></i> Confirmar'
 				        }
-			        },	        
+			        },	   
 			        callback: function(result){
-				        if(result){
-			       			$('#addUser').submit();
+				        if(result){				   
+			       			$('#saveVariable').submit();
 		        		}
 		        	}
 		        });

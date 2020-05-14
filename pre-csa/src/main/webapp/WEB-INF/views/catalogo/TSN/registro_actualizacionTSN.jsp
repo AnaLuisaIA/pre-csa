@@ -125,7 +125,7 @@
 
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open")
-		$('#usuariosMenu').addClass("active");
+		$('#tasaMenu').addClass("active");
 		
 		cambiosColaborador();
 		

@@ -10,46 +10,25 @@
 </a>
 
 	<ul class="sub-menu">
-		<li id="catalogosMenu"><a href="<c:url value='variables/IMSS-INFONAVIT'/>">
+		<li id="catalogosMenu"><a href="<c:url value='/variable/'/>">
 				<i class="fa fa-calendar-o"></i> Variables IMSS INFONAVIT
 		</a>
 		</li>
 
-		<li id="catalogosMenu"><a href="<c:url value='/usuarios/'/>">
+		<li id="tasaMenu"><a href="<c:url value='/tasaSobreNomina/'/>">
 				<i class="fa fa-calendar-o"></i> Tasas Sobre Nómina
 		</a>
 		</li>
 
-		<li id="catalogosMenu"><a href="<c:url value='/usuarios/'/>">
+		<li id="calendarioMenu"><a href="<c:url value='/calendario/'/>">
 				<i class="fa fa-calendar-o"></i> Calendario ISN
 		</a>
 		</li>
 
-		<li id="catalogosMenu"><a href="<c:url value='/usuarios/'/>">
-
 		<li id="usuariosMenu"><a href="<c:url value='/usuarios/'/>">
 				<i class="fa fa-users"></i> Usuarios
-		</a></li>
+		</a>
+		</li>
 
-		<li id="variablesMenu"><a href="<c:url value='/usuarios/'/>">
-				<i class="fa fa-list-alt"></i> Variables
-		</a></li>
-
-		<li id="tasasMenu"><a href="<c:url value='/usuarios/'/>">
-				<i class="fa fa-list-alt"></i> Tasas Sobre Nómina
-		</a></li>
-
-		<li id="calendariosMenu"><a href="<c:url value='/calendario/'/>">
-				<i class="fa fa-calendar-o"></i> Calendarios
-		</a></li>
-
-			<li id="rolesMenu"><a href="<c:url value='/roles/'/>"> <i
-					class="fa fa-tags"></i> Roles
-			</a></li>
-
-
-			<li id="correosMenu"><a href="<c:url value='/correo/'/>"> <i
-					class="fa fa-envelope"></i> Correos
-			</a></li>
-
-	</ul></li>
+	</ul>
+	</li>

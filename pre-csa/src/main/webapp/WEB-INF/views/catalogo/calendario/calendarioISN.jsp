@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="portlet-body">
-						<table id="tablaVariables"
+						<table id="tablaCalendario"
 							class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
@@ -101,9 +101,9 @@
 
 
 	<tiles:putAttribute name="ready"> 
-		$('#catalogos1').addClass("start active open");
-		$('#tablaVariables').DataTable();
-		$('#catalogosMenu').addClass("active");
+		$('#catalogos').addClass("start active open");
+		$('#tablaCalendario').DataTable();
+		$('#calendarioMenu').addClass("active");
    </tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">

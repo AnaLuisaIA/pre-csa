@@ -72,9 +72,9 @@
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="ready"> 
-			$('#solicitudesMain').addClass("start active open")
+			$('#calculosMain').addClass("start active open")
 			$('#tablaSolicitudes').DataTable();
-			$('#solicitudesMenu').addClass("active");
+			$('#calculoMenu').addClass("active");
 		</tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">

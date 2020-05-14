@@ -57,8 +57,8 @@
 	</tiles:putAttribute>	
 	
 	<tiles:putAttribute name="ready"> 
-		$('#solicitudesMain').addClass("start active open")
-		$('#nuevaSolicitud').addClass("active");
+		$('#catalogos').addClass("start active open")
+		$('#calendarioMenu').addClass("active");
 		
 	</tiles:putAttribute>
 	

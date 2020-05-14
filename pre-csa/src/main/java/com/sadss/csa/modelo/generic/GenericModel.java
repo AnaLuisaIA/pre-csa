@@ -36,7 +36,7 @@ public abstract class GenericModel<T extends IGenericModel> implements Serializa
 					str.append(", ");
 				}
 				
-				if(f.getType().toString().contains("com.segurosargos.sac.modelo.entidad")){
+				if(f.getType().toString().contains("com.sadss.csa.modelo.entidad")){
 					str.append(f.getName()).append("=").append(this.getId());
 				}
 				else{
