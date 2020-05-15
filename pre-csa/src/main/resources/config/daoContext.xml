@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+<beans:beans
+	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -12,15 +13,19 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
-	
-	<jee:jndi-lookup id="dataSource" jndi-name="#{'${ambiente}' == 'TEST' ? '${db.jdni}' : '${db.jdniProd}'}" resource-ref="false"/>
-<!-- 	<jee:jndi-lookup id="dataSource400" jndi-name="jdbc/siga400" resource-ref="false"/> -->
-	
-	<!-- 	CONFIG MYSQ -->
-	<beans:bean id="hibernateProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+
+	<jee:jndi-lookup id="dataSource"
+		jndi-name="#{'${ambiente}' == 'TEST' ? '${db.jdni}' : '${db.jdniProd}'}"
+		resource-ref="false" />
+	<!-- <jee:jndi-lookup id="dataSource400" jndi-name="jdbc/siga400" resource-ref="false"/> -->
+
+	<!-- CONFIG MYSQ -->
+	<beans:bean id="hibernateProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<beans:property name="properties">
 			<beans:props>
-				<beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</beans:prop>
+				<beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+				</beans:prop>
 				<beans:prop key="hibernate.max_fetch_depth">3</beans:prop>
 				<beans:prop key="hibernate.jdbc.fetch_size">100</beans:prop>
 				<beans:prop key="hibernate.jdbc.batch_size">10</beans:prop>
@@ -29,14 +34,25 @@
 			</beans:props>
 		</beans:property>
 	</beans:bean>
-	<beans:bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-		p:dataSource-ref="dataSource" 
-		p:mappingResources-ref="hibernateMappingResources" 
-		p:hibernateProperties-ref="hibernateProperties"/>
-		
-	
+	<beans:bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:mappingResources-ref="hibernateMappingResources"
+		p:hibernateProperties-ref="hibernateProperties" />
+
+
 	<util:list id="hibernateMappingResources">
-		
+
+		<!-- CRECE -->
+		<beans:value>com/crece/dao/orm/enum.hbm.xml</beans:value>
+		<beans:value>com/crece/dao/orm/direccion.hbm.xml</beans:value>
+		<beans:value>com/crece/dao/orm/ciudad.hbm.xml</beans:value>
+		<beans:value>com/crece/dao/orm/departamento.hbm.xml</beans:value>
+		<beans:value>com/crece/dao/orm/puesto.hbm.xml</beans:value>
+		<beans:value>com/crece/dao/orm/ubicacion.hbm.xml</beans:value>
+		<beans:value>com/crece/dao/orm/permiso.hbm.xml</beans:value>
+		<beans:value>com/crece/dao/orm/colaborador.hbm.xml</beans:value>
+
 		<!-- Mapeo de recursos CSA MySQL -->
 		<beans:value>com/csa/dao/orm/Bitacora.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/BitacoraCalendario.hbm.xml</beans:value>
@@ -49,8 +65,8 @@
 		<beans:value>com/csa/dao/orm/TasaSobreNomina.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/Usuario.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/Variable.hbm.xml</beans:value>
-		
+
 	</util:list>
 
-	
+
 </beans:beans>

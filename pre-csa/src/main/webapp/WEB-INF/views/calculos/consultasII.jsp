@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -45,11 +45,11 @@
 							<thead>
 								<tr>
 									<th>Seleccionar Todos</th>
-									<th>Período</th>
-									<th>Total Pagado Patrón</th>
+									<th>Perï¿½odo</th>
+									<th>Total Pagado Patrï¿½n</th>
 									<th>Total Trabajador</th>
 									<th>Total IMSS</th>
-									<th>INFONAVIT Patrón</th>
+									<th>INFONAVIT Patrï¿½n</th>
 									<th>INFONAVIT Trabajador</th>
 									<th>Total INFONAVIT</th>
 									<th>Fecha de Calculo</th>

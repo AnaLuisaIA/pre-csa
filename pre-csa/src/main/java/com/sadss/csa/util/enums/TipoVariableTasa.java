@@ -1,5 +1,8 @@
 package com.sadss.csa.util.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum TipoVariableTasa {
 
 	TAS("TAS", "Tasa"),
@@ -29,5 +32,14 @@ public enum TipoVariableTasa {
 		this.label = label;
 	}
 	
-	
+	public static List<TipoVariableTasa> valuesMenu(){
+		
+		List<TipoVariableTasa> vals = new ArrayList<TipoVariableTasa>();
+		for (TipoVariableTasa t : TipoVariableTasa.values()) {
+			 vals.add(t);
+		}
+		
+		return vals;
+		
+	}
 }

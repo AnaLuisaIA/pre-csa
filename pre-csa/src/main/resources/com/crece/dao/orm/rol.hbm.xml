@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.segurosargos.crece.modelo.entidad">
+	<class name="Rol" table="ROL" schema="CRECE">
+    	<comment>Mapeo tabla de roles</comment>
+        <id name="rolID">
+            <column name="rol_id" length="1" not-null="true" sql-type="NUMBER(1,0)"/>
+             <generator class="identity"/>
+        </id>
+        <property name="label">
+        	<column name="label" length="45" not-null="true" sql-type="VARCHAR(45)"/>
+        </property>
+     </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.segurosargos.crece.modelo.entidad">
+	<class name="Direccion" table="DIRECCION" schema="CRECE">
+    	<comment>Mapeo tabla de direcciones</comment>
+    	
+        <id name="direccionID">
+            <column name="direccion_id" length="3" not-null="true" sql-type="NUMBER(3,0)"/>
+             <generator class="identity"/>
+        </id>
+         <many-to-one name="director" column="director_id" foreign-key="id" class="com.segurosargos.crece.modelo.entidad.Colaborador"
+		update="false" insert="false"></many-to-one>
+        <property name="directorID">
+        	<column name="director_id" length="10" not-null="true" sql-type="VARCHAR(10)"/>
+        </property>
+        <property name="label">
+        	<column name="label" length="50" not-null="true" sql-type="VARCHAR(50)"/>
+        </property>
+        <property name="estatus">
+        	<column name="estatus" length="1" not-null="true" sql-type="TINYINT(1)"/>
+        </property>
+     </class>
+</hibernate-mapping>

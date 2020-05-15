@@ -1,5 +1,9 @@
 package com.sadss.csa.util.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public enum TipoNominaIMSS {
 
 	NOR("NOR", "Normal"), 
@@ -29,6 +33,17 @@ public enum TipoNominaIMSS {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public static List<TipoNominaIMSS> valuesMenu(){
+		
+		List<TipoNominaIMSS> vals = new ArrayList<TipoNominaIMSS>();
+		for (TipoNominaIMSS t : TipoNominaIMSS.values()) {
+			 vals.add(t);
+		}
+		
+		return vals;
+		
 	}
 
 }

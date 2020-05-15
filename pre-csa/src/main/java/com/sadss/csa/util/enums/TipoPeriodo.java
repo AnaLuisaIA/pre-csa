@@ -1,5 +1,9 @@
 package com.sadss.csa.util.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public enum TipoPeriodo {
 	
 	PER("PER", "Por Periodo"), 
@@ -27,6 +31,17 @@ public enum TipoPeriodo {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public static List<TipoPeriodo> valuesMenu(){
+		
+		List<TipoPeriodo> vals = new ArrayList<TipoPeriodo>();
+		for (TipoPeriodo t : TipoPeriodo.values()) {
+			 vals.add(t);
+		}
+		
+		return vals;
+		
 	}
 
 }

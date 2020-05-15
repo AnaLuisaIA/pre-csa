@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.segurosargos.crece.modelo.entidad">
+	<class name="Permiso" table="PERMISO" schema="CRECE">
+    	<comment>Mapeo tabla permisos</comment>
+    	<composite-id>
+    		<key-property name="colaboradorID" type="integer" column="colaborador_id" length="10"  />
+    		<key-property name="tipoPermiso" type="tipoPermiso" column="tipo_permiso_id" length="10" />
+    	</composite-id>
+     </class>
+</hibernate-mapping>

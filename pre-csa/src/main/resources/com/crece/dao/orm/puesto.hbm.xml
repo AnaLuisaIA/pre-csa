@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.segurosargos.crece.modelo.entidad">
+	<class name="Puesto" table="PUESTO" schema="CRECE">
+    	<comment>Mapeo tabla de puestos</comment>
+        <id name="puestoID">
+            <column name="puesto_id" length="2" not-null="true" sql-type="NUMBER(2,0)"/>
+             <generator class="identity"/>
+        </id>
+         <many-to-one name="direccion" column="direccion_id" foreign-key="direccion_id" class="com.segurosargos.crece.modelo.entidad.Direccion"
+		update="false" insert="false"></many-to-one>
+		 <many-to-one name="depto" column="depto_id" foreign-key="depto_id" class="com.segurosargos.crece.modelo.entidad.Departamento"
+		update="false" insert="false"></many-to-one>
+		
+        <property name="direccionID">
+        	<column name="direccion_id" length="3" not-null="true" sql-type="VARCHAR(3)"/>
+        </property>
+        <property name="deptoID">
+        	<column name="depto_id" length="10" not-null="true" sql-type="VARCHAR(10)"/>
+        </property>
+        <property name="label">
+        	<column name="label" length="45" not-null="true" sql-type="VARCHAR(45)"/>
+        </property>
+        <property name="estatus">
+        	<column name="estatus" length="1" not-null="true" sql-type="TINYINT(1)"/>
+        </property>
+     </class>
+</hibernate-mapping>

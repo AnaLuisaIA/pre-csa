@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.segurosargos.crece.modelo.entidad">
+	<class name="Ubicacion" table="UBICACION" schema="CRECE">
+    	<comment>Mapeo tabla de ubicaciones</comment>
+        <id name="ubicacionID">
+            <column name="ubicacion_id" length="2" not-null="true" sql-type="NUMBER(2,0)"/>
+             <generator class="identity"/>
+        </id>
+        <property name="label">
+        	<column name="label" length="45" not-null="true" sql-type="VARCHAR(45)"/>
+        </property>
+        <property name="estatus">
+        	<column name="estatus" length="1" not-null="true" sql-type="TINYINT(1)"/>
+        </property>
+     </class>
+</hibernate-mapping>

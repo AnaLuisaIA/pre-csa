@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -18,10 +18,10 @@
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
 	<tiles:putAttribute name="nav">
-		<li><a href='<c:url value="/"/>'>Tasa de Impuestos sobre N髆ina</a> <i class="fa fa-angle-right"></i></li>
+		<li><a href='<c:url value="/"/>'>Tasa de Impuestos sobre N贸mina</a> <i class="fa fa-angle-right"></i></li>
 	</tiles:putAttribute>
 	<meta charset="UTF-8">
-	<tiles:putAttribute name="title">Cat醠ogo Tasas de Impuestos sobre N髆ina</tiles:putAttribute>
+	<tiles:putAttribute name="title">Cat谩logo Tasas de Impuestos sobre N贸mina</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
 		<div class="row">
@@ -30,7 +30,7 @@
 				<div class="portlet box green-jungle">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-globe"></i>Cat醠ogo Tasas de Impuestos sobre N髆ina
+							<i class="fa fa-globe"></i>Cat谩logo Tasas de Impuestos sobre N贸mina
 						</div>
 						<div class="actions">
 						<a href="alta" class="btn default green-stripe">
@@ -47,11 +47,11 @@
 							<thead>
 								<tr>
 									<th>Estado</th>
-									<th>Tipo N髆ina</th>
+									<th>Tipo N贸mina</th>
 									<th>Tipo Variable</th>
 									<th>Valor</th>
 									<th>Oficina</th>
-									<th>Fecha de Aplicaci髇</th>
+									<th>Fecha de Aplicaci贸n</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
@@ -78,7 +78,7 @@
 				<div class="portlet light portlet-fit bordered">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-pencil-square-o"></i>Bit醕ora de cambios
+							<i class="fa fa-pencil-square-o"></i>Bit谩cora de cambios
 						</div>
 						<div class="tools">
 							<a href="" class="expand"></a>
@@ -91,7 +91,7 @@
 							<table id="tablaBitacora" class="table table-hover table-light">
 								<thead>
 									<tr>
-										<th>Acci髇</th>
+										<th>Acci贸n</th>
 										<th>Fecha y Hora</th>
 										<th>Colaborador</th>
 									</tr>
