@@ -31,11 +31,6 @@
 			insert="true" lazy="false">
 		</many-to-one>
 
-		<many-to-one name="variable" column="idVariable"
-			class="com.sadss.csa.modelo.entidad.Variable" update="true"
-			insert="true" lazy="false">
-		</many-to-one>
-
 	</class>
 
 </hibernate-mapping>

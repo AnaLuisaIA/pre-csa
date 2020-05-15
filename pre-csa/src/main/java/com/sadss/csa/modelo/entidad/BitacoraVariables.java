@@ -17,7 +17,6 @@ public class BitacoraVariables extends GenericModel<BitacoraVariables> implement
 	private String justificacion;
 	private Date fechaAccion;
 	private Usuario usuario;
-	private Variable variable;
 
 	public Integer getId() {
 		return id;
@@ -57,14 +56,6 @@ public class BitacoraVariables extends GenericModel<BitacoraVariables> implement
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public Variable getVariable() {
-		return variable;
-	}
-
-	public void setVariable(Variable variable) {
-		this.variable = variable;
 	}
 
 }

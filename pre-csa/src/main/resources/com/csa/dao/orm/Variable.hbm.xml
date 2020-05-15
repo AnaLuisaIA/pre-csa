@@ -42,12 +42,6 @@
 			</type>
 		</property>
 
-		<set name="registros" table="bitacora_variables" inverse="true">
-			<key column="idVariable"></key>
-			<one-to-many
-				class="com.sadss.csa.modelo.entidad.BitacoraVariables" />
-		</set>
-
 	</class>
 
 </hibernate-mapping>

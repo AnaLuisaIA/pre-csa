@@ -16,7 +16,6 @@ public class BitacoraTasas extends GenericModel<BitacoraTasas> implements Serial
 	private Date fecha;
 	private String justificacion;
 	private Usuario usuario;
-	private TasaSobreNomina tasa;
 
 	public Integer getId() {
 		return id;
@@ -56,14 +55,6 @@ public class BitacoraTasas extends GenericModel<BitacoraTasas> implements Serial
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public TasaSobreNomina getTasa() {
-		return tasa;
-	}
-
-	public void setTasa(TasaSobreNomina tasa) {
-		this.tasa = tasa;
 	}
 
 }

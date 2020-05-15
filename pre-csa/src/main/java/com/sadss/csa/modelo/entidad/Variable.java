@@ -26,8 +26,7 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 	private Date fechaAplicacion;
 	private TipoVariable tipo;
 	private Boolean estado;
-	
-	private Set<BitacoraVariables> registros = new HashSet<BitacoraVariables>();
+
 
 	public Integer getId() {
 		return id;
@@ -83,14 +82,6 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public Set<BitacoraVariables> getRegistros() {
-		return registros;
-	}
-
-	public void setRegistros(Set<BitacoraVariables> registros) {
-		this.registros = registros;
 	}
 
 }
