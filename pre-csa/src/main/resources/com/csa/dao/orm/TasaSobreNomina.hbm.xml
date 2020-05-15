@@ -48,12 +48,6 @@
 				sql-type="VARCHAR(200)" />
 		</property>
 
-		<set name="registros" table="bitacora_tasas" inverse="true">
-			<key column="idTasaSobreNomina"></key>
-			<one-to-many
-				class="com.sadss.csa.modelo.entidad.BitacoraTasas" />
-		</set>
-
 	</class>
 
 </hibernate-mapping>

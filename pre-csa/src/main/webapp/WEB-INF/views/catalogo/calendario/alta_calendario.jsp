@@ -80,7 +80,7 @@
 
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open")
-		$('#calendariosMenu').addClass("active");
+		$('#calendarioMenu').addClass("active");
 		
 	</tiles:putAttribute>
 

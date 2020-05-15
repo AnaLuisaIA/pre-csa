@@ -31,11 +31,6 @@
 			insert="true" lazy="false">
 		</many-to-one>
 
-		<many-to-one name="tasa" column="idTasaSobreNomina"
-			class="com.sadss.csa.modelo.entidad.TasaSobreNomina" update="true"
-			insert="true" lazy="false">
-		</many-to-one>
-
 	</class>
 
 </hibernate-mapping>

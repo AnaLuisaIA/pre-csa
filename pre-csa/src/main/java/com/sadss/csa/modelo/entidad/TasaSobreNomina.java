@@ -22,8 +22,6 @@ public class TasaSobreNomina extends GenericModel<TasaSobreNomina> implements Se
 	private TipoNomina tipoNomina;
 	private String oficina;
 
-	private Set<BitacoraTasas> registros = new HashSet<BitacoraTasas>();
-
 	public Integer getId() {
 		return id;
 	}
@@ -80,12 +78,5 @@ public class TasaSobreNomina extends GenericModel<TasaSobreNomina> implements Se
 		this.oficina = oficina;
 	}
 
-	public Set<BitacoraTasas> getRegistros() {
-		return registros;
-	}
-
-	public void setRegistros(Set<BitacoraTasas> registros) {
-		this.registros = registros;
-	}
 
 }

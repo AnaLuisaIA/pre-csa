@@ -59,6 +59,9 @@
 
 	<tiles:putAttribute name="ready"> 
 			$('#calculosMain').addClass("start active open")
+			$('#tablaSolicitudes').DataTable();
+			$('#calculoMenu').addClass("active");
+
 			$('#calculosMenu').addClass("active");
 	
 	</tiles:putAttribute>

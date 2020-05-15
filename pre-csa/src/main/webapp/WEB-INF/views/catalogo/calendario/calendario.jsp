@@ -183,7 +183,7 @@
 
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open");
-		$('#calendariosMenu').addClass("active");
+		$('#calendarioMenu').addClass("active");
 		$('#tablaCalendario').DataTable();
 		
 		$('#filtroAnio').select2({

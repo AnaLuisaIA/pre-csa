@@ -6,6 +6,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.sadss.csa.modelo.generic.GenericModel;
 import com.sadss.csa.util.enums.TipoVariable;
 
@@ -21,7 +27,6 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 	private TipoVariable tipo;
 	private Boolean estado;
 
-	private Set<BitacoraVariables> registros = new HashSet<BitacoraVariables>();
 
 	public Integer getId() {
 		return id;
@@ -77,14 +82,6 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public Set<BitacoraVariables> getRegistros() {
-		return registros;
-	}
-
-	public void setRegistros(Set<BitacoraVariables> registros) {
-		this.registros = registros;
 	}
 
 }

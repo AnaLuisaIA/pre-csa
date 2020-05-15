@@ -3,6 +3,7 @@ package com.sadss.csa.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -44,7 +45,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		System.out.println("colaborador: " + colaborador);
 
 		if (colaborador == null) {
-			System.out.println("Colaborador no se encontró");
 			throw new UsernameNotFoundException("Colaborador no se encontró");
 		}
 
@@ -61,11 +61,18 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
+		List<String> per = usuarioService.getPermisosByUsername(username);
+
+		if(per.isEmpty()) {
+			throw new UsernameNotFoundException("El colaborador no tiene permisos para acceder");
+		}
+		
 		// accede a los permisos configurados en el perfil local
 		Iterator<String> permisos = usuarioService.getPermisosByUsername(username).iterator();
+		
 		while (permisos.hasNext()) {
 			String nextPer = permisos.next();
-			// System.out.println("permisos del usuario: " + nextPer);
+			System.out.println("permisos del usuario: " + nextPer);
 			authorities.add(new SimpleGrantedAuthority(nextPer));
 		}
 

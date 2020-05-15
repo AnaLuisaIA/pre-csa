@@ -17,4 +17,9 @@ public class CalculosController {
 	public String indexCalculos(ModelMap model) {
 		return "home";
 	}
+	
+	@RequestMapping(value = "/imss", method = RequestMethod.GET)
+	public String calculoIMSS(ModelMap model) {
+		return "calculos/prueba";
+	}
 }
