@@ -9,10 +9,26 @@
 <tiles:insertDefinition name="defaultTemplate">
 	<tiles:putAttribute name="styles">
 		<link
+			href="<c:url value='/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css'/>"
+			rel="stylesheet" type="text/css" />
+		<link
+			href="<c:url value='/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css'/>"
+			rel="stylesheet" type="text/css" />
+		<link
+			href="<c:url value='/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css'/>"
+			rel="stylesheet" type="text/css" />
+		<link
 			href="<c:url value='/assets/global/plugins/select2/select2.css'/>"
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
-	<tiles:putAttribute name="title">Registro IMSS e INFONAVIT</tiles:putAttribute>
+	<tiles:putAttribute name="title">
+    	<c:if test="${empty variable.id}">
+			Alta de Variables IMSS/INFONAVIT
+		</c:if>
+		<c:if test="${not empty variable.id}">
+			Edición de Variables IMSS/INFONAVIT
+		</c:if>
+    </tiles:putAttribute>
 
 	<!-- Menu de navegación -->
 	<tiles:putAttribute name="nav">
@@ -30,9 +46,9 @@
 						<div class="portlet-title">
 							<div class="caption">
 								<h3>
-									<i class="fa fa-edit"></i> Alta de IMSS e INFONAVIT | <small
-										class="form-text form-muted"> Los campos con * son
-										obligatorios</small>
+									<c:if test="${empty variable.id}">Alta de Variables IMSS/INFONAVIT | </c:if>
+									<c:if test="${not empty variable.id}">Edición Variables IMSS/INFONAVIT | </c:if>
+									 <small class="form-text form-muted"> Los campos con * son obligatorios</small>
 								</h3>
 							</div>
 							<div class="tools">
@@ -42,7 +58,7 @@
 
 						<div class="portlet-body form">
 							<!-- Comienza formulario para registro de variables-->
-							<form:form id="saveVariable" action="saveVariable" method="POST" modelAttribute="variable" rol="form">
+							<form:form id="saveVariable" action="save" method="POST" modelAttribute="variable" rol="form">
 
 								<div class="form-body">
 								
@@ -51,20 +67,22 @@
 									<form:hidden path="id" />
 									<div class="row">
 											<div class="col-md-4">
+											<input id="estado" name="estado" type="hidden" value="${1}"/>
+
                                                 <div class="form-group">
-                                                    <label for="variable">Variable:</label>
+                                                    <label for="variable">Variable: *</label>
                                                     <form:input path="nombre" name="nombre" class="form-control" placeholder="Ingrese el nombre de la variable"/>
                                                 </div>
 											</div>
 											<div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="descripcion">Descripción:</label>
+                                                    <label for="descripcion">Descripción: *</label>
                                                     <form:input path="descripcion" name="descripcion" class="form-control" placeholder="Ingrese una descripción"/>
                                                 </div>
 											</div>
 											<div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="valor">Valor:</label>
+                                                    <label for="valor">Valor: *</label>
                                                     <form:input path="valor" name="valor" class="form-control" placeholder="Ingrese una descripción"/>
                                                 </div>
 											</div>
@@ -72,28 +90,27 @@
 										<div class="row">											
 											<div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="fechaA">Fecha Aplicación:</label>
-                                                   <!-- <form:input path="fechaAplicacion" name="fechaAplicacion" class="form-control"  type="date"/>-->
- 												
+                                                    <label for="fechaA">Fecha Aplicación: *</label>										
                                                 </div>
-                                           <div class="input-group input-medium date date-picker" 
-										data-date-format="yyyy/mm/dd"
-										data-date-end-date="0d">
+                                           		<div class="input-group input-medium date date-picker" 
+												data-date-format="dd/mm/yyyy"
+												data-date-end-date="0d">
 										<span class="input-group-btn">
 											<button class="btn default" type="button">
 												<i class="fa fa-calendar"></i>
 											</button>
 										</span>
-										<form:input path="fechaAplicacion" type="date" class="form-control"
+										<form:input path="fechaAplicacion" type="text" class="form-control" readonly="true"
 											maxlenght="10"/>
 									</div>
+
 											</div>
 											<div class="col-md-4">
                                                 <div class="form-group">
                                                    <div class="form-group">
 															<spring:bind path="variable.tipo">
 															<div class="form-group">
-																<label for="tipos">Tipo *</label>
+																<label for="tipos">Tipo: *</label>
 																<form:select path="tipo" required="true" class="form-control" id="tipos">
 																	<form:option value="">Selecciona Un Tipo</form:option>
 																	<form:options items="${tipovariable}"></form:options>
@@ -102,7 +119,7 @@
 															</div>
 														</spring:bind>
                                         			</div>
-                                        			<input id="estado" name="estado" type="hidden" value=""/>
+                                        			
                                         			</div>
 											</div>
 											
@@ -126,14 +143,31 @@
 	</body>
 
 	<tiles:putAttribute name="scripts">
-		<script src="<c:url value='/assets/admin/pages/scripts/altas.js'/>"
-			type="text/javascript"></script>
+
 		<script
 			src="<c:url value='/assets/global/plugins/bootstrap-select/bootstrap-select.min.js'/>"></script>
 		<script
 			src="<c:url value='/assets/global/plugins/select2/select2.min.js'/>"></script>
-	</tiles:putAttribute>
+		<script type="text/javascript"
+			src="<c:url value='/assets/global/plugins/datatables/media/js/jquery.dataTables.js'/>"></script>
+		<script type="text/javascript"
+			src="<c:url value='/assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js'/>"></script>
+		<script type="text/javascript"
+			src="<c:url value='/assets/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js'/>"></script>
+		<script type="text/javascript"
+			src="<c:url value='/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js'/>"></script>
+		<script type="text/javascript"
+			src="<c:url value='/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js'/>"></script>
+		<script type="text/javascript"
+			src="<c:url value='/assets/admin/pages/scripts/argostable.js'/>"></script>
+		<script type="text/javascript"
+			src="<c:url value='/assets/global/scripts/jquery.spring-friendly.js'/>"></script>
+		<script type="text/javascript"
+			src="<c:url value='/assets/admin/pages/scripts/ui-idletimeout.js'/>"></script>
 
+
+	</tiles:putAttribute>
+	
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open")
 		$('#catalogosMenu').addClass("active");

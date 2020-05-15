@@ -50,4 +50,10 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		return dao;
 	}
 
+	@Override
+	public Variable updateVariable(int id) {
+		return dao.updateVariable(id);
+		
+	}
+
 }

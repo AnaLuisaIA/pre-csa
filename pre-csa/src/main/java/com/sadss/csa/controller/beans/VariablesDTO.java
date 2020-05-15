@@ -26,6 +26,12 @@ public class VariablesDTO {
 		this.tipo = tipo;
 		this.estado = estado;
 	}
+	
+	public VariablesDTO(Integer id, Boolean estado) {
+		super();
+		this.id = id;
+		this.estado = estado;
+	}
 	public Integer getId() {
 		return id;
 	}

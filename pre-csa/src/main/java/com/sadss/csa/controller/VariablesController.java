@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
+import com.sadss.csa.modelo.entidad.Usuario;
 import com.sadss.csa.modelo.entidad.Variable;
 import com.sadss.csa.service.VariablesService;
 import com.sadss.csa.util.SecurityUtils;
@@ -72,20 +73,21 @@ public class VariablesController {
 	 * Método para encontrar los registros de variables
 	 * */
 	private void agregarLista(ModelMap model) {
-		List<Variable> variableModelo = variablesService.findAll();
-		System.out.println("Lista:" + variableModelo);
-		model.put("variableModelo", variableModelo);
+		List<Variable> variable = variablesService.findAll();
+		System.out.println("Lista:" + variable);
+		model.put("variable", variable);
 	}
 	
 	/**
 	 * Metodo para Registar una Variable
 	 * */
-	@RequestMapping(value = "/saveVariable", method = RequestMethod.POST)
-	public ModelAndView agregarVarible(@Valid VariablesForm variable, BindingResult result,HttpServletRequest request, RedirectAttributes ra) throws ParseException {
-				
-		System.out.println("Datos"+variable);
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public ModelAndView agregarVarible(@Valid @ModelAttribute("variable") 
+	VariablesForm variable, BindingResult result,HttpServletRequest request, RedirectAttributes ra) 
+			throws ParseException {
 		
 		ModelMap map = new ModelMap();
+		
 		//Validar Formulario
 		if(result.hasErrors()) {
 			map.put("variable", variable);
@@ -98,11 +100,10 @@ public class VariablesController {
 		variable.setNombre(variable.getNombre().toUpperCase());
 		
 		//Convierte el formulario al modelo
-		//Variable modelo = variable.toOrmModel(Variable.class);
-		Variable vf = new Variable();
+		Variable modelo = variable.toOrmModel(Variable.class);
 		
 		//Validaciones antes de agregar a BD
-		this.variablesService.validateBeforeCreate(vf, result);
+		this.variablesService.validateBeforeCreate(modelo, result);
 		if(result.hasErrors()) {
 			map.put("variable", variable);
 			agregarInformacion(map);
@@ -111,17 +112,19 @@ public class VariablesController {
 		}
 		
 		//Agregar a la Base de Datos
-		if(vf.getId() == null) {
-			variablesService.create(vf);
-			System.out.println("Datos"+variable);
-			map.put("succmsg", "Se creó correctamente el registro del rol");
+		if(modelo.getId() == null) {
+			//Agregar codigo de bitacora
+			//modelo.setFechaAplicacion(new Date());
+			System.out.println("Fecha: "+ variable.getFechaAplicacion());
+			this.variablesService.create(modelo);
+			map.put("succmsg", "Se creó correctamente el registro la Variable");
 		}else {
-			vf.setFechaAplicacion(new Date());
-			this.variablesService.update(vf);
-			map.put("succmsg", "Se actualizo correctamente el Rol");
+			modelo.setFechaAplicacion(new Date());
+			this.variablesService.update(modelo);
+			map.put("succmsg", "Se actualizo correctamente la Variable");
 		}
 		agregarLista(map);
-		return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT",map);
+		return new ModelAndView("catalogo/variables/IMSS-INFONAVIT",map);
 		
 	}
 	
@@ -157,4 +160,42 @@ public class VariablesController {
 		return "redirect:/variable/";
 	}
 	
+	/*
+	 * Método para editar  una Variable
+	 * @param id (id del rol)
+	 * @param model (Modeo vacío)
+	 *
+	 * */
+	@RequestMapping(value = "/editar", method = RequestMethod.GET)
+	public String editarVariable(@RequestParam(required =  true) Integer id, ModelMap model) {
+		Variable variable = variablesService.findOne(id);
+		
+		if(variable == null) {
+			return "catalogo/variables/IMSS-INFONAVIT";
+		}
+		
+		VariablesForm variableForm = (new VariablesForm().fromOrmModel(variable, VariablesForm.class));
+		model.addAttribute("variable",variableForm);
+		agregarInformacion(model);
+		return "catalogo/variables/registro_actualizacionIMSS-INFONAVIT";
+	}
+	
+	/*
+	 * Método para editar  una Variable
+	 * @param id (id del rol)
+	 * @param model (Modeo vacío)
+	 *
+	 * */
+	@RequestMapping(value = "/editarEstado", method = RequestMethod.GET)
+	public String editarEstadoVariable(@RequestParam(required =  true) Integer id, ModelMap model) {
+		Variable variable = variablesService.updateVariable(id);
+		if(variable == null) {
+			return "catalogo/variables/IMSS-INFONAVIT";
+		}
+		
+		VariablesForm variableForm = (new VariablesForm().fromOrmModel(variable, VariablesForm.class));
+		model.addAttribute("variable",variableForm);
+		agregarInformacion(model);
+		return "redirect:/variable/";
+	}
 }
