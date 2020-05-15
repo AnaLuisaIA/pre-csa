@@ -59,15 +59,12 @@
 
 	<tiles:putAttribute name="ready"> 
 			$('#calculosMain').addClass("start active open")
-<<<<<<< HEAD
 			$('#tablaSolicitudes').DataTable();
 			$('#calculoMenu').addClass("active");
-		</tiles:putAttribute>
-=======
+
 			$('#calculosMenu').addClass("active");
 	
 	</tiles:putAttribute>
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 
 	<tiles:putAttribute name="footer">
 		<c:import url="/WEB-INF/views/template/footer.jsp"></c:import>

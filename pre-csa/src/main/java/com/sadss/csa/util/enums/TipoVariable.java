@@ -33,7 +33,6 @@ public enum TipoVariable {
 		this.label = label;
 	}
 	
-<<<<<<< HEAD
 	public static List<TipoVariable> getTipoVariable(){
 		List<TipoVariable> vals = new ArrayList<TipoVariable>();
 		vals.add(PATRON);
@@ -48,7 +47,7 @@ public enum TipoVariable {
 		return vals;
 	}
 	
-=======
+
 	public static List<TipoVariable> valuesMenu(){
 		
 		List<TipoVariable> vals = new ArrayList<TipoVariable>();
@@ -59,5 +58,5 @@ public enum TipoVariable {
 		return vals;
 		
 	}
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
+
 }
