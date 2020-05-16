@@ -1,5 +1,6 @@
 package com.sadss.csa.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.sadss.csa.controller.beans.generic.CrudService;
@@ -29,4 +30,10 @@ public interface VariablesService  extends CrudService<Variable>{
 	
 	
 	public Variable updateVariable(int id);
+	
+	/*
+	 * Metodo Registro bitacora
+	 * */
+	
+	public void registrarAccionBitacora(String accion, Date fecha,String justificacion, String user);
 }

@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 <%@page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-=======
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -35,12 +31,9 @@
 				<div class="portlet box green-jungle">
 					<div class="portlet-title">
 						<div class="caption">
-<<<<<<< HEAD
-							<i class="fa fa-globe"></i>Catálogo de Variables IMSS e INFONAVIT
-=======
-							<i class="fa fa-globe"></i>CatÃ¡logo de Variables IMSS e
-							INFONAVIT
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
+
+							<i class="fa fa-globe"></i>Catalogo de Variables IMSS e INFONAVIT
+
 						</div>
 						<div class="actions">
 							<a href="alta" class="btn default green-stripe"> <i
@@ -54,58 +47,49 @@
 							class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
+									<th style="display: none;">Id</th>
 									<th>Variable</th>
 									<th>Descripcion</th>
 									<th>Valor</th>
 									<th>Tipo</th>
-<<<<<<< HEAD
-									<th>Fecha de Aplicación</th>
-									<th>Estado</th>
-=======
-									<th>Fecha de AplicaciÃ³n</th>
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
+									<th>Fecha de Aplicacion</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach var="v" items="${variable}">
 									<tr>
+										<td style="display: none;">${v.id}</td>
 										<td>${v.nombre}</td>
 										<td>${v.descripcion}</td>
 										<td>${v.valor}</td>
 										<td>${v.tipo}</td>
 										<td><fmt:formatDate value="${v.fechaAplicacion}"
 												pattern="dd/MM/yyyy" /></td>
-										<td><c:choose>
-												<c:when test="${v.estado == true}">1</c:when>
-												<c:otherwise>0</c:otherwise>
-											</c:choose></td>
 										<td>
 											<c:choose>
 												<c:when test="${v.estado == true}">
-													<a onclick="return confirm('¿Deseas desactivar esta Variable?');" href="editarEstado?id=${v.id}" class="btn btn-primary btn-small" style="color:#06F61C;">
-											 			<i class="fa fa-power-off"></i>
-													</a>
+													<button type="submit" class="btn btn-primary fa fa-power-off"
+												id="btnModificarEstado" style="color:#06F61C;"></button>
 												</c:when>
 												<c:otherwise>
-													<a href="editarEstado?id=${v.id}" onclick="return confirm('¿Deseas activar esta Variable?');"  class="btn btn-primary btn-small" style="color:#F60606;">
-											 			<i class="fa fa-power-off"></i>
-													</a>
+											 	<button type="submit" class="btn btn-primary fa fa-power-off"
+												id="btnModificarEstado" style="color:#F60606;"></button>
 												</c:otherwise>
 											</c:choose>
 
 											<a href="editar?id=${v.id}" class="btn btn-primary btn-small"> 
 												<i class="fa fa-edit"></i>
 											 </a>
-											<a onclick="return confirm('¿Deseas Eliminar la Variable?');" href="delete?id=${v.id}" class="btn btn-primary btn-small"> 
-												<i class="fa fa-remove (alias)"></i>
-											</a>
+											 <button type="submit" class="btn btn-primary fa fa-remove (alias)"
+												id="btnEliminar"></button>
 										</td>
 									</tr>
-
 								</c:forEach>
 							</tbody>
 						</table>
+						<input type="hidden" name="justificacion" id="justificacionIMSSForm" />
+
 					</div>
 				</div>
 			</div>
@@ -115,27 +99,40 @@
 				<div class="portlet light portlet-fit bordered">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-pencil-square-o"></i>BitÃ¡cora de cambios
+							<i class="fa fa-pencil-square-o"></i>Bitacora de cambios
 						</div>
 						<div class="tools">
 							<a href="" class="expand"></a>
 						</div>
 					</div>
 
-					<div class="portlet-body portlet-collapsed" style="display: none;">
+					<div class="portlet-body portlet-collapsed">
 						<div
 							class="table-scrollable table-scrollable-borderless table-responsive">
 							<table id="tablaBitacora" class="table table-hover table-light">
 								<thead>
 									<tr>
-										<th>AcciÃ³n</th>
+										<th>Accion</th>
 										<th>Fecha y Hora</th>
+										<th>Justificacion</th>
 										<th>Colaborador</th>
 									</tr>
 								</thead>
-
-
+								<tbody>
+									<c:forEach var="a" items="${acciones}">
+										<tr>
+											<td>${a.accion}</td>
+											<td><fmt:formatDate value="${a.fechaAccion}"
+												pattern="dd/MM/yyyy" /></td>
+												<td>${a.justificacion}</td>
+											<td>${a.numColaborador}- ${a.nombre} ${a.aPaterno}
+												${a.aMaterno}</td>
+												
+										</tr>
+									</c:forEach>
+								</tbody>
 							</table>
+							
 						</div>
 					</div>
 				</div>
@@ -169,43 +166,72 @@
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open");
 		$('#tablaVariables').DataTable();
-		$('#catalogosMenu').addClass("active");
-		
-		$(function() {
 
-  $('#btnSi, #btnNo').on('click', function() {
-    var elem = $(this);
-    var activo = elem.text();
-    var id = elem.val();
-    var url = 'activa-alerta.php';
+  
+  //Metodo Eliminar Variable
+    $(document).ready(function(){
 
-    var request = $.ajax({
-      data: {id: id, activo:activo},
-      type: "POST",
-      url: url,
-      dataType: "html"
+    // code to read selected table row cell data (values).
+    $("#tablaVariables").on('click','#btnEliminar',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+         
+         var col1=currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+         var id=col1;
+
+          mensaje = "";
+	        	bootbox.setLocale('es');
+	        	bootbox.prompt({
+				    title: "Escriba Justificacion",
+				    inputType: 'textarea',
+				    callback: function (result) {
+				    	if(result != null && result != ""){
+					     $('#justificacionIMSSForm').val(result);
+					       var justificacionIMSSForm = $('#justificacionIMSSForm').val(); 
+					      	window.location.href= 'delete?id='+id+"&justificacionIMSSForm="+justificacionIMSSForm;
+					    } else if(result === "") {
+					    	bootbox.alert({
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
+							});
+					    }
+				    }
+				});
     });
-
-    request.done(function(text) {
-      console.log(text);
-      if (text == "exitoso") {
-        if (activo == 'S') {
-          elem.removeClass('btn-danger').addClass('btn-success');
-          elem.text('S');
-        } else {
-          elem.removeClass('btn-success').addClass('btn-danger');
-          elem.text('N');
-        }
-      }
-    });
-
-    request.fail(function(jqXHR, textStatus) {
-      alert("Error de petición: " + textStatus);
-    });
-
-  });
-
 });
+
+     //Metodo Modifiar Estado Variable
+    $(document).ready(function(){
+
+    // code to read selected table row cell data (values).
+    $("#tablaVariables").on('click','#btnModificarEstado',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+         
+         var col1=currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+         var id=col1;
+
+          mensaje = "";
+	        	bootbox.setLocale('es');
+	        	bootbox.prompt({
+				    title: "Escriba Justificacion",
+				    inputType: 'textarea',
+				    callback: function (result) {
+				    	if(result != null && result != ""){
+					     $('#justificacionIMSSForm').val(result);
+					       var justificacionIMSSForm = $('#justificacionIMSSForm').val(); 
+					      	window.location.href= 'editarEstado?id='+id+"&justificacionIMSSForm="+justificacionIMSSForm;
+					    } else if(result === "") {
+					    	bootbox.alert({
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
+							});
+					    }
+				    }
+				});
+    });
+});
+
    </tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">
