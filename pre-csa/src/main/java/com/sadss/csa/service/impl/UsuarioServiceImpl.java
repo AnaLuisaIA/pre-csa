@@ -93,7 +93,7 @@ public class UsuarioServiceImpl extends AbstractService<Usuario> implements Usua
 	 */
 	private void validateDuplicates(Usuario entity, BindingResult result) {
 		ArrayList<String[]> props = new ArrayList<String[]>();
-		props.add(new String[] { "username" });
+		props.add(new String[] { "numColaborador" });
 		DuplicateValidator<Usuario> validator = new DuplicateValidator<Usuario>(Usuario.class, this, props);
 		ValidationUtils.invokeValidator(validator, entity, result);
 	}
