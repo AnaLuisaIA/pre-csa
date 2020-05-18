@@ -9,7 +9,7 @@ import com.sadss.csa.modelo.generic.IOperations;
 public interface BitacoraVariableDAO extends IOperations<BitacoraVariables> {
 	
 	/*
-	 * Obtine las Acciones registradass en la bitacora Variable
+	 * Obtiene las Acciones registradass en la bitacora Variable
 	 * @return
 	 * */
 	public List<BitacoraVariableDTO> getRegistros();

@@ -1,29 +1,55 @@
-package com.sadss.csa.modelo.entidad;
+package com.sadss.csa.controller.beans;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import com.sadss.csa.modelo.generic.GenericModel;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.sadss.csa.controller.beans.generic.GenericForm;
+import com.sadss.csa.modelo.entidad.TasaSobreNomina;
 import com.sadss.csa.util.enums.TipoNomina;
 import com.sadss.csa.util.enums.TipoVariableTasa;
 
-public class TasaSobreNomina extends GenericModel<TasaSobreNomina> implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
+public class TasaForm  extends GenericForm<TasaForm, TasaSobreNomina>{
+	
 	private Integer id;
+	
+	@NotNull
+	@NotEmpty
+	@Size(max = 100)
 	private String estado;
 	private TipoNomina tipoNomina;
+
 	private TipoVariableTasa tipoVariable;
+
 	private BigDecimal valor;
 	private String oficina;
 	private Date fechaAplicacion;
 	private Boolean estatus;
+	
+	private String justificacion;
+	
+	SimpleDateFormat sd = new SimpleDateFormat();
+	
+	public TasaForm() {
+		
+	}
 
 	public Integer getId() {
 		return id;
+	}
+	
+
+	public TipoVariableTasa getTipoVariable() {
+		return tipoVariable;
+	}
+
+	public void setTipoVariable(TipoVariableTasa tipoVariable) {
+		this.tipoVariable = tipoVariable;
 	}
 
 	public void setId(Integer id) {
@@ -46,13 +72,6 @@ public class TasaSobreNomina extends GenericModel<TasaSobreNomina> implements Se
 		this.tipoNomina = tipoNomina;
 	}
 
-	public TipoVariableTasa getTipoVariable() {
-		return tipoVariable;
-	}
-
-	public void setTipoVariable(TipoVariableTasa tipoVariable) {
-		this.tipoVariable = tipoVariable;
-	}
 
 	public BigDecimal getValor() {
 		return valor;
@@ -86,8 +105,21 @@ public class TasaSobreNomina extends GenericModel<TasaSobreNomina> implements Se
 		this.estatus = estatus;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getJustificacion() {
+		return justificacion;
 	}
 
+	public void setJustificacion(String justificacion) {
+		this.justificacion = justificacion;
+	}
+
+	public SimpleDateFormat getSd() {
+		return sd;
+	}
+
+	public void setSd(SimpleDateFormat sd) {
+		this.sd = sd;
+	}
+	
+	
 }

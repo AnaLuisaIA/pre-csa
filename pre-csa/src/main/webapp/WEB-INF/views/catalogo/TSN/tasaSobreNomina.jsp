@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -18,10 +18,11 @@
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
 	<tiles:putAttribute name="nav">
-		<li><a href='<c:url value="/"/>'>Tasa de Impuestos sobre N贸mina</a> <i class="fa fa-angle-right"></i></li>
+		<li><a href='<c:url value="/"/>'>Tasa Sobre Nomina</a> <i
+			class="fa fa-angle-right"></i></li>
 	</tiles:putAttribute>
 	<meta charset="UTF-8">
-	<tiles:putAttribute name="title">Cat谩logo Tasas de Impuestos sobre N贸mina</tiles:putAttribute>
+	<tiles:putAttribute name="title">Tasa Sobre Nomina</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
 		<div class="row">
@@ -30,77 +31,110 @@
 				<div class="portlet box green-jungle">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-globe"></i>Cat谩logo Tasas de Impuestos sobre N贸mina
+
+							<i class="fa fa-globe"></i>Catalogo de Tasa Sobre Nomina
+
 						</div>
 						<div class="actions">
-						<a href="alta" class="btn default green-stripe">
-							<i class="fa fa-plus"></i>
-							<span class="hidden-480">
-							AGREGAR TASA </span>
-							</a>				
+							<a href="alta" class="btn default green-stripe"> <i
+								class="fa fa-plus"></i> <span class="hidden-480"> AGREGAR
+									TASA </span>
+							</a>
 						</div>
-
 					</div>
 					<div class="portlet-body">
-						<table id="tablaTasa"
+						<table id="tablaTasas"
 							class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
+									<th style="display: none;">Id</th>
 									<th>Estado</th>
-									<th>Tipo N贸mina</th>
+									<th>Tipo Nomina</th>
 									<th>Tipo Variable</th>
 									<th>Valor</th>
 									<th>Oficina</th>
-									<th>Fecha de Aplicaci贸n</th>
+									<th>Fecha Aplicaci髇</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
 							<tbody>
-								<!--<c:forEach var="c" items="${correos}">
+								<c:forEach var="t" items="${tasa}">
 									<tr>
-										<td>${c.actividad.label}</td>
-										<td>${c.asunto}</td>
-										<td><a href="editar?id=${c.id}" class="btn btn-primary btn-small">
-												<i class="fa fa-edit"></i></a></td>
+										<td style="display: none;">${t.id}</td>
+										<td>${t.estado}</td>
+										<td>${t.tipoNomina}</td>
+										<td>${t.tipoVariable}</td>
+										<td>${t.valor}</td>
+										<td>${t.oficina}</td>
+										<td><fmt:formatDate value="${t.fechaAplicacion}"
+												pattern="dd/MM/yyyy" /></td>
+										<td>
+											<c:choose>
+												<c:when test="${t.estatus == true}">
+													<button type="submit" class="btn btn-primary fa fa-power-off"
+												id="btnModificarEstado" style="color:#06F61C;"></button>
+												</c:when>
+												<c:otherwise>
+											 	<button type="submit" class="btn btn-primary fa fa-power-off"
+												id="btnModificarEstado" style="color:#F60606;"></button>
+												</c:otherwise>
+											</c:choose>
+
+											<a href="editar?id=${t.id}" class="btn btn-primary btn-small"> 
+												<i class="fa fa-edit"></i>
+											 </a>
+											 <button type="submit" class="btn btn-primary fa fa-remove (alias)"
+												id="btnEliminar"></button>
+										</td>
 									</tr>
-								</c:forEach>-->
+								</c:forEach>
 							</tbody>
-
 						</table>
+						<input type="hidden" name="justificacion" id="justificacionTasaForm" />
+
 					</div>
-
-
 				</div>
 			</div>
 		</div>
-				<div class="row">
+		<div class="row">
 			<div class="col-md-9 col-md-offset-2">
 				<div class="portlet light portlet-fit bordered">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-pencil-square-o"></i>Bit谩cora de cambios
+							<i class="fa fa-pencil-square-o"></i>Bitacora de cambios
 						</div>
 						<div class="tools">
 							<a href="" class="expand"></a>
 						</div>
 					</div>
 
-					<div class="portlet-body portlet-collapsed" style="display: none;">
+					<div class="portlet-body portlet-collapsed">
 						<div
 							class="table-scrollable table-scrollable-borderless table-responsive">
 							<table id="tablaBitacora" class="table table-hover table-light">
 								<thead>
 									<tr>
-										<th>Acci贸n</th>
+										<th>Accion</th>
 										<th>Fecha y Hora</th>
+										<th>Justificacion</th>
 										<th>Colaborador</th>
 									</tr>
 								</thead>
 								<tbody>
-
+									<c:forEach var="t" items="${accionest}">
+										<tr>
+											<td>${t.accion}</td>
+											<td><fmt:formatDate value="${t.fecha}"
+												pattern="dd/MM/yyyy" /></td>
+												<td>${t.justificacion}</td>
+											<td>${t.numColaborador}- ${t.nombre} ${t.aPaterno}
+												${t.aMaterno}</td>
+												
+										</tr>
+									</c:forEach>
 								</tbody>
-
 							</table>
+							
 						</div>
 					</div>
 				</div>
@@ -128,14 +162,78 @@
 		<script type="text/javascript"
 			src="<c:url value='/assets/admin/pages/scripts/ui-idletimeout.js'/>"></script>
 
-
 	</tiles:putAttribute>
 
 
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open");
-		$('#tablaTasa').DataTable();
-		$('#tasaMenu').addClass("active");
+		$('#tablaTasas').DataTable();
+
+  
+  //Metodo Eliminar Variable
+    $(document).ready(function(){
+
+    // code to read selected table row cell data (values).
+    $("#tablaTasas").on('click','#btnEliminar',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+         
+         var col1=currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+         var id=col1;
+
+          mensaje = "";
+	        	bootbox.setLocale('es');
+	        	bootbox.prompt({
+				    title: "Escriba Justificacion",
+				    inputType: 'textarea',
+				    callback: function (result) {
+				    	if(result != null && result != ""){
+					     $('#justificacionTasaForm').val(result);
+					       var justificacionTasaForm = $('#justificacionTasaForm').val(); 
+					      	window.location.href= 'delete?id='+id+"&justificacionTasaForm="+justificacionTasaForm;
+					    } else if(result === "") {
+					    	bootbox.alert({
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
+							});
+					    }
+				    }
+				});
+    });
+});
+
+     //Metodo Modificar Estado Variable
+    $(document).ready(function(){
+
+    // code to read selected table row cell data (values).
+    $("#tablaTasas").on('click','#btnModificarEstado',function(){
+         // get the current row
+         var currentRow=$(this).closest("tr"); 
+         
+         var col1=currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+         var id=col1;
+
+          mensaje = "";
+	        	bootbox.setLocale('es');
+	        	bootbox.prompt({
+				    title: "Escriba Justificacion",
+				    inputType: 'textarea',
+				    callback: function (result) {
+				    	if(result != null && result != ""){
+					     $('#justificacionTasaForm').val(result);
+					       var justificacionTasaForm = $('#justificacionTasaForm').val(); 
+					      	window.location.href= 'editarEstado?id='+id+"&justificacionTasaForm="+justificacionTasaForm;
+					    } else if(result === "") {
+					    	bootbox.alert({
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
+							});
+					    }
+				    }
+				});
+    });
+});
+
    </tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">

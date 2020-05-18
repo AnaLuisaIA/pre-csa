@@ -63,12 +63,8 @@ public class VariablesController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String variableshome(ModelMap model) {
-		
 		feedDetalles(model);
-		
 		agregarLista(model);
-		
-		
 		return "catalogo/variables/IMSS-INFONAVIT";
 	}
 	
@@ -122,21 +118,20 @@ public class VariablesController {
 			System.out.println("Existen errores: " + result.getAllErrors());
 			return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT",map);
 		}
-		
 		//Agregar a la Base de Datos
 		if(modelo.getId() == null) {
 			//Agregar codigo de bitacora
 			//modelo.setFechaAplicacion(new Date());
 			System.out.println("Fecha: "+ variable.getFechaAplicacion());
+			variablesService.registrarAccionBitacora("Registro variable "+variable.getNombre() ,new Date() ,"-------", colaborador);
 			this.variablesService.create(modelo);
 			map.put("succmsg", "Se creó correctamente el registro la Variable");
 		}else {
 			modelo.setFechaAplicacion(new Date());
-			variablesService.registrarAccionBitacora("Modifico el estado de la Variable " ,new Date() ,variable.getJustificacion(), colaborador);
+			variablesService.registrarAccionBitacora("Modifico la variable " +variable.getNombre() ,new Date() ,"--------", colaborador);
 			this.variablesService.update(modelo);
 			map.put("succmsg", "Se actualizo correctamente la Variable");
 		}
-		variablesService.registrarAccionBitacora("Registro variable" ,new Date() ,"-------", colaborador);
 		agregarLista(map);
 		return new ModelAndView("catalogo/variables/IMSS-INFONAVIT",map);
 		
@@ -169,7 +164,7 @@ public class VariablesController {
 	 * Método para eliminar una variable
 	 * */
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deletePagos( @ModelAttribute("variable") @RequestParam("id") int id,@RequestParam("justificacionIMSSForm") String justificacionIMSSForm,RedirectAttributes ra, VariablesForm vf) {
+	public String deleteVariable( @ModelAttribute("variable") @RequestParam("id") int id,@RequestParam("justificacionIMSSForm") String justificacionIMSSForm,RedirectAttributes ra, VariablesForm vf) {
 		Variable var  = variablesService.findOne(id);
 		
 		var.setNombre(var.getNombre());
@@ -186,7 +181,7 @@ public class VariablesController {
 	
 	/*
 	 * Método para editar  una Variable
-	 * @param id (id del rol)
+	 * @param id (id de la variable)
 	 * @param model (Modeo vacío)
 	 *
 	 * */
@@ -205,8 +200,8 @@ public class VariablesController {
 	}
 	
 	/*
-	 * Método para editar  una Variable
-	 * @param id (id del rol)
+	 * Método para editar  el estado de Variable
+	 * @param id (id de la variable)
 	 * @param model (Modeo vacío)
 	 *
 	 * */

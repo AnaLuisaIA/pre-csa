@@ -10,13 +10,13 @@
 </a>
 
 	<ul class="sub-menu">
-<<<<<<< HEAD
+
 		<li id="calculoMenu"><a href="<c:url value='/calculos/'/>"> <i
 				class="fa fa-calculator"> </i> Cálculos
-=======
+
 		<li id="calculosMenu"><a href="<c:url value='/calculos/'/>"> <i
 				class="fa fa-calculator"> </i> Realizar cálculos
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
+
 		</a></li>
 		<li id="consultaIMSS"><a href="<c:url value='/imss/'/>"> <i
 				class="fa fa-search"></i> Consulta Cálculos IMSS e INFONAVIT

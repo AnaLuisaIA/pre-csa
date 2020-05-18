@@ -27,7 +27,6 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 	private TipoVariable tipo;
 	private Boolean estado;
 
-
 	public Integer getId() {
 		return id;
 	}

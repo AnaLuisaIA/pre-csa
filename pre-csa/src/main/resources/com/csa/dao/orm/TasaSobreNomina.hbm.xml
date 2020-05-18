@@ -12,26 +12,8 @@
 		</id>
 
 		<property name="estado">
-			<column name="estado" length="1" not-null="true"
-				sql-type="BOOLEAN" />
-		</property>
-
-		<property name="valor">
-			<column name="valor" not-null="true" sql-type="NUMERIC" />
-		</property>
-
-		<property name="fechaAplicacion">
-			<column name="fechaAplicacion" length="10" not-null="true"
-				sql-type="DATE" />
-		</property>
-
-		<property name="tipoVariable" column="tipoVariable"
-			not-null="true">
-			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">com.sadss.csa.util.enums.TipoVariableTasa</param>
-				<param name="type">12</param>
-				<param name="useNamed">true</param>
-			</type>
+			<column name="estado" length="200" not-null="true"
+				sql-type="VARCHAR(200)" />
 		</property>
 
 		<property name="tipoNomina" column="tipoNomina"
@@ -43,9 +25,33 @@
 			</type>
 		</property>
 
+		<property name="tipoVariable" column="tipoVariable"
+			not-null="true">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.sadss.csa.util.enums.TipoVariableTasa</param>
+				<param name="type">12</param>
+				<param name="useNamed">true</param>
+			</type>
+		</property>
+
+		<property name="valor">
+			<column name="valor" not-null="true" sql-type="NUMERIC" />
+		</property>
+
 		<property name="oficina">
 			<column name="oficina" length="200" not-null="true"
 				sql-type="VARCHAR(200)" />
+		</property>
+
+
+		<property name="fechaAplicacion">
+			<column name="fechaAplicacion" length="10" not-null="true"
+				sql-type="DATE" />
+		</property>
+
+		<property name="estatus">
+			<column name="estatus" length="1" not-null="true"
+				sql-type="BOOLEAN" />
 		</property>
 
 	</class>

@@ -24,7 +24,7 @@ public interface VariablesService  extends CrudService<Variable>{
 	public void saveVariables (Variable variable); */
 	
 	/**
-	 * Lista de Roles
+	 * Lista de variables
 	 * */
 	public List<Variable> findVariables();
 	

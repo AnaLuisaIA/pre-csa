@@ -10,13 +10,12 @@
 </a>
 
 	<ul class="sub-menu">
-<<<<<<< HEAD
-		<li id="catalogosMenu"><a href="<c:url value='/variable/'/>">
+				<li id="catalogosMenu"><a href="<c:url value='/variable/'/>">
 				<i class="fa fa-calendar-o"></i> Variables IMSS INFONAVIT
 		</a>
 		</li>
 
-		<li id="tasaMenu"><a href="<c:url value='/tasaSobreNomina/'/>">
+		<li id="tasaMenu"><a href="<c:url value='/tasa/'/>">
 				<i class="fa fa-calendar-o"></i> Tasas Sobre Nómina
 		</a>
 		</li>
@@ -30,18 +29,15 @@
 				<i class="fa fa-users"></i> Usuarios
 		</a>
 		</li>
-=======
 	
 		<li id="catalogosMenu"><a
 			href="<c:url value='variables/IMSS-INFONAVIT'/>"> <i
 				class="fa fa-list-alt"></i> Variables IMSS INFONAVIT
 		</a></li>
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 
-<<<<<<< HEAD
 	</ul>
 	</li>
-=======
+
 		<li id="catalogosMenu"><a href="<c:url value='/usuarios/'/>">
 				<i class="fa fa-list-alt"></i> Tasas Sobre Nómina
 		</a></li>
@@ -56,4 +52,4 @@
 
 
 	</ul></li>
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
+

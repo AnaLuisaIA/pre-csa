@@ -14,7 +14,7 @@ import com.sadss.csa.modelo.entidad.Usuario;
 public interface BitacoraVariablesService extends CrudService<BitacoraVariables>{
 
 	/*
-	 * Obtiene las accriones Registradas en Bitacora Variable
+	 * Obtiene las acciones Registradas en Bitacora Variable
 	 * @reuturn Lista Acciones
 	 * */
 	public List<BitacoraVariableDTO> getRegistros();

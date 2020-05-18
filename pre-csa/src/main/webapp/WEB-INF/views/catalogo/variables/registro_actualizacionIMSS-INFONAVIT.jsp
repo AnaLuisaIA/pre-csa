@@ -71,8 +71,17 @@
 								<form:hidden path="id" />
 								<div class="row">
 									<div class="col-md-4">
-										<input id="estado" name="estado" type="hidden" value="${1}" />
-
+									<c:if test="${empty variable.id}"><input id="estado" name="estado" type="hidden" value="${1}" /></c:if>
+										<c:if test="${not empty variable.id}">
+										<c:choose>
+												<c:when test="${variable.estado == true}">
+													<input id="estado" name="estado" type="hidden" value="${1}" />
+												</c:when>
+												<c:otherwise>
+											 	<input id="estado" name="estado" type="hidden" value="${0}" />
+												</c:otherwise>
+											</c:choose>
+										</c:if>
 										<div class="form-group">
 											<label for="variable">Variable: *</label>
 											<form:input path="nombre" name="nombre" class="form-control"
@@ -251,25 +260,6 @@
 
         });
         
-      $('#btnActualizarVariable').click(function(e){
-        	mensaje = "";
-	        	bootbox.setLocale('es');
-	        	bootbox.prompt({
-				    title: "Escriba Justificación",
-				    inputType: 'textarea',
-				    callback: function (result) {
-				    	if(result != null && result != ""){
-					        $('#justificacionSolicitudForm').val(result);
-					        $('#editar').submit();
-					    } else if(result === "") {
-					    	bootbox.alert({
-							    message: "<b>El campo de Justificación es obligatorio.</b>",
-							    size: 'small'
-							});
-					    }
-				    }
-				});
-        });
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">

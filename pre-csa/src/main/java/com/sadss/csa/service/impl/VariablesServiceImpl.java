@@ -1,16 +1,13 @@
 package com.sadss.csa.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ValidationUtils;
 
 import com.sadss.csa.dao.VariableDAO;
-//import com.sadss.csa.dao.VariableDAO;
 import com.sadss.csa.modelo.entidad.BitacoraVariables;
 import com.sadss.csa.modelo.entidad.Variable;
 import com.sadss.csa.modelo.generic.IOperations;
