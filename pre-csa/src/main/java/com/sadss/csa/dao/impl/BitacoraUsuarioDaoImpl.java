@@ -19,7 +19,7 @@ public class BitacoraUsuarioDaoImpl extends AbstractHibernateDao<BitacoraUsuario
 		StringBuilder queryTxt = new StringBuilder("Select new "
 				+ "com.sadss.csa.controller.beans.BitacoraUsuarioDTO(b.accion, b.fechaAccion, u.numColaborador, "
 				+ "u.nombres, u.aPaterno, u.aMaterno) "
-				+ "from BitacoraCalendario b "
+				+ "from BitacoraUsuario b "
 				+ "join b.usuario u "
 				+ "order by b.fechaAccion desc");
 		

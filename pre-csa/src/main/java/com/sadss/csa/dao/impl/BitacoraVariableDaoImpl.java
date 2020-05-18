@@ -13,8 +13,6 @@ import com.sadss.csa.modelo.entidad.BitacoraVariables;
 
 @Repository
 public class BitacoraVariableDaoImpl extends AbstractHibernateDao<BitacoraVariables> implements BitacoraVariableDAO{
-
-
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -22,7 +20,7 @@ public class BitacoraVariableDaoImpl extends AbstractHibernateDao<BitacoraVariab
 		StringBuilder queryTxt = new StringBuilder("Select new "
 				+ "com.sadss.csa.controller.beans.BitacoraVariableDTO(b.accion, b.fechaAccion , u.numColaborador, "
 				+ "u.nombres, u.aPaterno, u.aMaterno, b.justificacion) "
-				+ "from com.sadss.csa.modelo.entidad.BitacoraVariables b "
+				+ "from BitacoraVariables b "
 				+ "join b.usuario u "
 				+ "order by b.fechaAccion desc");
 		

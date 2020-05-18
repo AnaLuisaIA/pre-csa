@@ -1,11 +1,13 @@
 package com.sadss.csa.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
 
 import com.sadss.csa.dao.VariableDAO;
 import com.sadss.csa.modelo.entidad.BitacoraVariables;
@@ -15,6 +17,7 @@ import com.sadss.csa.service.BitacoraVariablesService;
 import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.VariablesService;
 import com.sadss.csa.service.generic.AbstractService;
+import com.sadss.csa.service.generic.DuplicateValidator;
 
 @Service
 public class VariablesServiceImpl  extends AbstractService<Variable> implements VariablesService{
@@ -30,8 +33,7 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 	
 	@Override
 	public void validateBeforeCreate(Variable entity, BindingResult result) {
-		// TODO Auto-generated method stub
-		
+		validateDuplicates(entity, result);
 	}
 
 	@Override
@@ -73,10 +75,22 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		bv.setUsuario(usuarioService.findByUsername(user));
 		
 		bitVariablesService.create(bv);
-
 		
 	}
-
+	
+	/**
+	 * Valida existencia de duplicados antes de guardar. Se basa en los campos:
+	 * nombre
+	 * 
+	 * @param entity
+	 * @param result
+	 */
+	private void validateDuplicates(Variable entity, BindingResult result) {
+		ArrayList<String[]> props = new ArrayList<String[]>();
+		props.add(new String[] { "nombre" });
+		DuplicateValidator<Variable> validator = new DuplicateValidator<Variable>(Variable.class, this, props);
+		ValidationUtils.invokeValidator(validator, entity, result);
+	}
 
 	
 

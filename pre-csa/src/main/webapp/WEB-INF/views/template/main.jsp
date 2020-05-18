@@ -15,7 +15,7 @@
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>
-<meta charset="utf-8" />
+<meta charset="UTF-8" />
 <title><fmt:message key="messages.title" /> | Seguros Argos
 	Bienvenido</title>
 <link href="<c:url value='/assets/global/radioButton/radio.css'/>"

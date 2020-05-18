@@ -15,7 +15,9 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 	private String nombre;
 	private String descripcion;
 	private BigDecimal valor;
+	
 	private Date fechaAplicacion;
+	
 	private TipoVariable tipo;
 	private Boolean estado;
 

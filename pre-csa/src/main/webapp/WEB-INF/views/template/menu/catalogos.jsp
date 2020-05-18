@@ -12,11 +12,11 @@
 	<ul class="sub-menu">
 
 		<li id="variablesMenu"><a
-			href="<c:url value='variables/IMSS-INFONAVIT'/>"> <i
+			href="<c:url value='/variables/'/>"> <i
 				class="fa fa-list-alt"></i> Variables IMSS INFONAVIT
 		</a></li>
 
-		<li id="tasasMenu"><a href="<c:url value='/usuarios/'/>"> <i
+		<li id="tasasMenu"><a href="<c:url value='/tasas/'/>"> <i
 				class="fa fa-list-alt"></i> Tasas Sobre Nómina
 		</a></li>
 

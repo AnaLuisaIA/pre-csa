@@ -38,7 +38,7 @@
 	        	<li id="bitacoraMenu">
 	            	<a href="<c:url value='/bitacora/'/>">
 	                	<i class="fa fa-list-alt"></i>
-	                    	Bitacora del sistema </a>
+	                    	Bitácora del sistema </a>
 	            </li>
 	
 	        </ul>

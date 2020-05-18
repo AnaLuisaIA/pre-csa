@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -24,19 +24,28 @@
 			href="<c:url value='/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css'/>"
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
+
 	<tiles:putAttribute name="title">
 		<c:if test="${empty variable.id}">
 			Alta de Variables IMSS/INFONAVIT
 		</c:if>
 		<c:if test="${not empty variable.id}">
-			Edición de Variables IMSS/INFONAVIT
+			EdiciÃ³n de Variables IMSS/INFONAVIT
 		</c:if>
 	</tiles:putAttribute>
 
-	<!-- Menu de navegación -->
+	<!-- Menu de navegaciÃ³n -->
 	<tiles:putAttribute name="nav">
-		<li><a href='<c:url value="/usuarios/"/>'>Alta</a> <i
-			class="fa fa-angle-right"></i></li>
+		<li><a href='<c:url value="/variables/"/>'>Variables IMSS e
+				INFONAVIT</a> <i class="fa fa-angle-right"></i></li>
+		<c:if test="${empty variable.id}">
+			<li><a href='<c:url value="/variables/alta"/>'>Alta</a> <i
+				class="fa fa-angle-right"></i></li>
+		</c:if>
+		<c:if test="${not empty variable.id}">
+			<li><a href='<c:url value="/variables/editar?id=${variable.id}"/>'>EdiciÃ³n</a> <i
+				class="fa fa-angle-right"></i></li>
+		</c:if>
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
@@ -49,7 +58,7 @@
 						<div class="caption">
 							<h3>
 								<c:if test="${empty variable.id}">Alta de Variables IMSS/INFONAVIT | </c:if>
-								<c:if test="${not empty variable.id}">Edición Variables IMSS/INFONAVIT | </c:if>
+								<c:if test="${not empty variable.id}">EdiciÃ³n Variables IMSS/INFONAVIT | </c:if>
 								<small class="form-text form-muted"> Los campos con *
 									son obligatorios</small>
 							</h3>
@@ -62,51 +71,66 @@
 					<div class="portlet-body form">
 						<!-- Comienza formulario para registro de variables-->
 						<form:form id="saveVariable" action="save" method="POST"
-							modelAttribute="variable" rol="form">
+							modelAttribute="variable">
 
 							<div class="form-body">
 
-								<!-- Mensaje de error, validación backend -->
+								<!-- Mensaje de error, validaciÃ³n backend -->
+								<spring:hasBindErrors name="variable">
+									<div class="alert alert-danger" style="display: block;">
+										<button class="close" data-close="alert"></button>
+										<p>ERROR: Favor de verificar campos</p>
+									</div>
+								</spring:hasBindErrors>
+
 								<!-- Bloques de campos de formulario a llenar -->
 								<form:hidden path="id" />
 								<div class="row">
 									<div class="col-md-4">
-									<c:if test="${empty variable.id}"><input id="estado" name="estado" type="hidden" value="${1}" /></c:if>
+										<c:if test="${empty variable.id}">
+											<input id="estado" name="estado" type="hidden" value="${1}" />
+										</c:if>
 										<c:if test="${not empty variable.id}">
-										<c:choose>
+											<c:choose>
 												<c:when test="${variable.estado == true}">
 													<input id="estado" name="estado" type="hidden" value="${1}" />
 												</c:when>
 												<c:otherwise>
-											 	<input id="estado" name="estado" type="hidden" value="${0}" />
+													<input id="estado" name="estado" type="hidden" value="${0}" />
 												</c:otherwise>
 											</c:choose>
 										</c:if>
+
+										<spring:bind path="variable.nombre">
+											<div class="form-group ${status.error ? 'has-error' : ''}">
+												<label for="nombre">Variable: *</label>
+												<form:input path="nombre" class="form-control"
+													placeholder="Nombre de la variable" />
+												<form:errors path="nombre" class="help-block"></form:errors>
+											</div>
+										</spring:bind>
+
+									</div>
+									<div class="col-md-5">
 										<div class="form-group">
-											<label for="variable">Variable: *</label>
-											<form:input path="nombre" name="nombre" class="form-control"
-												placeholder="Ingrese el nombre de la variable" />
+											<label for="descripcion">DescripciÃ³n: *</label>
+											<form:input path="descripcion" name="descripcion" type="text"
+												class="form-control" placeholder="Ingrese una descripciÃ³n" />
 										</div>
 									</div>
-									<div class="col-md-4">
-										<div class="form-group">
-											<label for="descripcion">Descripción: *</label>
-											<form:input path="descripcion" name="descripcion"
-												class="form-control" placeholder="Ingrese una descripción" />
-										</div>
-									</div>
-									<div class="col-md-4">
+									<div class="col-md-3">
 										<div class="form-group">
 											<label for="valor">Valor: *</label>
 											<form:input path="valor" name="valor" class="form-control"
-												placeholder="Ingrese una descripción" />
+												step="0.000001" type="number" />
 										</div>
 									</div>
 								</div>
+
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
-											<label for="fechaA">Fecha Aplicación: *</label>
+											<label for="fechaA">Fecha de AplicaciÃ³n: *</label>
 
 											<div class="input-group input-medium date date-picker"
 												data-date-format="dd/mm/yyyy" data-date-end-date="0d">
@@ -116,38 +140,35 @@
 													</button>
 												</span>
 												<form:input path="fechaAplicacion" type="text"
-													class="form-control" readonly="true" maxlenght="10" />
+													class="form-control" maxlenght="10" readonly="true" />
 											</div>
 										</div>
 									</div>
 
 									<div class="col-md-4">
 										<div class="form-group">
-											<div class="form-group">
-												<spring:bind path="variable.tipo">
-													<div class="form-group">
-														<label for="tipos">Tipo: *</label>
-														<form:select path="tipo" required="true"
-															class="form-control" id="tipos">
-															<form:option value="">Selecciona Un Tipo</form:option>
-															<form:options items="${tipovariable}"></form:options>
-														</form:select>
-														<form:errors path="tipo" class="help-block"></form:errors>
-													</div>
-												</spring:bind>
-											</div>
-
+											<label for="tipos">Tipo de Variable: *</label>
+											<form:select path="tipo" class="form-control"
+												name="fecha_var" required="true">
+												<form:option value=""></form:option>
+												<form:options items="${tipovariable}"></form:options>
+											</form:select>
 										</div>
 									</div>
 								</div>
 
 							</div>
+
 							<div class="form-actions">
-							<c:if test="${empty variable.id}"><button type="submit" class="btn btn-primary"
-												id="btnGuardarVariable">Guardar</button> </c:if>
-								<c:if test="${not empty variable.id}"><button type="submit" class="btn btn-primary"
-												id="btnActualizarVariable">Actualizar</button></c:if>
-								<a href="../variable/" id="cancelar" class="btn default">Cancelar</a>
+								<c:if test="${empty variable.id}">
+									<button type="submit" class="btn btn-primary"
+										id="btnGuardarVariable">Guardar</button>
+								</c:if>
+								<c:if test="${not empty variable.id}">
+									<button type="submit" class="btn btn-primary"
+										id="btnActualizarVariable">Actualizar</button>
+								</c:if>
+								<a href="../variables/" id="cancelar" class="btn default">Cancelar</a>
 							</div>
 							<form:hidden path="justificacion" id="justificacionSolicitudForm" />
 						</form:form>
@@ -176,12 +197,20 @@
 
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open")
-		$('#catalogosMenu').addClass("active");
+		$('#variablesMenu').addClass("active");
 		
 		$('.date-picker').datepicker({
 			autoclose: true,
 			language: 'es'
 		});
+		
+		$('#tipo').select2({
+			placeholder: "Seleccione el tipo de variable",
+			allowClear: true,
+               escapeMarkup: function (m) {
+               		return m;
+            }				 
+		});		
 		
 		$('#cancelar').click(function(e){
 			e.preventDefault();
@@ -189,7 +218,7 @@
 		
 			bootbox.setLocale('es');
 			bootbox.confirm({
-				message: "No se guardará información de la Variable. ¿Desea Cancelar?",
+				message: "No se guardarÃ¡ informaciÃ³n de la Variable. Â¿Desea Cancelar?",
 				callback: function(result){
 					if(result){
 						window.location.href = linkRedireccion;
@@ -201,47 +230,34 @@
 		$('#btnGuardarVariable').click(function(e) {
         	e.preventDefault();
 			mensaje = '';
-			
-		    if ($("#es_colaborador").val() == '1') {	
-		        if($("#inputNumColaborador").val() === ''){
-		        	mensaje+= "El campo de <strong>Colaborador</strong> está vacío.<br>"
-		        };
-		    }
-		    else {
 		    
 		    	if($("#nombre").val() == ''){
-		    		mensaje+= "El campo de <strong>Variable</strong> está vacío.<br>"
+		    		mensaje+= "El campo de <strong>Variable</strong> estÃ¡ vacÃ­o.<br>"
 		    	};
 		    	
 		    	if($("#descripcion").val() == ''){
-		    		mensaje+= "El campo de <strong>Descripcion</strong> está vacío.<br>"
+		    		mensaje+= "El campo de <strong>Descripcion</strong> estÃ¡ vacÃ­o.<br>"
 		    	};
 		    	
 		    	if($("#valor").val() == ''){
-		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    		mensaje+= "El campo de <strong>Valor</strong> estÃ¡ vacÃ­o.<br>"
 		    	};
 		    	
-		    	if($("#fechaAplicacion").val() == 'dd/mm/aaaa'){
-		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
+		    	if($("#fechaAplicacion").val() == ''){
+		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> estÃ¡ vacÃ­o.<br>"
 		    	};
 		    	
 		    	if($("#tipo").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo</strong> está vacío.<br>"
+		    		mensaje+= "El campo de <strong>Tipo</strong> estÃ¡ vacÃ­o.<br>"
 		    	};
 
-		
-		    }
-		    
-		   	if($("#inputRolFV").val() == ''){
-		    	mensaje+= "El campo de <strong>Rol asignado</strong> está vacío.<br>"
-		    };
 			
 			if(mensaje != ''){
 				bootbox.alert(mensaje);
 			} else {
 		        bootbox.confirm({
-		        	title: "Resgitar Variable",
-			        message: "¿Está seguro de que desea continuar?",
+		        	title: "Registrar Variable",
+			        message: "Â¿EstÃ¡ seguro de que desea continuar?",
 			        buttons: {
 			        	cancel: {
 				            label: '<i class="fa fa-times"></i> Regresar'
@@ -263,13 +279,7 @@
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">
-		<div class="page-footer-inner">
-			2019 &copy; <a href="http://www.segurosargos.com/"
-				title="Seguros Argos" target="_blank">Seguros Argos</a>
-		</div>
-		<div class="scroll-to-top">
-			<i class="icon-arrow-up"></i>
-		</div>
+		<c:import url="/WEB-INF/views/template/footer.jsp"></c:import>
 	</tiles:putAttribute>
 
 </tiles:insertDefinition>
