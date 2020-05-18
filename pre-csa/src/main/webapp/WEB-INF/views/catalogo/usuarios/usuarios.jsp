@@ -45,21 +45,24 @@
 							class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th >Nombre de Usuario</th>
+									<th>Nombre de Usuario</th>
 									<th >Estado</th>
-									<th >Nombre Completo</th>
+									<th >Nombre Completo</th>									
 									<th >Editar</th>
 								</tr>
 							</thead>
 							<tbody>
-								<!--<c:forEach var="c" items="${correos}">
+								<c:forEach var="u" items="${usuario}">
 									<tr>
-										<td>${c.actividad.label}</td>
-										<td>${c.asunto}</td>
-										<td><a href="editar?id=${c.id}" class="btn btn-primary btn-small">
-												<i class="fa fa-edit"></i></a></td>
+									<td>${u.numColaborador}</td>
+									<td><c:choose>
+											<c:when test="${u.estado == true}">Activo</c:when>
+											<c:otherwise>Inactivo</c:otherwise>
+										</c:choose></td>
+										<td>${u.nombres} ${u.aPaterno} ${u.aMaterno}</td>
+										<td><a href="editar?id=${t.id}" class="btn btn-primary btn-small"> <i class="fa fa-edit"></i></a></td>
 									</tr>
-								</c:forEach>-->
+								</c:forEach>
 							</tbody>
 
 						</table>
