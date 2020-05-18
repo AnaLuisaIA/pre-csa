@@ -128,7 +128,7 @@ public class VariablesController {
 			map.put("succmsg", "Se creó correctamente el registro la Variable");
 		}else {
 			modelo.setFechaAplicacion(new Date());
-			variablesService.registrarAccionBitacora("Modifico la variable: " +variable.getNombre() ,new Date() ,"--------", colaborador);
+			variablesService.registrarAccionBitacora("Modifico la variable " +variable.getNombre() ,new Date() ,"--------", colaborador);
 			this.variablesService.update(modelo);
 			map.put("succmsg", "Se actualizo correctamente la Variable");
 		}
