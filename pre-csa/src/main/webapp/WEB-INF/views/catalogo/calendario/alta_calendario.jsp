@@ -27,7 +27,7 @@
 							<i class="fa fa-file"></i>Cargar Calendario ISN
 						</div>
 						<div class="actions">
-							<a class="btn default btn-sm"
+							<a class="btn default btn-sm green-stripe"
 								href="<c:url value='/calendario/layout'/>"><i
 								class="fa fa-arrow-circle-o-down"></i> Descargar Layout</a>
 						</div>

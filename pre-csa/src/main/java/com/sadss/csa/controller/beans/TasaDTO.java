@@ -3,13 +3,7 @@ package com.sadss.csa.controller.beans;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.sadss.csa.util.enums.TipoNomina;
-import com.sadss.csa.util.enums.TipoVariable;
 import com.sadss.csa.util.enums.TipoVariableTasa;
 
 public class TasaDTO {

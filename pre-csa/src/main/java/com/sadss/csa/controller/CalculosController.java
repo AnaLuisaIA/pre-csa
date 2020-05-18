@@ -22,4 +22,5 @@ public class CalculosController {
 	public String calculoIMSS(ModelMap model) {
 		return "calculos/prueba";
 	}
+
 }

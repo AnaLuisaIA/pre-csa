@@ -178,7 +178,7 @@
 		
 			bootbox.setLocale('es');
 			bootbox.confirm({
-				message: "No se guardará información del usuario. ¿Cancelar?",
+				message: "No se guardarán los cambios en el sistema. ¿Cancelar?",
 				callback: function(result){
 					if(result){
 						window.location.href = linkRedireccion;

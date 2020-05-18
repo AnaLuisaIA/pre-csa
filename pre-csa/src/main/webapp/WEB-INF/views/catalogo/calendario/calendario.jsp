@@ -41,7 +41,7 @@
 							<i class="fa fa-calendar"></i>Catálogo de Calendarios ISN
 						</div>
 						<div class="actions">
-							<a class="btn default btn-sm"
+							<a class="btn default btn-sm green-stripe"
 								href="<c:url value='/calendario/agregar'/>"><i
 								class="fa fa-plus"></i> Agregar Calendario</a>
 						</div>

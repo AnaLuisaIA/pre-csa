@@ -1,14 +1,11 @@
 package com.sadss.csa.service.impl;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import com.sadss.csa.controller.beans.BitacoraCalendarioDTO;
 import com.sadss.csa.controller.beans.BitacoraVariableDTO;
 import com.sadss.csa.dao.BitacoraVariableDAO;
 import com.sadss.csa.modelo.entidad.BitacoraVariables;
