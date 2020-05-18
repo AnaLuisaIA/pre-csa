@@ -75,8 +75,5 @@ public class VariablesDTO {
 		this.estado = estado;
 	}
 	
-	
-	
-	
 
 }

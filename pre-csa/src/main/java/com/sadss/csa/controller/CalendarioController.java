@@ -56,6 +56,7 @@ public class CalendarioController {
 	public String verCalendarios(ModelMap model) {
 
 		feedDetalles(model);
+		
 		model.addAttribute("buscarCalendario", new BusquedaCalendarioForm());
 
 		return "catalogo/calendario/calendario";

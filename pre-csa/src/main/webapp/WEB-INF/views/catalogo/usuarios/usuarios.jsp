@@ -48,13 +48,14 @@
 							class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>Número de Colaborador</th>
-									<th>Estado</th>
-									<th>Nombre Completo</th>
-									<th>Editar</th>
+									<th>Nombre de Usuario</th>
+									<th >Estado</th>
+									<th >Nombre Completo</th>									
+									<th >Editar</th>
 								</tr>
 							</thead>
 							<tbody>
+
 								<c:forEach var="u" items="${usuarios}">
 									<tr>
 										<td>${u.numColaborador}</td>

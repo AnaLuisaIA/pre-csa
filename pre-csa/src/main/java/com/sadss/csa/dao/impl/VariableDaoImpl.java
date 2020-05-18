@@ -33,18 +33,26 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		return query.list();
 	}
 
-	
 	/*
-	 * Metodo para Modificar estado activo
+	 *Metodo Modificar Estado 
 	 * */
 	@Override
-	 public Variable updateVariable(int id) {
-	            // save the student object
-	            String hql = "UPDATE variable SET estado = 0 WHERE id = :id;";
-	            Query query =  getCurrentSession().createQuery(hql);
-	            query.setParameter("id", id);
-	            int result = query.executeUpdate();
-	            System.out.println("Rows affected: " + result);
-				return Variable.class.cast(result);
-	    }
+	public Variable updateVariable(int id) {
+        /**String hql = "UPDATE com.sadss.csa.modelo.entidad.Variable SET estado = 0 WHERE id = :id";
+        Query query =  getCurrentSession().createQuery(hql);
+        query.setParameter("id", id);
+        int result = query.executeUpdate();
+        System.out.println("Rows affected: " + result);
+        
+        query.list().get(0);**/
+        
+		return null;
+		
+		
+	}
+	
 }
+
+	
+	
+

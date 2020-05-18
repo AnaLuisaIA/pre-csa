@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/main/webapp/WEB-INF/views=UTF-8
 encoding//src/main/webapp/WEB-INF/views/calculos/consultasII.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/catalogo/calendario/calendario.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/catalogo/variables/IMSS-INFONAVIT.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/home.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/template/footer.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/template/loginbar.jsp=UTF-8

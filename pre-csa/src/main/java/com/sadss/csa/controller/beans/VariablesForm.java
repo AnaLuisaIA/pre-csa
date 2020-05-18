@@ -23,13 +23,21 @@ public class VariablesForm extends GenericForm<VariablesForm, Variable>{
 	@NotEmpty
 	@Size(max = 100)
 	private String nombre;
-	
 	private String descripcion;
 	private BigDecimal valor;
 	private Date fechaAplicacion;
 	private TipoVariable tipo;
 	private Boolean estado;
 	
+	private String justificacion;
+	
+	public String getJustificacion() {
+		return justificacion;
+	}
+
+	public void setJustificacion(String justificacion) {
+		this.justificacion = justificacion;
+	}
 	SimpleDateFormat sd =new SimpleDateFormat();
 	
 	public VariablesForm() {

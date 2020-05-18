@@ -28,10 +28,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sadss.csa.controller.beans.BitacoraCalendarioDTO;
+import com.sadss.csa.controller.beans.BitacoraVariableDTO;
+import com.sadss.csa.controller.beans.BitacoraVariablesForm;
+import com.sadss.csa.controller.beans.BusquedaCalendarioForm;
 import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
+import com.sadss.csa.modelo.entidad.BitacoraVariables;
 import com.sadss.csa.modelo.entidad.Usuario;
 import com.sadss.csa.modelo.entidad.Variable;
+import com.sadss.csa.service.BitacoraVariablesService;
 import com.sadss.csa.service.VariablesService;
 import com.sadss.csa.util.SecurityUtils;
 import com.sadss.csa.util.enums.TipoVariable;
@@ -44,7 +50,10 @@ public class VariablesController {
 	@Autowired
 	private VariablesService variablesService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	@Autowired
+	private BitacoraVariablesService bcService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(VariablesController.class);
 	/**
 	 * Método principal
 	 * @param model
@@ -53,7 +62,8 @@ public class VariablesController {
 	 */
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String variableshome(ModelMap model, Principal principal) {
+	public String variableshome(ModelMap model) {
+		feedDetalles(model);
 		agregarLista(model);
 		return "catalogo/variables/IMSS-INFONAVIT";
 	}
@@ -74,7 +84,6 @@ public class VariablesController {
 	 * */
 	private void agregarLista(ModelMap model) {
 		List<Variable> variable = variablesService.findAll();
-		System.out.println("Lista:" + variable);
 		model.put("variable", variable);
 	}
 	
@@ -85,7 +94,6 @@ public class VariablesController {
 	public ModelAndView agregarVarible(@Valid @ModelAttribute("variable") 
 	VariablesForm variable, BindingResult result,HttpServletRequest request, RedirectAttributes ra) 
 			throws ParseException {
-		
 		ModelMap map = new ModelMap();
 		
 		//Validar Formulario
@@ -95,7 +103,7 @@ public class VariablesController {
 			return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT",map);
 		}
 		
-		String nombreUsuario = SecurityUtils.getCurrentUser();
+		String colaborador = SecurityUtils.getCurrentUser();
 		
 		variable.setNombre(variable.getNombre().toUpperCase());
 		
@@ -110,16 +118,17 @@ public class VariablesController {
 			System.out.println("Existen errores: " + result.getAllErrors());
 			return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT",map);
 		}
-		
 		//Agregar a la Base de Datos
 		if(modelo.getId() == null) {
 			//Agregar codigo de bitacora
 			//modelo.setFechaAplicacion(new Date());
 			System.out.println("Fecha: "+ variable.getFechaAplicacion());
+			variablesService.registrarAccionBitacora("Registro variable "+variable.getNombre() ,new Date() ,"-------", colaborador);
 			this.variablesService.create(modelo);
 			map.put("succmsg", "Se creó correctamente el registro la Variable");
 		}else {
 			modelo.setFechaAplicacion(new Date());
+			variablesService.registrarAccionBitacora("Modifico la variable " +variable.getNombre() ,new Date() ,"--------", colaborador);
 			this.variablesService.update(modelo);
 			map.put("succmsg", "Se actualizo correctamente la Variable");
 		}
@@ -155,14 +164,24 @@ public class VariablesController {
 	 * Método para eliminar una variable
 	 * */
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deletePagos(@RequestParam("id") int id) {
+	public String deleteVariable( @ModelAttribute("variable") @RequestParam("id") int id,@RequestParam("justificacionIMSSForm") String justificacionIMSSForm,RedirectAttributes ra, VariablesForm vf) {
+		Variable var  = variablesService.findOne(id);
+		
+		var.setNombre(var.getNombre());
+		String colaborador = SecurityUtils.getCurrentUser();
+		System.out.println("justificacion " +justificacionIMSSForm);
+		//Registramos en bitácora la eliminación
+		variablesService.registrarAccionBitacora("Variable Eliminada "+ var.getNombre() ,new Date() , justificacionIMSSForm , colaborador);
+		//Eliminamos variable
 		variablesService.deleteById(id);
+		
+		ra.addFlashAttribute("succmsg", "La variable a sido eliminada con exito");
 		return "redirect:/variable/";
 	}
 	
 	/*
 	 * Método para editar  una Variable
-	 * @param id (id del rol)
+	 * @param id (id de la variable)
 	 * @param model (Modeo vacío)
 	 *
 	 * */
@@ -181,21 +200,33 @@ public class VariablesController {
 	}
 	
 	/*
-	 * Método para editar  una Variable
-	 * @param id (id del rol)
+	 * Método para editar  el estado de Variable
+	 * @param id (id de la variable)
 	 * @param model (Modeo vacío)
 	 *
 	 * */
 	@RequestMapping(value = "/editarEstado", method = RequestMethod.GET)
-	public String editarEstadoVariable(@RequestParam(required =  true) Integer id, ModelMap model) {
+	public String editarEstadoVariable(@RequestParam(required =  true) int id,@RequestParam("justificacionIMSSForm") String justificacionIMSSForm ,ModelMap model, RedirectAttributes ra, VariablesForm vf) {
+		ModelMap map = new ModelMap();
+		Variable var  = variablesService.findOne(id);
+		var.setEstado(!var.getEstado());
+		variablesService.update(var);
+		String colaborador = SecurityUtils.getCurrentUser();
 		Variable variable = variablesService.updateVariable(id);
-		if(variable == null) {
-			return "catalogo/variables/IMSS-INFONAVIT";
-		}
-		
+		//agregar cambio a bitácora sin justificación
+		variablesService.registrarAccionBitacora("Modifico el estado de la Variable " + var.getNombre() ,new Date() ,justificacionIMSSForm, colaborador);
+		//enviar mensaje de que la variable está habilitada
+		ra.addFlashAttribute("succmsg","Se cambio correctamente el estado de la Variable");
 		VariablesForm variableForm = (new VariablesForm().fromOrmModel(variable, VariablesForm.class));
-		model.addAttribute("variable",variableForm);
-		agregarInformacion(model);
 		return "redirect:/variable/";
 	}
+	
+	/*
+	 * Consulta bitacora
+	 * */
+	public void feedDetalles(ModelMap model) {
+		List<BitacoraVariableDTO> acciones = bcService.getRegistros();
+		model.put("acciones", acciones);
+	}
+
 }
