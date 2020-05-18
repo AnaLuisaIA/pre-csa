@@ -2,7 +2,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-	<%@page pageEncoding="UTF-8"%>
+<%@page pageEncoding="UTF-8"%>
 
 <li id="calculosMain"><a href="javascript:;"> <i
 		class="icon-calculator"></i> <span class="title">Cálculos</span> <span
@@ -11,12 +11,17 @@
 
 	<ul class="sub-menu">
 
+<<<<<<< HEAD
 		<li id="calculoMenu"><a href="<c:url value='/calculos/'/>"> <i
 				class="fa fa-calculator"> </i> Cálculos
 
 		<li id="calculosMenu"><a href="<c:url value='/calculos/'/>"> <i
 				class="fa fa-calculator"> </i> Realizar cálculos
 
+=======
+		<li id="calculosMenu"><a href="<c:url value='/calculos/'/>">
+				<i class="fa fa-calculator"> </i> Realizar cálculos
+>>>>>>> d38ddb308954a4ace6bcf47df6afd8969673584e
 		</a></li>
 		<li id="consultaIMSS"><a href="<c:url value='/imss/'/>"> <i
 				class="fa fa-search"></i> Consulta Cálculos IMSS e INFONAVIT

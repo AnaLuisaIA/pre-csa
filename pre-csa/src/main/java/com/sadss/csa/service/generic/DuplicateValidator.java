@@ -58,7 +58,7 @@ public class DuplicateValidator<T extends Serializable> implements Validator {
 				errorArgs[i] = new DefaultMessageSourceResolvable(errors.getObjectName() + "." + props[i]);  
 			}
 			if(count > 0){
-				errors.rejectValue(props[0], "DuplicateEntry", errorArgs, "Existe un registro con las mismas propiedades. Verificar.");
+				errors.rejectValue(props[0], "DuplicateEntry", errorArgs, "El registro ya existe en la base de datos. Favor de verificar.");
 			}
 		}		
 		
