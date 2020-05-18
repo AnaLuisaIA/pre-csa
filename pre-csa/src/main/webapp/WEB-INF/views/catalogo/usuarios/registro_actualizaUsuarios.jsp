@@ -13,10 +13,10 @@
 	</tiles:putAttribute>
 	<tiles:putAttribute name="title">
 		<c:if test="${empty usuario.id}">
-			Alta de Rol
+			Alta de Usuario
 		</c:if>
 		<c:if test="${not empty usuario.id}">
-			Edición de Rol
+			Edición de Usuario
 		</c:if>
 	</tiles:putAttribute>
 
@@ -30,7 +30,7 @@
 				class="fa fa-angle-right"></i></li>
 		</c:if>
 		<c:if test="${not empty usuario.id}">
-			<li><a href='<c:url value="/usuarios/edita"/>'>Edición</a> <i
+			<li><a href='<c:url value="/usuarios/editar?id=${usuario.id}"/>'>Edición</a> <i
 				class="fa fa-angle-right"></i></li>
 		</c:if>
 	</tiles:putAttribute>

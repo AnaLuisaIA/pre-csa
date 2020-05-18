@@ -56,6 +56,7 @@
 		<!-- Mapeo de recursos CSA MySQL -->
 		<beans:value>com/csa/dao/orm/Bitacora.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/BitacoraCalendario.hbm.xml</beans:value>
+		<beans:value>com/csa/dao/orm/BitacoraUsuario.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/BitacoraTasas.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/BitacoraVariables.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/CalculoIMSS.hbm.xml</beans:value>

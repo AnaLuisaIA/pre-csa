@@ -1,5 +1,6 @@
 package com.sadss.csa.service;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,4 +31,12 @@ public interface UsuarioService extends CrudService<Usuario>{
 	 */
 	@Transactional(readOnly = true)
 	public Usuario findByUsername(String username);
+	
+	/**
+	 * Se registra en la bitácora de Calendario al acción realizada
+	 * @param accion Descripción de la acción
+	 * @param fecha Fecha y hora en la que se realizó la acción
+	 * @param user Colaborador que realizó la acción
+	 */
+	public void registrarAccionBitacora(String accion, Date fecha, String user);
 }

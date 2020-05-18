@@ -1,6 +1,7 @@
 package com.sadss.csa.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 
+import com.sadss.csa.modelo.entidad.BitacoraUsuario;
 import com.sadss.csa.modelo.entidad.Usuario;
 import com.sadss.csa.modelo.generic.IOperations;
+import com.sadss.csa.service.BitacoraUsuarioService;
 import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.generic.AbstractService;
 import com.segurosargos.crece.api.ColaboradorDAO;
@@ -28,6 +31,9 @@ public class UsuarioServiceImpl extends AbstractService<Usuario> implements Usua
 
 	@Resource
 	private ColaboradorDAO colaboradorDAO;
+	
+	@Autowired
+	private BitacoraUsuarioService bitUsuarioService;
 
 	@Override
 	public void validateBeforeCreate(Usuario entity, BindingResult result) {
@@ -96,6 +102,17 @@ public class UsuarioServiceImpl extends AbstractService<Usuario> implements Usua
 		props.add(new String[] { "numColaborador" });
 		DuplicateValidator<Usuario> validator = new DuplicateValidator<Usuario>(Usuario.class, this, props);
 		ValidationUtils.invokeValidator(validator, entity, result);
+	}
+
+	@Override
+	public void registrarAccionBitacora(String accion, Date fecha, String user) {
+		BitacoraUsuario bu = new BitacoraUsuario();
+		bu.setAccion(accion);
+		bu.setFechaAccion(fecha);
+		bu.setUsuario(this.dao.findByUsername(user));
+		
+		bitUsuarioService.create(bu);
+		
 	}
 
 }

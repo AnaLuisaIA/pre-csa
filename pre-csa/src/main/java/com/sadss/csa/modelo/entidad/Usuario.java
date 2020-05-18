@@ -23,6 +23,7 @@ public class Usuario extends GenericModel<Usuario> implements Serializable {
 	private Set<BitacoraCalendario> accionesCalendario = new HashSet<BitacoraCalendario>();
 	private Set<BitacoraTasas> accionesTasas = new HashSet<BitacoraTasas>();
 	private Set<BitacoraVariables> accionesVariables = new HashSet<BitacoraVariables>();
+	private Set<BitacoraCalendario> accionesUsuario = new HashSet<BitacoraCalendario>();
 
 	public Integer getId() {
 		return id;
@@ -110,6 +111,14 @@ public class Usuario extends GenericModel<Usuario> implements Serializable {
 
 	public void setPermisos(Set<String> permisos) {
 		this.permisos = permisos;
+	}
+
+	public Set<BitacoraCalendario> getAccionesUsuario() {
+		return accionesUsuario;
+	}
+
+	public void setAccionesUsuario(Set<BitacoraCalendario> accionesUsuario) {
+		this.accionesUsuario = accionesUsuario;
 	}
 
 }

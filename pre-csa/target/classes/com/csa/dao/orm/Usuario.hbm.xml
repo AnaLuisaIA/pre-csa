@@ -70,6 +70,13 @@
 				class="com.sadss.csa.modelo.entidad.Bitacora" />
 		</set>
 
+		<set name="accionesUsuario" table="bitacora_usuario"
+			inverse="true">
+			<key column="idUsuario"></key>
+			<one-to-many
+				class="com.sadss.csa.modelo.entidad.BitacoraUsuario" />
+		</set>
+
 	</class>
 
 </hibernate-mapping>
