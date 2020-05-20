@@ -71,21 +71,31 @@
 								<form:hidden path="id" />
 								<div class="row">
 									<div class="col-md-4">
-									<c:if test="${empty variable.id}"><input id="estado" name="estado" type="hidden" value="${1}" /></c:if>
+										<c:if test="${empty variable.id}">
+											<input id="estado" name="estado" type="hidden" value="${1}" />
+										</c:if>
 										<c:if test="${not empty variable.id}">
-										<c:choose>
+											<c:choose>
 												<c:when test="${variable.estado == true}">
 													<input id="estado" name="estado" type="hidden" value="${1}" />
 												</c:when>
 												<c:otherwise>
-											 	<input id="estado" name="estado" type="hidden" value="${0}" />
+													<input id="estado" name="estado" type="hidden" value="${0}" />
 												</c:otherwise>
 											</c:choose>
 										</c:if>
 										<div class="form-group">
 											<label for="variable">Variable: *</label>
-											<form:input path="nombre" name="nombre" class="form-control"
-												placeholder="Ingrese el nombre de la variable" />
+											<c:if test="${empty variable.id}">
+												<form:input path="nombre" name="nombre" class="form-control"
+													placeholder="Ingrese el nombre de la variable" />
+											</c:if>
+											<c:if test="${not empty variable.id}">
+												<form:input path="nombre" name="nombre" readonly="true"
+													class="form-control"
+													placeholder="Ingrese el nombre de la variable" />
+											</c:if>
+
 										</div>
 									</div>
 									<div class="col-md-4">
@@ -143,10 +153,14 @@
 
 							</div>
 							<div class="form-actions">
-							<c:if test="${empty variable.id}"><button type="submit" class="btn btn-primary"
-												id="btnGuardarVariable">Guardar</button> </c:if>
-								<c:if test="${not empty variable.id}"><button type="submit" class="btn btn-primary"
-												id="btnActualizarVariable">Actualizar</button></c:if>
+								<c:if test="${empty variable.id}">
+									<button type="submit" class="btn btn-primary"
+										id="btnGuardarVariable">Guardar</button>
+								</c:if>
+								<c:if test="${not empty variable.id}">
+									<button type="submit" class="btn btn-primary"
+										id="btnActualizarVariable">Actualizar</button>
+								</c:if>
 								<a href="../variable/" id="cancelar" class="btn default">Cancelar</a>
 							</div>
 							<form:hidden path="justificacion" id="justificacionSolicitudForm" />
@@ -198,10 +212,10 @@
 			});
 		});
 		
-		$('#btnGuardarVariable').click(function(e) {
+$('#btnGuardarVariable').click(function(e) {
         	e.preventDefault();
 			mensaje = '';
-			
+			 
 		    if ($("#es_colaborador").val() == '1') {	
 		        if($("#inputNumColaborador").val() === ''){
 		        	mensaje+= "El campo de <strong>Colaborador</strong> está vacío.<br>"
@@ -209,38 +223,33 @@
 		    }
 		    else {
 		    
+
 		    	if($("#nombre").val() == ''){
-		    		mensaje+= "El campo de <strong>Variable</strong> está vacío.<br>"
+		    		mensaje+= "El campo de <strong>estado</strong> está vacío.<br>"
 		    	};
 		    	
 		    	if($("#descripcion").val() == ''){
-		    		mensaje+= "El campo de <strong>Descripcion</strong> está vacío.<br>"
+		    		mensaje+= "El campo de <strong>Tipo Nomina</strong> está vacío.<br>"
 		    	};
 		    	
 		    	if($("#valor").val() == ''){
-		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    		mensaje+= "El campo de <strong>Tipo Variable</strong> está vacío.<br>"
 		    	};
 		    	
-		    	if($("#fechaAplicacion").val() == 'dd/mm/aaaa'){
+		    	if($("#fechaAplicacion").val() == ''){
 		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
 		    	};
 		    	
 		    	if($("#tipo").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo</strong> está vacío.<br>"
+		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
 		    	};
+}
 
-		
-		    }
-		    
-		   	if($("#inputRolFV").val() == ''){
-		    	mensaje+= "El campo de <strong>Rol asignado</strong> está vacío.<br>"
-		    };
-			
 			if(mensaje != ''){
 				bootbox.alert(mensaje);
 			} else {
 		        bootbox.confirm({
-		        	title: "Resgitar Variable",
+		        	title: "Registrar Variable",
 			        message: "¿Está seguro de que desea continuar?",
 			        buttons: {
 			        	cancel: {
@@ -251,8 +260,23 @@
 				        }
 			        },	   
 			        callback: function(result){
-				        if(result){				   
-			       			$('#saveVariable').submit();
+				     if(result){	
+				        		bootbox.prompt({
+				    title: "Escriba Justificacion",
+				    inputType: 'textarea',
+				    callback: function (result) {
+				    	if(result != null && result != ""){
+					     $('#justificacionSolicitudForm').val(result);
+					       $('#saveVariable').submit();
+					    } else if(result === "") {
+					    	bootbox.alert({
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
+							});
+					    }
+				    }
+				});			   
+			       			
 		        		}
 		        	}
 		        });
@@ -260,6 +284,77 @@
 
         });
         
+    $('#btnActualizarVariable').click(function(e) {
+        	e.preventDefault();
+			mensaje = '';
+			 
+		    if ($("#es_colaborador").val() == '1') {	
+		        if($("#inputNumColaborador").val() === ''){
+		        	mensaje+= "El campo de <strong>Colaborador</strong> está vacío.<br>"
+		        };
+		    }
+		    else {
+		    
+
+		    	if($("#nombre").val() == ''){
+		    		mensaje+= "El campo de <strong>estado</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#descripcion").val() == ''){
+		    		mensaje+= "El campo de <strong>Tipo Nomina</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#valor").val() == ''){
+		    		mensaje+= "El campo de <strong>Tipo Variable</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#fechaAplicacion").val() == ''){
+		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#tipo").val() == ''){
+		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    	};
+}
+
+			if(mensaje != ''){
+				bootbox.alert(mensaje);
+			} else {
+		        bootbox.confirm({
+		        	title: "Actualizar Variable",
+			        message: "¿Está seguro de que desea continuar?",
+			        buttons: {
+			        	cancel: {
+				            label: '<i class="fa fa-times"></i> Regresar'
+				        },
+				        confirm: {
+				            label: '<i class="fa fa-check"></i> Confirmar'
+				        }
+			        },	   
+			        callback: function(result){
+				     if(result){	
+				        		bootbox.prompt({
+				    title: "Escriba Justificacion",
+				    inputType: 'textarea',
+				    callback: function (result) {
+				    	if(result != null && result != ""){
+					     $('#justificacionSolicitudForm').val(result);
+					       $('#saveVariable').submit();
+					    } else if(result === "") {
+					    	bootbox.alert({
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
+							});
+					    }
+				    }
+				});			   
+			       			
+		        		}
+		        	}
+		        });
+			}
+
+        });
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">

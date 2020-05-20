@@ -26,8 +26,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sadss.csa.controller.beans.BitacoraTasaDTO;
 import com.sadss.csa.controller.beans.TasaForm;
+import com.sadss.csa.controller.beans.UsuarioForm;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
 import com.sadss.csa.modelo.entidad.TasaSobreNomina;
+import com.sadss.csa.modelo.entidad.Usuario;
+import com.sadss.csa.service.BitacoraSistemaService;
 import com.sadss.csa.service.BitacoraTasaService;
 import com.sadss.csa.service.TasaService;
 import com.sadss.csa.util.SecurityUtils;
@@ -46,6 +49,9 @@ public class TasaController {
 	@Autowired
 	private BitacoraTasaService btService;
 	
+	@Autowired
+	private BitacoraSistemaService bsService;
+	
 	private static final Logger Logger = LoggerFactory.getLogger(TasaController.class);
 	
 	/**
@@ -55,6 +61,7 @@ public class TasaController {
 	public String tasaHome(ModelMap model) {
 		feedDetalles(model);
 		agregarLista(model);
+		agregartipoNomina(model);
 		return "catalogo/TSN/tasaSobreNomina";
 	}
 	
@@ -117,13 +124,8 @@ public class TasaController {
 	public ModelAndView agregarTasa(@Valid @ModelAttribute("tasa") TasaForm tasa, BindingResult result, 
 			HttpServletRequest request, RedirectAttributes ra) throws ParseException {
 		ModelMap map = new ModelMap();
-		//Validar Formulario
-		if(result.hasErrors()) {
-			map.put("tasa", tasa);
-			System.out.println("Exiten errores: " + result.getAllErrors());
-			return new ModelAndView("catalogo/TSN/registro_actualizacionTSN", map);
-		}
 		String colaborador = SecurityUtils.getCurrentUser();
+		Usuario user = new Usuario();
 		tasa.setEstado(tasa.getEstado().toUpperCase());
 		//Convierte el formulario al modelo
 		TasaSobreNomina modelo = tasa.toOrmModel(TasaSobreNomina.class);
@@ -138,12 +140,11 @@ public class TasaController {
 		}
 		//Agregar a la Base de datos
 		if(modelo.getId() == null) {
-			modelo.setFechaAplicacion(new Date());
-			tasaService.registrarAccionBitacora("Registro Tasa "+tasa.getEstado(), new Date(), "--------", colaborador);
+			bsService.guardarRegistroAccion("Registro Tasa "+tasa.getEstado(), new Date(), user);
+			tasaService.registrarAccionBitacora("Registro Tasa "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
 			this.tasaService.create(modelo);
 			map.put("succmsg", "Se creó correctamente el registro de la Tasa");
 		}else {
-			modelo.setFechaAplicacion(new Date());
 			tasaService.registrarAccionBitacora("Modicación Tasa "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
 			this.tasaService.update(modelo);
 			map.put("succmsg", "Se actualizo correctamente de Tasa");
@@ -185,6 +186,7 @@ public class TasaController {
 	 * */
 	@RequestMapping(value = "/editar", method = RequestMethod.GET)
 	public String editarTasa(@RequestParam(required = true) Integer id, ModelMap model) {
+		String colaborador = SecurityUtils.getCurrentUser();
 		TasaSobreNomina tasa = tasaService.findOne(id);
 		if(tasa == null) {
 			return "catalogo/TSN/tasaSobreNomina";

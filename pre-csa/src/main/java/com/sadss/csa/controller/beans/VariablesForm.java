@@ -1,8 +1,9 @@
 package com.sadss.csa.controller.beans;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -1,13 +1,12 @@
 package com.sadss.csa.controller;
 
 import java.security.Principal;
-import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -16,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -28,14 +27,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.sadss.csa.controller.beans.BitacoraCalendarioDTO;
+
 import com.sadss.csa.controller.beans.BitacoraVariableDTO;
-import com.sadss.csa.controller.beans.BitacoraVariablesForm;
-import com.sadss.csa.controller.beans.BusquedaCalendarioForm;
+
 import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
-import com.sadss.csa.modelo.entidad.BitacoraVariables;
-import com.sadss.csa.modelo.entidad.Usuario;
+
+
 import com.sadss.csa.modelo.entidad.Variable;
 import com.sadss.csa.service.BitacoraVariablesService;
 import com.sadss.csa.service.VariablesService;
@@ -122,13 +120,11 @@ public class VariablesController {
 		if(modelo.getId() == null) {
 			//Agregar codigo de bitacora
 			//modelo.setFechaAplicacion(new Date());
-			System.out.println("Fecha: "+ variable.getFechaAplicacion());
-			variablesService.registrarAccionBitacora("Registro variable "+variable.getNombre() ,new Date() ,"-------", colaborador);
+			variablesService.registrarAccionBitacora("Registro variable "+variable.getNombre() ,new Date() ,variable.getJustificacion(), colaborador);
 			this.variablesService.create(modelo);
 			map.put("succmsg", "Se creó correctamente el registro la Variable");
 		}else {
-			modelo.setFechaAplicacion(new Date());
-			variablesService.registrarAccionBitacora("Modifico la variable " +variable.getNombre() ,new Date() ,"--------", colaborador);
+			variablesService.registrarAccionBitacora("Modifico la variable " +variable.getNombre() ,new Date() ,variable.getJustificacion(), colaborador);
 			this.variablesService.update(modelo);
 			map.put("succmsg", "Se actualizo correctamente la Variable");
 		}

@@ -25,6 +25,7 @@
 	<tiles:putAttribute name="title">Variables IMSS e INFONAVIT</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
+	<%@include file="../../secciones/messages.jsp"%>
 		<div class="row">
 
 			<div class="col-md-12">
@@ -69,20 +70,23 @@
 										<td>
 											<c:choose>
 												<c:when test="${v.estado == true}">
-													<button type="submit" class="btn btn-primary fa fa-power-off"
-												id="btnModificarEstado" style="color:#06F61C;"></button>
+												<a id="btnModificarEstado" style="color:#06F61C;"  class="btn btn-primary "> 
+												<i class="fa fa-power-off"></i>
+												</a>
 												</c:when>
 												<c:otherwise>
-											 	<button type="submit" class="btn btn-primary fa fa-power-off"
-												id="btnModificarEstado" style="color:#F60606;"></button>
+											 	<a id="btnModificarEstado" style="color:#F60606;"  class="btn btn-primary "> 
+												<i class="fa fa-power-off"></i>
+												</a>
 												</c:otherwise>
 											</c:choose>
 
 											<a href="editar?id=${v.id}" class="btn btn-primary btn-small"> 
 												<i class="fa fa-edit"></i>
 											 </a>
-											 <button type="submit" class="btn btn-primary fa fa-remove (alias)"
-												id="btnEliminar"></button>
+											<a class="btn btn-primary btn-small" id="btnEliminar"> 
+												<i class="fa fa-remove (alias)"></i>
+											 </a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -166,7 +170,11 @@
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open");
 		$('#tablaVariables').DataTable();
-
+		$('#tablaBitacora').DataTable({
+        	"searching": false,
+        	"bLengthChange": false,
+        	"order": [[ 1, "desc" ]]
+		});
   
   //Metodo Eliminar Variable
     $(document).ready(function(){

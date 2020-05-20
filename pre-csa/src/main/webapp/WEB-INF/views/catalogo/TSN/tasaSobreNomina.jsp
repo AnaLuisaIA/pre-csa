@@ -25,6 +25,7 @@
 	<tiles:putAttribute name="title">Tasa Sobre Nomina</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
+	<%@include file="../../secciones/messages.jsp"%>
 		<div class="row">
 
 			<div class="col-md-12">
@@ -62,8 +63,8 @@
 									<tr>
 										<td style="display: none;">${t.id}</td>
 										<td>${t.estado}</td>
-										<td>${t.tipoNomina}</td>
-										<td>${t.tipoVariable}</td>
+										<td>${t.tipoNomina.label}</td>
+										<td>${t.tipoVariable.label}</td>
 										<td>${t.valor}</td>
 										<td>${t.oficina}</td>
 										<td><fmt:formatDate value="${t.fechaAplicacion}"
@@ -71,20 +72,23 @@
 										<td>
 											<c:choose>
 												<c:when test="${t.estatus == true}">
-													<button type="submit" class="btn btn-primary fa fa-power-off"
-												id="btnModificarEstado" style="color:#06F61C;"></button>
+												<a id="btnModificarEstado" style="color:#06F61C;"  class="btn btn-primary "> 
+												<i class="fa fa-power-off"></i>
+												</a>
 												</c:when>
 												<c:otherwise>
-											 	<button type="submit" class="btn btn-primary fa fa-power-off"
-												id="btnModificarEstado" style="color:#F60606;"></button>
+												<a id="btnModificarEstado" style="color:#F60606;"  class="btn btn-primary "> 
+												<i class="fa fa-power-off"></i>
+												</a>
 												</c:otherwise>
 											</c:choose>
 
 											<a href="editar?id=${t.id}" class="btn btn-primary btn-small"> 
 												<i class="fa fa-edit"></i>
 											 </a>
-											 <button type="submit" class="btn btn-primary fa fa-remove (alias)"
-												id="btnEliminar"></button>
+											 <a class="btn btn-primary btn-small" id="btnEliminar"> 
+												<i class="fa fa-remove (alias)"></i>
+											 </a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -168,6 +172,11 @@
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open");
 		$('#tablaTasas').DataTable();
+		$('#tablaBitacora').DataTable({
+        	"searching": false,
+        	"bLengthChange": false,
+        	"order": [[ 1, "desc" ]]
+		});
 
   
   //Metodo Eliminar Variable
