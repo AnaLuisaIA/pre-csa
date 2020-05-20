@@ -78,7 +78,8 @@ public class UsuarioController {
 	@RequestMapping(value = "/editar", method = RequestMethod.GET)
 	public String editaUsuario(@RequestParam("id") int id, ModelMap model) {
 		
-		model.addAttribute("usuario", usuarioService.findOne(id));
+		UsuarioForm uf = (new UsuarioForm().fromOrmModel(usuarioService.findOne(id), UsuarioForm.class));
+		model.addAttribute("usuario", uf);
 		obtenerInformacion(model);
 		return "catalogo/usuarios/registro_actualizaUsuarios";
 	}
