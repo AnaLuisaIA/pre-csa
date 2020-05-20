@@ -1,6 +1,5 @@
 package com.sadss.csa.controller;
 
-import java.net.URLDecoder;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,9 +10,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.net.URLCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

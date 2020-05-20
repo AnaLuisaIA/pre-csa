@@ -37,7 +37,7 @@ import com.sadss.csa.util.enums.TipoVariableTasa;
 import freemarker.core.ParseException;
 
 @Controller
-@RequestMapping("tasa")
+@RequestMapping("tasas")
 public class TasaController {
 
 	@Autowired
