@@ -85,8 +85,10 @@
 										
 										<div class="form-group">
 											<label for="estado">Estado: *</label>
-											<form:input path="estado" name="estado" class="form-control"
-												placeholder="Ingrese el estado de la Tasa" />
+											<c:if test="${empty tasa.id}"><form:input  path="estado" name="estado" class="form-control" placeholder="Ingrese el estado de la Tasa" /></c:if>
+										<c:if test="${not empty tasa.id}">
+										<form:input path="estado" name="estado" readonly="true"  class="form-control" placeholder="Ingrese el estado de la Tasa" />
+										</c:if>
 										</div>
 									</div>
 									<div class="col-md-4">
@@ -168,11 +170,11 @@
 
 							</div>
 							<div class="form-actions">
-								<c:if test="${empty variable.id}">
+								<c:if test="${empty tasa.id}">
 									<button type="submit" class="btn btn-primary"
 										id="btnGuardarTasa">Guardar</button>
 								</c:if>
-								<c:if test="${not empty variable.id}">
+								<c:if test="${not empty tasa.id}">
 									<button type="submit" class="btn btn-primary"
 										id="btnActualizarTasa">Actualizar</button>
 								</c:if>
@@ -279,8 +281,23 @@
 				        }
 			        },	   
 			        callback: function(result){
-				        if(result){				   
-			       			$('#saveTasa').submit();
+				     if(result){	
+				        		bootbox.prompt({
+				    title: "Escriba Justificacion",
+				    inputType: 'textarea',
+				    callback: function (result) {
+				    	if(result != null && result != ""){
+					     $('#justificacionTasaForm').val(result);
+					       $('#saveTasa').submit();
+					    } else if(result === "") {
+					    	bootbox.alert({
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
+							});
+					    }
+				    }
+				});			   
+			       			
 		        		}
 		        	}
 		        });
@@ -288,24 +305,80 @@
 
         });
         
-      $('#btnActualizarTasa').click(function(e){
-        	mensaje = "";
-	        	bootbox.setLocale('es');
-	        	bootbox.prompt({
-				    title: "Escriba Justificación",
+     $('#btnActualizarTasa').click(function(e) {
+        	e.preventDefault();
+			mensaje = '';
+			 
+		    if ($("#es_colaborador").val() == '1') {	
+		        if($("#inputNumColaborador").val() === ''){
+		        	mensaje+= "El campo de <strong>Colaborador</strong> está vacío.<br>"
+		        };
+		    }
+		    else {
+		    
+
+		    	if($("#estado").val() == ''){
+		    		mensaje+= "El campo de <strong>estado</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#tipoNomina").val() == ''){
+		    		mensaje+= "El campo de <strong>Tipo Nomina</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#tipoVariable").val() == ''){
+		    		mensaje+= "El campo de <strong>Tipo Variable</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#fechaAplicacion").val() == ''){
+		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#valor").val() == ''){
+		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#oficina").val() == ''){
+		    		mensaje+= "El campo de <strong>Oficina</strong> está vacío.<br>"
+		    	};
+}
+
+			if(mensaje != ''){
+				bootbox.alert(mensaje);
+			} else {
+		        bootbox.confirm({
+		        	title: "Actualizar Tasa",
+			        message: "¿Está seguro de que desea continuar?",
+			        buttons: {
+			        	cancel: {
+				            label: '<i class="fa fa-times"></i> Regresar'
+				        },
+				        confirm: {
+				            label: '<i class="fa fa-check"></i> Confirmar'
+				        }
+			        },	   
+			        callback: function(result){
+				     if(result){	
+				        		bootbox.prompt({
+				    title: "Escriba Justificacion",
 				    inputType: 'textarea',
 				    callback: function (result) {
 				    	if(result != null && result != ""){
-					        $('#justificacionTasaForm').val(result);
-					        $('#editar').submit();
+					     $('#justificacionTasaForm').val(result);
+					       $('#saveTasa').submit();
 					    } else if(result === "") {
 					    	bootbox.alert({
-							    message: "<b>El campo de Justificación es obligatorio.</b>",
-							    size: 'small'
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
 							});
 					    }
 				    }
-				});
+				});			   
+			       			
+		        		}
+		        	}
+		        });
+			}
+
         });
 	</tiles:putAttribute>
 
