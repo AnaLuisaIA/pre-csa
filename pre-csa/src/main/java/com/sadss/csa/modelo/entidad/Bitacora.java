@@ -1,6 +1,7 @@
 package com.sadss.csa.modelo.entidad;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.sadss.csa.modelo.generic.GenericModel;
@@ -16,7 +17,18 @@ public class Bitacora extends GenericModel<Bitacora> implements Serializable {
 	private String accion;
 	private Date fecha;
 	private Usuario usuario;
+	
+	private Date fechaInicio;
+	private Date fechaFin;
 
+	public Bitacora() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.DATE, 1);
+		
+		fechaInicio = calendar.getTime();
+		fechaFin = new Date();
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -49,4 +61,21 @@ public class Bitacora extends GenericModel<Bitacora> implements Serializable {
 		this.usuario = usuario;
 	}
 
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	
 }

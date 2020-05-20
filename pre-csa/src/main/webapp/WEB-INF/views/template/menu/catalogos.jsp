@@ -31,30 +31,6 @@
 		</li>
 	
 		<li id="catalogosMenu"><a></a>
-
-		<li id="variablesMenu"><a>
-			href="<c:url value='variables/IMSS-INFONAVIT'/>"> <i
-				class="fa fa-list-alt"></i> Variables IMSS INFONAVIT
-		</a></li>
 	</ul>
 	</li>
-
-		<li id="catalogosMenu"><a href="<c:url value='/usuarios/'/>">
-				<i class="fa fa-list-alt"></i> Tasas Sobre Nómina
-
-		<li id="tasasMenu"><a href="<c:url value='/usuarios/'/>"> <i
-				class="fa fa-list-alt"></i> Tasas Sobre Nómina
-
-		</a></li>
-		
-		<li id="calendariosMenu"><a href="<c:url value='/calendario/'/>">
-				<i class="fa fa-calendar-o"></i> Calendarios
-		</a></li>
-		
-		<li id="usuariosMenu"><a href="<c:url value='/usuarios/'/>">
-				<i class="fa fa-users"></i> Usuarios
-		</a></li>
-
-
-	</ul></li>
 
