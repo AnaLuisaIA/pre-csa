@@ -112,7 +112,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-9 col-md-offset-2">
+			<div class="col-md-12">
 				<div class="portlet light portlet-fit bordered">
 					<div class="portlet-title">
 						<div class="caption">
@@ -126,7 +126,8 @@
 					<div class="portlet-body portlet-collapsed" style="display: none;">
 						<div
 							class="table-scrollable table-scrollable-borderless table-responsive">
-							<table id="tablaBitacora" class="table table-hover table-light">
+							<table id="tablaBitacora"
+								class="table table-striped table-bordered table-hover order-column dataTable no-footer">
 								<thead>
 									<tr>
 										<th>Acción</th>
@@ -140,8 +141,7 @@
 											<td>${a.accion}</td>
 											<td><fmt:formatDate value="${a.fechaAccion}" type="both"
 													dateStyle="short" timeStyle="short" /></td>
-											<td>${a.numColaborador}- ${a.nombre} ${a.aPaterno}
-												${a.aMaterno}</td>
+											<td>${a.numColaborador} - ${a.nombre} ${a.aPaterno} ${a.aMaterno}</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -183,12 +183,18 @@
 
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open");
-		$('#calendarioMenu').addClass("active");
+		$('#calendariosMenu').addClass("active");
 		$('#tablaCalendario').DataTable();
 		
 		$('#filtroAnio').select2({
 			placeholder: "Selecciona un año",
 	   		allowClear: true
+		});
+		
+		$('#tablaBitacora').DataTable({
+        	"searching": false,
+        	"bLengthChange": false,
+        	"order": [[ 1, "desc" ]]
 		});
 		
    </tiles:putAttribute>

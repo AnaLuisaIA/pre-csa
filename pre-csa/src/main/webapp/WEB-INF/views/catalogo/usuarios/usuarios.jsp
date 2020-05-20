@@ -49,9 +49,9 @@
 							<thead>
 								<tr>
 									<th>Nombre de Usuario</th>
-									<th >Estado</th>
-									<th >Nombre Completo</th>									
-									<th >Editar</th>
+									<th>Estado</th>
+									<th>Nombre Completo</th>
+									<th>Editar</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -78,7 +78,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-9 col-md-offset-2">
+			<div class="col-md-12">
 				<div class="portlet light portlet-fit bordered">
 					<div class="portlet-title">
 						<div class="caption">
@@ -92,7 +92,8 @@
 					<div class="portlet-body portlet-collapsed" style="display: none;">
 						<div
 							class="table-scrollable table-scrollable-borderless table-responsive">
-							<table id="tablaBitacora" class="table table-hover table-light">
+							<table id="tablaBitacora"
+								class="table table-striped table-bordered table-hover order-column dataTable no-footer">
 								<thead>
 									<tr>
 										<th>Acción</th>
@@ -146,6 +147,11 @@
 		$('#usuariosMenu').addClass("active");
 		
 		$('#tablaUsuarios').DataTable();
+		$('#tablaBitacora').DataTable({
+        	"searching": false,
+        	"bLengthChange": false,
+        	"order": [[ 1, "desc" ]]
+		});
    </tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">
