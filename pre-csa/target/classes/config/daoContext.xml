@@ -34,6 +34,7 @@
 			</beans:props>
 		</beans:property>
 	</beans:bean>
+	
 	<beans:bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
 		p:dataSource-ref="dataSource"
@@ -63,6 +64,7 @@
 		<beans:value>com/csa/dao/orm/CalculoISN.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/CalendarioISN.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/DatosCarga.hbm.xml</beans:value>
+		<beans:value>com/csa/dao/orm/PeriodoVariable.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/TasaSobreNomina.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/Usuario.hbm.xml</beans:value>
 		<beans:value>com/csa/dao/orm/Variable.hbm.xml</beans:value>

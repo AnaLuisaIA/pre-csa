@@ -25,15 +25,6 @@
 				sql-type="VARCHAR(200)" />
 		</property>
 
-		<property name="valor">
-			<column name="valor" not-null="true" sql-type="NUMERIC" />
-		</property>
-
-		<property name="fechaAplicacion">
-			<column name="fechaAplicacion" length="10" not-null="true"
-				sql-type="DATE" />
-		</property>
-
 		<property name="tipo" column="tipo" not-null="true">
 			<type name="org.hibernate.type.EnumType">
 				<param name="enumClass">com.sadss.csa.util.enums.TipoVariable</param>
@@ -41,6 +32,13 @@
 				<param name="useNamed">true</param>
 			</type>
 		</property>
+		
+		<set name="periodos" table="periodos_variable"
+			inverse="true">
+			<key column="idVariable"></key>
+			<one-to-many
+				class="com.sadss.csa.modelo.entidad.PeriodoVariable" />
+		</set>
 
 	</class>
 

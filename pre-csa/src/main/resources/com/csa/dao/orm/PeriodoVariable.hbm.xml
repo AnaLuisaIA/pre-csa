@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping
+	package="com.sadss.csa.modelo.entidad">
+	<class name="PeriodoVariable" table="periodos_variable">
+		<comment>Mapeo de tabla de los periodos de variables</comment>
+
+		<id name="id">
+			<column name="id" not-null="true" sql-type="INTEGER" />
+			<generator class="identity" />
+		</id>
+
+		<property name="fechaAplicacion">
+			<column name="fechaInicio" length="10" not-null="true"
+				sql-type="DATE" />
+		</property>
+
+		<property name="fechaTermino">
+			<column name="fechaFin" length="10" sql-type="DATE" />
+		</property>
+
+		<property name="valor">
+			<column name="valor" not-null="true" sql-type="NUMERIC" />
+		</property>
+
+		<many-to-one name="variable" column="idVariable"
+			class="com.sadss.csa.modelo.entidad.Variable" update="true"
+			insert="true" lazy="false">
+		</many-to-one>
+
+	</class>
+
+</hibernate-mapping>

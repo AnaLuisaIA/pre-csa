@@ -1,8 +1,8 @@
 package com.sadss.csa.modelo.entidad;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.sadss.csa.modelo.generic.GenericModel;
 import com.sadss.csa.util.enums.TipoVariable;
@@ -14,12 +14,10 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 	private Integer id;
 	private String nombre;
 	private String descripcion;
-	private BigDecimal valor;
-	
-	private Date fechaAplicacion;
-	
 	private TipoVariable tipo;
 	private Boolean estado;
+
+	Set<PeriodoVariable> periodos = new HashSet<PeriodoVariable>();
 
 	public Integer getId() {
 		return id;
@@ -45,22 +43,6 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public BigDecimal getValor() {
-		return valor;
-	}
-
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
-
-	public Date getFechaAplicacion() {
-		return fechaAplicacion;
-	}
-
-	public void setFechaAplicacion(Date fechaAplicacion) {
-		this.fechaAplicacion = fechaAplicacion;
-	}
-
 	public TipoVariable getTipo() {
 		return tipo;
 	}
@@ -75,6 +57,14 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+
+	public Set<PeriodoVariable> getPeriodos() {
+		return periodos;
+	}
+
+	public void setPeriodos(Set<PeriodoVariable> periodos) {
+		this.periodos = periodos;
 	}
 
 }
