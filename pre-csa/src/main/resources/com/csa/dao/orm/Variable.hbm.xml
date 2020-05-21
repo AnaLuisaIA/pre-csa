@@ -34,7 +34,7 @@
 		</property>
 		
 		<set name="periodos" table="periodos_variable"
-			inverse="true">
+			inverse="true" cascade="all-delete-orphan">
 			<key column="idVariable"></key>
 			<one-to-many
 				class="com.sadss.csa.modelo.entidad.PeriodoVariable" />
