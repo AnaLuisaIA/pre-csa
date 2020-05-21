@@ -3,7 +3,7 @@
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping
 	package="com.sadss.csa.modelo.entidad">
-	<class name="PeriodoVariable" table="periodos_variable">
+	<class name="PeriodoVariable" table="periodos_variables">
 		<comment>Mapeo de tabla de los periodos de variables</comment>
 
 		<id name="id">
@@ -12,12 +12,12 @@
 		</id>
 
 		<property name="fechaAplicacion">
-			<column name="fechaInicio" length="10" not-null="true"
+			<column name="fechaAplicacion" length="10" not-null="true"
 				sql-type="DATE" />
 		</property>
 
 		<property name="fechaTermino">
-			<column name="fechaFin" length="10" sql-type="DATE" />
+			<column name="fechaTermino" length="10" sql-type="DATE" />
 		</property>
 
 		<property name="valor">
