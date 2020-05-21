@@ -64,7 +64,7 @@
 										<td>${v.nombre}</td>
 										<td>${v.descripcion}</td>
 										<td>${v.valor}</td>
-										<td>${v.tipo}</td>
+										<td>${v.tipo.label}</td>
 										<td><fmt:formatDate value="${v.fechaAplicacion}"
 												pattern="dd/MM/yyyy" /></td>
 										<td>
