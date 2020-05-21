@@ -140,7 +140,7 @@ public class TasaController {
 		}
 		//Agregar a la Base de datos
 		if(modelo.getId() == null) {
-			bsService.guardarRegistroAccion("Registro Tasa "+tasa.getEstado(), new Date(), user);
+			//bsService.guardarRegistroAccion("Registro Tasa "+tasa.getEstado(), new Date(), user);
 			tasaService.registrarAccionBitacora("Registro Tasa "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
 			this.tasaService.create(modelo);
 			map.put("succmsg", "Se creó correctamente el registro de la Tasa");
