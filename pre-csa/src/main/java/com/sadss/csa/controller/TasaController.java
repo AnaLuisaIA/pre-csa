@@ -26,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sadss.csa.controller.beans.BitacoraTasaDTO;
 import com.sadss.csa.controller.beans.TasaForm;
-import com.sadss.csa.controller.beans.UsuarioForm;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
 import com.sadss.csa.modelo.entidad.TasaSobreNomina;
 import com.sadss.csa.modelo.entidad.Usuario;
