@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/calculos")
-public class CalculosController {
+public class CalculoIMSSController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(CalculosController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CalculoIMSSController.class);
 	
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String indexCalculos(ModelMap model) {

@@ -85,6 +85,7 @@
 
 								<!-- Bloques de campos de formulario a llenar -->
 								<form:hidden path="id" />
+								<form:hidden path="idPeriodo" />
 								<div class="row">
 									<div class="col-md-4">
 										<c:if test="${empty variable.id}">
@@ -104,27 +105,27 @@
 										<spring:bind path="variable.nombre">
 											<div class="form-group ${status.error ? 'has-error' : ''}">
 												<label for="nombre">Variable: *</label>
-												<form:input path="nombre" class="form-control"
-													placeholder="Nombre de la variable" />
+												<c:if test="${empty variable.id}"><form:input path="nombre" class="form-control" placeholder="Nombre de la variable" /></c:if>
+												<c:if test="${not empty variable.id}"><form:input path="nombre" readonly="true" class="form-control" placeholder="Nombre de la variable" /></c:if>
 												<form:errors path="nombre" class="help-block"></form:errors>
 											</div>
 										</spring:bind>
-
 									</div>
-									<div class="col-md-5">
+									<div class="col-md-4">
 										<div class="form-group">
 											<label for="descripcion">Descripción: *</label>
 											<form:input path="descripcion" name="descripcion" type="text"
 												class="form-control" placeholder="Ingrese una descripción" />
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-4">
 										<div class="form-group">
 											<label for="valor">Valor: *</label>
 											<form:input path="valor" name="valor" class="form-control"
 												step="0.000001" type="number" />
+											<form:hidden path="valorn" name="valorn"/>
 										</div>
-									</div>
+										</div>
 								</div>
 
 								<div class="row">
@@ -141,7 +142,9 @@
 												</span>
 												<form:input path="fechaAplicacion" type="text"
 													class="form-control" maxlenght="10" readonly="true" />
+												
 											</div>
+											<form:hidden path="fechaAplicacionn" name="fechaAplicacionn"/>
 										</div>
 									</div>
 
@@ -226,7 +229,7 @@
 				}
 			});
 		});
-		
+		//Registro Variable
 		$('#btnGuardarVariable').click(function(e) {
         	e.preventDefault();
 			mensaje = '';
@@ -266,9 +269,88 @@
 				            label: '<i class="fa fa-check"></i> Confirmar'
 				        }
 			        },	   
-			        callback: function(result){
-				        if(result){				   
-			       			$('#saveVariable').submit();
+			     callback: function(result){
+				     if(result){	
+				        		bootbox.prompt({
+				    title: "Escriba Justificacion",
+				    inputType: 'textarea',
+				    callback: function (result) {
+				    	if(result != null && result != ""){
+					     $('#justificacionSolicitudForm').val(result);
+					       $('#saveVariable').submit();
+					    } else if(result === "") {
+					    	bootbox.alert({
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
+							});
+					    }
+				    }
+				});			   
+			       			
+		        		}
+		        	}
+		        });
+			}
+
+        });
+        //Actualizar Variable
+        $('#btnActualizarVariable').click(function(e) {
+        	e.preventDefault();
+			mensaje = '';
+		    
+		    	if($("#nombre").val() == ''){
+		    		mensaje+= "El campo de <strong>Variable</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#descripcion").val() == ''){
+		    		mensaje+= "El campo de <strong>Descripcion</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#valor").val() == ''){
+		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#fechaAplicacion").val() == ''){
+		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
+		    	};
+		    	
+		    	if($("#tipo").val() == ''){
+		    		mensaje+= "El campo de <strong>Tipo</strong> está vacío.<br>"
+		    	};
+
+			
+			if(mensaje != ''){
+				bootbox.alert(mensaje);
+			} else {
+		        bootbox.confirm({
+		        	title: "Actualizar Variable",
+			        message: "¿Está seguro de que desea continuar?",
+			        buttons: {
+			        	cancel: {
+				            label: '<i class="fa fa-times"></i> Regresar'
+				        },
+				        confirm: {
+				            label: '<i class="fa fa-check"></i> Confirmar'
+				        }
+			        },	   
+			     callback: function(result){
+				     if(result){	
+				        		bootbox.prompt({
+				    title: "Escriba Justificacion",
+				    inputType: 'textarea',
+				    callback: function (result) {
+				    	if(result != null && result != ""){
+					     $('#justificacionSolicitudForm').val(result);
+					       $('#saveVariable').submit();
+					    } else if(result === "") {
+					    	bootbox.alert({
+							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   size: 'small'
+							});
+					    }
+				    }
+				});			   
+			       			
 		        		}
 		        	}
 		        });

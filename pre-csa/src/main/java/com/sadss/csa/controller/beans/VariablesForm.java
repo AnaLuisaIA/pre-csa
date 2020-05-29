@@ -20,12 +20,15 @@ public class VariablesForm extends GenericForm<VariablesForm, Variable> {
 	@NotEmpty
 	@Size(max = 100)
 	private String nombre;
-
 	private String descripcion;
-	private BigDecimal valor;
-	private Date fechaAplicacion;
 	private TipoVariable tipo;
 	private Boolean estado;
+	private Integer idPeriodo;
+	private BigDecimal valor;
+	private BigDecimal valorn;
+	private Date fechaAplicacion;
+	private Date fechaAplicacionn;
+	private Date fechaTermino;
 
 	private String justificacion;
 
@@ -57,30 +60,7 @@ public class VariablesForm extends GenericForm<VariablesForm, Variable> {
 		this.descripcion = descripcion;
 	}
 
-	public BigDecimal getValor() {
-		return valor;
-	}
-
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
-
-	public Date getFechaAplicacion() {
-		return fechaAplicacion;
-	}
-
-	public void setFechaAplicacion(Date fechaAplicacion) {
-		this.fechaAplicacion = fechaAplicacion;
-	}
-
-	public TipoVariable getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoVariable tipo) {
-		this.tipo = tipo;
-	}
-
+	
 	public Boolean getEstado() {
 		return estado;
 	}
@@ -97,4 +77,61 @@ public class VariablesForm extends GenericForm<VariablesForm, Variable> {
 		this.justificacion = justificacion;
 	}
 
+	public TipoVariable getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoVariable tipo) {
+		this.tipo = tipo;
+	}
+
+	public Integer getIdPeriodo() {
+		return idPeriodo;
+	}
+
+	public void setIdPeriodo(Integer idPeriodo) {
+		this.idPeriodo = idPeriodo;
+	}
+
+	public BigDecimal getValor() {
+		return valor;
+	}
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
+
+	public Date getFechaAplicacion() {
+		return fechaAplicacion;
+	}
+
+	public void setFechaAplicacion(Date fechaAplicacion) {
+		this.fechaAplicacion = fechaAplicacion;
+	}
+
+	public Date getFechaTermino() {
+		return fechaTermino;
+	}
+
+	public void setFechaTermino(Date fechaTermino) {
+		this.fechaTermino = fechaTermino;
+	}
+
+	public BigDecimal getValorn() {
+		return valorn;
+	}
+
+	public void setValorn(BigDecimal valorn) {
+		this.valorn = valorn;
+	}
+
+	public Date getFechaAplicacionn() {
+		return fechaAplicacionn;
+	}
+
+	public void setFechaAplicacionn(Date fechaAplicacionn) {
+		this.fechaAplicacionn = fechaAplicacionn;
+	}
+
+	
 }

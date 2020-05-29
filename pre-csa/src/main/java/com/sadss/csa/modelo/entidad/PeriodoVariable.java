@@ -61,5 +61,5 @@ public class PeriodoVariable extends GenericModel<PeriodoVariable> implements Se
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
-
+	
 }

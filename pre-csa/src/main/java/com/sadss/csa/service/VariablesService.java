@@ -3,7 +3,9 @@ package com.sadss.csa.service;
 import java.util.Date;
 import java.util.List;
 
+import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.generic.CrudService;
+import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.modelo.entidad.Variable;
 
 
@@ -27,6 +29,8 @@ public interface VariablesService  extends CrudService<Variable>{
 	 * Lista de variables
 	 * */
 	public List<Variable> findVariables();
+	
+	public PeriodoVariable findVariablesID(Integer id);
 	
 	
 	public Variable updateVariable(int id);

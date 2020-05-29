@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 
+import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.dao.VariableDAO;
 import com.sadss.csa.modelo.entidad.BitacoraVariables;
+import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.modelo.entidad.Variable;
 import com.sadss.csa.modelo.generic.IOperations;
 import com.sadss.csa.service.BitacoraVariablesService;
@@ -91,6 +93,15 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		DuplicateValidator<Variable> validator = new DuplicateValidator<Variable>(Variable.class, this, props);
 		ValidationUtils.invokeValidator(validator, entity, result);
 	}
+
+	@Override
+	public PeriodoVariable findVariablesID(Integer id) {
+		return dao.findVariablesID(id);
+	}
+
+
+
+
 
 	
 
