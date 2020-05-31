@@ -3,7 +3,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <tiles:insertDefinition name="defaultTemplate">
 	<tiles:putAttribute name="styles">
@@ -36,13 +37,16 @@
 						<div class="caption">
 							<i class="fa fa-globe"></i>Catálogo de Usuarios
 						</div>
-						<div class="actions">
-							<a href="alta" class="btn default green-stripe"> <i
-								class="fa fa-plus"></i> <span class="hidden-480"> AGREGAR
-									USUARIO </span>
-							</a>
-						</div>
+						<sec:authorize access="hasRole('CREA_USER')">
+							<div class="actions">
+								<a href="alta" class="btn default green-stripe"> <i
+									class="fa fa-plus"></i> <span class="hidden-480">
+										AGREGAR USUARIO </span>
+								</a>
+							</div>
+						</sec:authorize>
 					</div>
+
 					<div class="portlet-body">
 						<table id="tablaUsuarios"
 							class="table table-striped table-bordered table-hover">
@@ -51,11 +55,12 @@
 									<th>Nombre de Usuario</th>
 									<th>Estado</th>
 									<th>Nombre Completo</th>
-									<th>Editar</th>
+									<sec:authorize access="hasRole('EDITA_USER')">
+										<th>Editar</th>
+									</sec:authorize>
 								</tr>
 							</thead>
 							<tbody>
-
 								<c:forEach var="u" items="${usuarios}">
 									<tr>
 										<td>${u.numColaborador}</td>
@@ -63,8 +68,10 @@
 												ACTIVO </c:if> <c:if test="${not u.estado}">
 												INACTIVO </c:if></td>
 										<td>${u.nombres} ${u.aPaterno} ${u.aMaterno}</td>
-										<td><a href="editar?id=${u.id}"
-											class="btn btn-primary btn-small"> <i class="fa fa-edit"></i></a></td>
+										<sec:authorize access="hasRole('EDITA_USER')">
+											<td><a href="editar?id=${u.id}"
+												class="btn btn-primary btn-small"> <i class="fa fa-edit"></i></a></td>
+										</sec:authorize>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -107,7 +114,8 @@
 											<td>${a.accion}</td>
 											<td><fmt:formatDate value="${a.fechaAccion}" type="both"
 													dateStyle="short" timeStyle="short" /></td>
-											<td>${a.numColaborador} - ${a.nombre} ${a.aPaterno} ${a.aMaterno}</td>
+											<td>${a.numColaborador}-${a.nombre}${a.aPaterno}
+												${a.aMaterno}</td>
 										</tr>
 									</c:forEach>
 								</tbody>

@@ -6,6 +6,7 @@ import java.util.Date;
 import com.sadss.csa.util.enums.TipoVariable;
 
 public class VariablesDTO {
+	
 	private Integer id;
 	private String nombre;
 	private String descripcion;
@@ -24,6 +25,13 @@ public class VariablesDTO {
 		this.fechaAplicacion = fechaAplicacion;
 		this.tipo = tipo;
 		this.estado = estado;
+	}
+	
+	public VariablesDTO(Integer id, String nombre, BigDecimal valor, TipoVariable tipo) {
+		this.id = id;
+		this.nombre = nombre;
+		this.valor = valor;
+		this.tipo = tipo;
 	}
 
 	public VariablesDTO(Integer id, Boolean estado) {

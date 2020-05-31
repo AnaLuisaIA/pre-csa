@@ -218,7 +218,7 @@
 	<script
 		src="<c:url value='/assets/global/plugins/jquery-migrate.min.js'/>"
 		type="text/javascript"></script>
-		
+
 	<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 	<script
 		src="<c:url value='/assets/global/plugins/jquery-ui/jquery-ui.min.js'/>"
@@ -261,7 +261,8 @@
 	<script src="<c:url value='/assets/admin/layout/scripts/layout.js'/>"
 		type="text/javascript"></script>
 	<!-- waiting for -->
-
+	<script
+		src="<c:url value='/assets/csa/js/bootstrap-waitingfor.min.js'/>"></script>
 	<!-- END PAGE LEVEL SCRIPTS -->
 
 	<tiles:insertAttribute name="scripts" />

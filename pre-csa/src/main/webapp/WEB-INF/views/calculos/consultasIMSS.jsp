@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -35,7 +35,8 @@
 						</div>
 						<div class="actions">
 							<a href="alta" class="btn default green-stripe"> <i
-								class="fa fa-plus"></i> <span class="hidden-480">Exportar Seleccionados</span>
+								class="fa fa-plus"></i> <span class="hidden-480">Exportar
+									Seleccionados</span>
 							</a>
 						</div>
 					</div>
@@ -45,14 +46,14 @@
 							<thead>
 								<tr>
 									<th>Seleccionar Todos</th>
-									<th>Per�odo</th>
-									<th>Total Pagado Patr�n</th>
+									<th>Período</th>
+									<th>Total Pagado Patrón</th>
 									<th>Total Trabajador</th>
 									<th>Total IMSS</th>
-									<th>INFONAVIT Patr�n</th>
+									<th>INFONAVIT Patrón</th>
 									<th>INFONAVIT Trabajador</th>
 									<th>Total INFONAVIT</th>
-									<th>Fecha de Calculo</th>
+									<th>Fecha de Cálculo</th>
 									<th>Calculado por</th>
 								</tr>
 							<tbody>
@@ -105,13 +106,7 @@
    </tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">
-		<div class="page-footer-inner">
-			2019 &copy; <a href="http://www.segurosargos.com/"
-				title="Seguros Argos" target="_blank">Seguros Argos</a>
-		</div>
-		<div class="scroll-to-top">
-			<i class="icon-arrow-up"></i>
-		</div>
+		<c:import url="/WEB-INF/views/template/footer.jsp"></c:import>
 	</tiles:putAttribute>
 
 </tiles:insertDefinition>

@@ -42,7 +42,7 @@ import com.sadss.csa.util.enums.TipoVariable;
 
 
 @Controller
-@RequestMapping("variable")
+@RequestMapping("/variables")
 public class VariablesController {
 
 	@Autowired

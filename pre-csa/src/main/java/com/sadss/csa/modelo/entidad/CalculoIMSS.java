@@ -23,11 +23,13 @@ public class CalculoIMSS extends GenericModel<CalculoIMSS> implements Serializab
 	private BigDecimal prestacionesP;
 	private BigDecimal gastosMedP;
 	private BigDecimal RTP;
+	private BigDecimal guarderiaP;
 	private BigDecimal invVidaP;
 	private BigDecimal totalPatron;
 	private BigDecimal excedenteT;
 	private BigDecimal prestacionesT;
 	private BigDecimal gastosMedicosT;
+	private BigDecimal invVidaT;
 	private BigDecimal totalTrabajador;
 	private BigDecimal totalIMSS;
 	private BigDecimal infonavitPatron;
@@ -37,6 +39,8 @@ public class CalculoIMSS extends GenericModel<CalculoIMSS> implements Serializab
 	private Usuario usuarioCalculo;
 	private Date periodoInicio;
 	private Date periodoFin;
+
+	private DatosCarga datos;
 
 	public Integer getId() {
 		return id;
@@ -220,6 +224,30 @@ public class CalculoIMSS extends GenericModel<CalculoIMSS> implements Serializab
 
 	public void setPeriodoFin(Date periodoFin) {
 		this.periodoFin = periodoFin;
+	}
+
+	public DatosCarga getDatos() {
+		return datos;
+	}
+
+	public void setDatos(DatosCarga datos) {
+		this.datos = datos;
+	}
+
+	public BigDecimal getGuarderiaP() {
+		return guarderiaP;
+	}
+
+	public void setGuarderiaP(BigDecimal guarderiaP) {
+		this.guarderiaP = guarderiaP;
+	}
+
+	public BigDecimal getInvVidaT() {
+		return invVidaT;
+	}
+
+	public void setInvVidaT(BigDecimal invVidaT) {
+		this.invVidaT = invVidaT;
 	}
 
 }

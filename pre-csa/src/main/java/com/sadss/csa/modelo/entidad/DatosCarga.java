@@ -3,6 +3,8 @@ package com.sadss.csa.modelo.entidad;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.sadss.csa.modelo.generic.GenericModel;
 
@@ -44,6 +46,8 @@ public class DatosCarga extends GenericModel<DatosCarga> implements Serializable
 	private BigDecimal otroBono8;
 	private BigDecimal otroBono9;
 	private BigDecimal otroBono10;
+
+	private Set<CalculoIMSS> calculosImss = new HashSet<CalculoIMSS>();
 
 	public Integer getId() {
 		return id;
@@ -291,6 +295,14 @@ public class DatosCarga extends GenericModel<DatosCarga> implements Serializable
 
 	public void setOtroBono10(BigDecimal otroBono10) {
 		this.otroBono10 = otroBono10;
+	}
+
+	public Set<CalculoIMSS> getCalculosImss() {
+		return calculosImss;
+	}
+
+	public void setCalculosImss(Set<CalculoIMSS> calculosImss) {
+		this.calculosImss = calculosImss;
 	}
 
 }

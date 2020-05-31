@@ -12,7 +12,7 @@
 		</id>
 
 		<property name="claveAgente">
-			<column name="estado" length="11" not-null="true"
+			<column name="claveAgente" length="11" not-null="true"
 				sql-type="INTEGER" />
 		</property>
 
@@ -25,7 +25,7 @@
 		</property>
 
 		<property name="diasLaborados">
-			<column name="diasLaborador" sql-type="NUMERIC" />
+			<column name="diasLaborados" sql-type="NUMERIC" />
 		</property>
 
 		<property name="salarioDiario">
@@ -109,6 +109,10 @@
 			<column name="otroBono10" sql-type="NUMERIC" />
 		</property>
 
+		<set name="calculosImss" inverse="true" cascade="all">
+            <key column="idDatos" on-delete="cascade" />
+            <one-to-many class="com.sadss.csa.modelo.entidad.CalculoIMSS"/>
+        </set>
 
 	</class>
 

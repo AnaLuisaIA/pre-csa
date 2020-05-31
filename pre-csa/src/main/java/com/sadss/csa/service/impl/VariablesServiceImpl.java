@@ -1,5 +1,6 @@
 package com.sadss.csa.service.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 
+import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.dao.VariableDAO;
 import com.sadss.csa.modelo.entidad.BitacoraVariables;
+import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.modelo.entidad.Variable;
 import com.sadss.csa.modelo.generic.IOperations;
 import com.sadss.csa.service.BitacoraVariablesService;
@@ -63,6 +66,11 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		return dao.updateVariable(id);
 		
 	}
+	
+	@Override
+	public List<PeriodoVariable> getPeriodos() throws ParseException{
+		return this.dao.getPeriodos();
+	}
 
 	@Override
 	public void registrarAccionBitacora(String accion, Date fecha, String justificacion, String user) {
@@ -90,6 +98,11 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		props.add(new String[] { "nombre" });
 		DuplicateValidator<Variable> validator = new DuplicateValidator<Variable>(Variable.class, this, props);
 		ValidationUtils.invokeValidator(validator, entity, result);
+	}
+
+	@Override
+	public List<VariablesDTO> getVariablesCalculo(Date fechaAplicacion, Date fechaTermino) {
+		return this.dao.getVariablesCalculo(fechaAplicacion, fechaTermino);
 	}
 
 	
