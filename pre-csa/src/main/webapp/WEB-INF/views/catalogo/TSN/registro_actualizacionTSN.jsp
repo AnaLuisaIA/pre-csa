@@ -86,9 +86,7 @@
 										<div class="form-group">
 											<label for="estado">Estado: *</label>
 											<c:if test="${empty tasa.id}"><form:input  path="estado" name="estado" class="form-control" placeholder="Ingrese el estado de la Tasa" /></c:if>
-										<c:if test="${not empty tasa.id}">
-										<form:input path="estado" name="estado" readonly="true"  class="form-control" placeholder="Ingrese el estado de la Tasa" />
-										</c:if>
+											<c:if test="${not empty tasa.id}"><form:input path="estado" name="estado" readonly="true"  class="form-control" placeholder="Ingrese el estado de la Tasa" /></c:if>
 										</div>
 									</div>
 									<div class="col-md-4">

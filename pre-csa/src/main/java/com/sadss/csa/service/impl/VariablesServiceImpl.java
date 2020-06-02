@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 
+import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.dao.VariableDAO;
 import com.sadss.csa.modelo.entidad.BitacoraVariables;
@@ -104,6 +105,15 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 	public List<VariablesDTO> getVariablesCalculo(Date fechaAplicacion, Date fechaTermino) {
 		return this.dao.getVariablesCalculo(fechaAplicacion, fechaTermino);
 	}
+
+	@Override
+	public PeriodoVariable findVariablesID(Integer id) {
+		return dao.findVariablesID(id);
+	}
+
+
+
+
 
 	
 

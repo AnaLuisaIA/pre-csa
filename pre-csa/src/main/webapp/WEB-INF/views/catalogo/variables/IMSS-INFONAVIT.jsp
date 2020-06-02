@@ -49,18 +49,21 @@
 							class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
+									<th style="display: none;">IdVariable</th>
 									<th style="display: none;">Id</th>
 									<th>Variable</th>
 									<th>Descripcion</th>
 									<th>Valor</th>
 									<th>Tipo</th>
 									<th>Fecha de Aplicacion</th>
+									<th>Fecha Termino</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach var="v" items="${variable}">
 									<tr>
+										<td style="display: none;">${v.idVariable}</td>
 										<td style="display: none;">${v.id}</td>
 										<td>${v.nombre}</td>
 										<td>${v.descripcion}</td>
@@ -68,20 +71,20 @@
 										<td>${v.tipo.label}</td>
 										<td><fmt:formatDate value="${v.fechaAplicacion}"
 												pattern="dd/MM/yyyy" /></td>
+										<td><fmt:formatDate value="${v.fechaTermino}"
+												pattern="dd/MM/yyyy" /></td>
 										<td><c:choose>
 												<c:when test="${v.estado == true}">
-													<button type="submit" class="btn btn-default"
-														id="btnModificarEstado" title="Variable habilitada">
-														<i class="fa fa-power-off" style="color: #06F61C;"></i>
-													</button>
+													<a id="btnModificarEstado" style="color:#06F61C;"  class="btn btn-primary "> 
+												<i class="fa fa-power-off"></i>
+												</a>
 												</c:when>
 												<c:otherwise>
-													<button type="submit" class="btn btn-default"
-														id="btnModificarEstado" title="Variable deshabilitada">
-														<i class="fa fa-power-off" style="color: #F60606;"></i>
-													</button>
+													<a id="btnModificarEstado" style="color:#F60606;"  class="btn btn-primary "> 
+												<i class="fa fa-power-off"></i>
+												</a>
 												</c:otherwise>
-											</c:choose> <a href="editar?id=${v.id}"
+											</c:choose> <a href="editar?idvariable=${v.idVariable}&idPeriodo=${v.id}"
 											class="btn btn-primary btn-small"> <i class="fa fa-edit"></i>
 										</a>
 											<button type="submit" class="btn btn-danger" id="btnEliminar">
@@ -91,7 +94,7 @@
 								</c:forEach>
 							</tbody>
 						</table>
-						<input type="hidden" id="justificacionIMSSForm" />
+						<input type="hidden" name="justificacion" id="justificacionIMSSForm" />
 					</div>
 				</div>
 			</div>
@@ -184,28 +187,41 @@
          var currentRow=$(this).closest("tr"); 
          
          var col1=currentRow.find("td:eq(0)").text(); // get current row 1st TD value
-         var id=col1;
+         var idVariable=col1;
 
           mensaje = "";
-	        	bootbox.setLocale('es');
-	        	bootbox.prompt({
+		        bootbox.confirm({
+		        	title: "Eliminar Variable",
+			        message: "¿Está seguro de que desea continuar?",
+			        buttons: {
+			        	cancel: {
+				            label: '<i class="fa fa-times"></i> Regresar'
+				        },
+				        confirm: {
+				            label: '<i class="fa fa-check"></i> Confirmar'
+				        }
+			        },	   
+			        callback: function(result){
+				     if(result){	
+				        		bootbox.prompt({
 				    title: "Escriba Justificacion",
 				    inputType: 'textarea',
 				    callback: function (result) {
-				    
 				    	if(result != null && result != ""){
 					     $('#justificacionIMSSForm').val(result);
-					       var justificacionIMSSForm = $('#justificacionIMSSForm').val(); 
-					      	window.location.href= 'delete?id='+id+"&justificacionIMSSForm="+justificacionIMSSForm;
+					       var justificacionIMSSForm = $('#justificacionIMSSForm').val();
+					      	window.location.href= 'delete?idVariable='+idVariable+"&justificacionIMSSForm="+justificacionIMSSForm;
 					    } else if(result === "") {
 					    	bootbox.alert({
-							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   message: "<b>El campo de Justificación es obligatorio.</b>",
 							   size: 'small'
 							});
 					    }
-					    
 				    }
-				});
+				});			     			
+		        		}
+		        	}
+		        });
     });
 
 
@@ -217,18 +233,29 @@
          var currentRow=$(this).closest("tr"); 
          
          var col1=currentRow.find("td:eq(0)").text();
-         var id=col1;
+         var idVariable=col1;
 
-          mensaje = "";
-	        	bootbox.setLocale('es');
-	        	bootbox.prompt({
-				    title: "Escriba Justificación",
+		        bootbox.confirm({
+		        	title: "Estado Variable",
+			        message: "¿Está seguro de que desea continuar?",
+			        buttons: {
+			        	cancel: {
+				            label: '<i class="fa fa-times"></i> Regresar'
+				        },
+				        confirm: {
+				            label: '<i class="fa fa-check"></i> Confirmar'
+				        }
+			        },	   
+			        callback: function(result){
+				     if(result){	
+				        		bootbox.prompt({
+				    title: "Escriba Justificacion",
 				    inputType: 'textarea',
 				    callback: function (result) {
 				    	if(result != null && result != ""){
 					     $('#justificacionIMSSForm').val(result);
 					       var justificacionIMSSForm = $('#justificacionIMSSForm').val();
-					      	window.location.href= 'editarEstado?id='+id+"&justificacionIMSSForm="+justificacionIMSSForm;
+					      	window.location.href= 'editarEstado?idVariable='+idVariable+"&justificacionIMSSForm="+justificacionIMSSForm;
 					    } else if(result === "") {
 					    	bootbox.alert({
 							   message: "<b>El campo de Justificación es obligatorio.</b>",
@@ -236,7 +263,11 @@
 							});
 					    }
 				    }
-				});
+				});			     			
+		        		}
+		        	}
+		        });
+
     });
 
    </tiles:putAttribute>

@@ -175,7 +175,7 @@ public class TasaController {
 		//ELiminar Tasa
 		tasaService.deleteById(id);
 		ra.addFlashAttribute("succmsg", "La tasa a sido eliminada con exito");
-		return "redirect:/tasa/";
+		return "redirect:/tasas/";
 	}
 	
 	/*
@@ -203,7 +203,7 @@ public class TasaController {
 	 * @param justificacionTasaForm (Justificacion del cambio de estado de la tasa)
 	 * @param model (Modelo vacío)
 	 * */
-	@RequestMapping(value = "/editarEstado", method = RequestMethod.GET)
+	@RequestMapping(value = "/editarEstados", method = RequestMethod.GET)
 	public String editarEstadoTasa(@RequestParam(required = true) int id, @RequestParam("justificacionTasaForm") String justificacionTasaForm, RedirectAttributes ra, TasaForm tf, ModelMap model) {
 		ModelMap map = new ModelMap();
 		System.out.print("id" + tasaService.findOne(id));
@@ -214,9 +214,9 @@ public class TasaController {
 		TasaSobreNomina tasa = tasaService.updateTasa(id);
 		//Agregar cambios a bitacora
 		tasaService.registrarAccionBitacora("Modifico el estatus de la tasa "+ tas.getEstado(), new Date(), justificacionTasaForm, colaborador);
-		ra.addFlashAttribute("succmsg", "Se cambio correctamnet el estado de la tasa");
+		ra.addFlashAttribute("succmsg", "Se cambio correctamente el estado de la tasa");
 		TasaForm tasaFom = (new TasaForm().fromOrmModel(tasa, TasaForm.class));
-		return "redirect:/tasa/";
+		return "redirect:/tasas/";
 	}
 }
 

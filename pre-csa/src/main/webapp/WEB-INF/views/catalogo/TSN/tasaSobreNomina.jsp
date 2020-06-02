@@ -86,9 +86,9 @@
 											<a href="editar?id=${t.id}" class="btn btn-primary btn-small"> 
 												<i class="fa fa-edit"></i>
 											 </a>
-											 <a class="btn btn-primary btn-small" id="btnEliminar"> 
-												<i class="fa fa-remove (alias)"></i>
-											 </a>
+											<button type="submit" class="btn btn-danger" id="btnEliminar">
+												<i class="fa fa-trash-o"></i>
+											</button></td>
 										</td>
 									</tr>
 								</c:forEach>
@@ -101,7 +101,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-9 col-md-offset-2">
+			<div class="col-md-12">
 				<div class="portlet light portlet-fit bordered">
 					<div class="portlet-title">
 						<div class="caption">
@@ -112,33 +112,33 @@
 						</div>
 					</div>
 
-					<div class="portlet-body portlet-collapsed">
+					<div class="portlet-body portlet-collapsed" style="display: none;">
 						<div
 							class="table-scrollable table-scrollable-borderless table-responsive">
-							<table id="tablaBitacora" class="table table-hover table-light">
+							<table id="tablaBitacora"
+								class="table table-striped table-bordered table-hover order-column dataTable no-footer">
 								<thead>
 									<tr>
-										<th>Accion</th>
+										<th>Acción</th>
 										<th>Fecha y Hora</th>
-										<th>Justificacion</th>
+										<th>Justificación</th>
 										<th>Colaborador</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="t" items="${accionest}">
+									<c:forEach var="a" items="${accionest}">
 										<tr>
-											<td>${t.accion}</td>
-											<td><fmt:formatDate value="${t.fecha}"
-												pattern="dd/MM/yyyy" /></td>
-												<td>${t.justificacion}</td>
-											<td>${t.numColaborador}- ${t.nombre} ${t.aPaterno}
-												${t.aMaterno}</td>
-												
+											<td>${a.accion}</td>
+											<td><fmt:formatDate value="${a.fecha}" type="both"
+													dateStyle="short" timeStyle="short" /></td>
+											<td>${a.justificacion}</td>
+											<td>${a.numColaborador} - ${a.nombre} ${a.aPaterno} ${a.aMaterno}</td>
+
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
-							
+
 						</div>
 					</div>
 				</div>
@@ -225,13 +225,13 @@
           mensaje = "";
 	        	bootbox.setLocale('es');
 	        	bootbox.prompt({
-				    title: "Escriba Justificacion",
+				    title: "Escriba Justificación",
 				    inputType: 'textarea',
 				    callback: function (result) {
 				    	if(result != null && result != ""){
 					     $('#justificacionTasaForm').val(result);
 					       var justificacionTasaForm = $('#justificacionTasaForm').val(); 
-					      	window.location.href= 'editarEstado?id='+id+"&justificacionTasaForm="+justificacionTasaForm;
+					      	window.location.href= 'editarEstados?id='+id+"&justificacionTasaForm="+justificacionTasaForm;
 					    } else if(result === "") {
 					    	bootbox.alert({
 							   message: "<b>El campo de Justificacion es obligatorio.</b>",
