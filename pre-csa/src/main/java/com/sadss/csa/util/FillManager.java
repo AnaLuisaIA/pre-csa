@@ -27,6 +27,11 @@ public class FillManager {
 		bodyCellStyleNum.setDataFormat(fmt.getFormat("0"));
 		bodyCellStyleNum.setWrapText(true);
 		
+		XSSFCellStyle bodyCellStyleText = sheet.getWorkbook().createCellStyle();
+		bodyCellStyleText.setDataFormat(fmt.getFormat("@"));
+		bodyCellStyleText.setWrapText(true);
+		
+		
 		//Columna Semana
 
 		sheet.setDefaultColumnStyle(0, bodyCellStyleNum);
@@ -40,7 +45,7 @@ public class FillManager {
 		sheet.setDefaultColumnStyle(2, bodyCellStyleDate);
 		
 		//Columna Mes
-		sheet.setDefaultColumnStyle(3, bodyCellStyleNum);
+		sheet.setDefaultColumnStyle(3, bodyCellStyleText);
 		
 		//Columna Trimestre
 		sheet.setDefaultColumnStyle(4, bodyCellStyleNum);

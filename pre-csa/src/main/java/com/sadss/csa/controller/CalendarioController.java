@@ -128,7 +128,12 @@ public class CalendarioController {
 					cal.setFechaFin(row.getCell(col).getDateCellValue());
 					break;
 				case 3:
-					cal.setMes((int) row.getCell(col).getNumericCellValue());
+					if(row.getCell(col).getStringCellValue().length() > 10) {
+						ra.addFlashAttribute("errmsg", "El valor de mes de la fila: " 
+								+ r + "excede los 10 caracteres permitidos" );
+						return new ModelAndView("redirect:/calendario/agregar");
+					} 
+					cal.setMes(row.getCell(col).getStringCellValue().toUpperCase());
 					break;
 				case 4:
 					cal.setTrimestre((int) row.getCell(col).getNumericCellValue());
@@ -155,7 +160,7 @@ public class CalendarioController {
 	public void descargarLayout(HttpServletRequest request, HttpServletResponse response) {
 		calendarioService.descargarCalendarioXLSX(request, response);
 	}
-
+	
 	@InitBinder
 	void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new FechaEditor(new SimpleDateFormat("dd/MM/yyyy")));

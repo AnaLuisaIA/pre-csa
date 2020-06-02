@@ -22,20 +22,20 @@ public class CalendarioForm extends GenericForm<CalendarioForm, Calendario> {
 		this.archivo = archivo;
 	}
 
-	public Integer getAnio() {
-		return anio;
-	}
-
-	public void setAnio(Integer anio) {
-		this.anio = anio;
-	}
-
 	public String getFileName() {
 		return fileName;
 	}
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public Integer getAnio() {
+		return anio;
+	}
+
+	public void setAnio(Integer anio) {
+		this.anio = anio;
 	}
 
 }
