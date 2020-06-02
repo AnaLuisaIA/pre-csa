@@ -268,7 +268,7 @@
 												class="fa fa-angle-right"></i>
 											</a> <a class="btn green button-submit ladda-button"
 												data-style="expand-right"><span class="ladda-label">Descargar
-													Archivo</span><i class="fa fa-download"></i> </a> <a
+													Archivo </span><i class="fa fa-download"></i> </a> <a
 												class="btn green button-continue" id="btnISN">
 												Continuar con Cálculo ISN <i class="fa fa-angle-right"></i>
 											</a>
