@@ -34,13 +34,7 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		return query.list();
 	}
-	/*
-	 *Metodo Modificar Estado 
-	 * */
-	@Override
-	public Variable updateVariable(int id) { 
-		return null;
-	}
+
 
 	@Override
 	public PeriodoVariable findVariablesID(Integer id) {
@@ -49,6 +43,11 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		query.setParameter("id", id);
 		
 		return (PeriodoVariable) (query.list().isEmpty() ? null : query.list().get(0));
+	}
+
+	@Override
+	public Variable updateVariable(int id) {
+		return null;
 	}
 	
 }

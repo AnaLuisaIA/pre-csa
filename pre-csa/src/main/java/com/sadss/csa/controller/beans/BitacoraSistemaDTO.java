@@ -4,24 +4,74 @@ import java.util.Date;
 
 public class BitacoraSistemaDTO {
 
-	private String nombreUsuario;
 	private String accion;
-	private Date fechaAccion;
+	private String numColaborador;
+	private String nombres;
+	private String aPaterno;
+	private String aMaterno;
+	private Date fecha;
 	
-	public BitacoraSistemaDTO(String nombreUsuario, String accion, Date fechaAccion) {
+
+	public BitacoraSistemaDTO(String accion, String numColaborador, String nombres, String aPaterno, String aMaterno,
+			Date fecha) {
 		super();
-		this.nombreUsuario = nombreUsuario;
 		this.accion = accion;
-		this.fechaAccion = fechaAccion;
+		this.numColaborador = numColaborador;
+		this.nombres = nombres;
+		this.aPaterno = aPaterno;
+		this.aMaterno = aMaterno;
+		this.fecha = fecha;
 	}
 
-	public String getNombreUsuario() {
-		return nombreUsuario;
+
+
+	public String getNumColaborador() {
+		return numColaborador;
 	}
 
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
+
+
+	public void setNumColaborador(String numColaborador) {
+		this.numColaborador = numColaborador;
 	}
+
+
+
+	public String getNombres() {
+		return nombres;
+	}
+
+
+
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
+
+
+
+	public String getaPaterno() {
+		return aPaterno;
+	}
+
+
+
+	public void setaPaterno(String aPaterno) {
+		this.aPaterno = aPaterno;
+	}
+
+
+
+	public String getaMaterno() {
+		return aMaterno;
+	}
+
+
+
+	public void setaMaterno(String aMaterno) {
+		this.aMaterno = aMaterno;
+	}
+
+
 
 	public String getAccion() {
 		return accion;
@@ -31,12 +81,12 @@ public class BitacoraSistemaDTO {
 		this.accion = accion;
 	}
 
-	public Date getFechaAccion() {
-		return fechaAccion;
+	public Date getFecha() {
+		return fecha;
 	}
 
-	public void setFechaAccion(Date fechaAccion) {
-		this.fechaAccion = fechaAccion;
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 	
 	

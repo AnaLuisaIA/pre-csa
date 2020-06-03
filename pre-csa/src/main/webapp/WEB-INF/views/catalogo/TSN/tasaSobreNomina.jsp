@@ -191,8 +191,20 @@
          var id=col1;
 
           mensaje = "";
-	        	bootbox.setLocale('es');
-	        	bootbox.prompt({
+          		   bootbox.confirm({
+		        	title: "Eliminar Tasa",
+			        message: "¿Está seguro de que desea continuar?",
+			        buttons: {
+			        	cancel: {
+				            label: '<i class="fa fa-times"></i> Regresar'
+				        },
+				        confirm: {
+				            label: '<i class="fa fa-check"></i> Confirmar'
+				        }
+			        },	   
+			        callback: function(result){
+				     if(result){	
+				    bootbox.prompt({
 				    title: "Escriba Justificacion",
 				    inputType: 'textarea',
 				    callback: function (result) {
@@ -207,7 +219,10 @@
 							});
 					    }
 				    }
-				});
+				});			     			
+		        		}
+		        	}
+		        });
     });
 });
 
@@ -223,8 +238,20 @@
          var id=col1;
 
           mensaje = "";
-	        	bootbox.setLocale('es');
-	        	bootbox.prompt({
+                    		   bootbox.confirm({
+		        	title: "Modificar estado de Tasa",
+			        message: "¿Está seguro de que desea continuar?",
+			        buttons: {
+			        	cancel: {
+				            label: '<i class="fa fa-times"></i> Regresar'
+				        },
+				        confirm: {
+				            label: '<i class="fa fa-check"></i> Confirmar'
+				        }
+			        },	   
+			        callback: function(result){
+				     if(result){	
+				    bootbox.prompt({
 				    title: "Escriba Justificación",
 				    inputType: 'textarea',
 				    callback: function (result) {
@@ -239,7 +266,11 @@
 							});
 					    }
 				    }
-				});
+				});			     			
+		        		}
+		        	}
+		        });
+
     });
 });
 

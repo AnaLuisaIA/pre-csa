@@ -13,19 +13,6 @@ public interface VariablesService  extends CrudService<Variable>{
 	
 	
 	/**
-	 *Guarda registro de creación / actualizacion de Variables en Bitácora
-	 *@param usuario (Usuario que realiza la acción) 
-	 *@param accion (Acción que realizo el usuario)
-	 
-	
-	public void guardarBitacoraVariables(String usuarios, String accion);*/
-	
-	/**
-	 * Guarda Registros de Variables
-	 *
-	public void saveVariables (Variable variable); */
-	
-	/**
 	 * Lista de variables
 	 * */
 	public List<Variable> findVariables();
@@ -40,4 +27,9 @@ public interface VariablesService  extends CrudService<Variable>{
 	 * */
 	
 	public void registrarAccionBitacora(String accion, Date fecha,String justificacion, String user);
+	/*
+	 * Metodo Registro bitacora General
+	 * */
+	
+	public void registrarAccionBitacoraG(String accion, Date fecha, String user);
 }

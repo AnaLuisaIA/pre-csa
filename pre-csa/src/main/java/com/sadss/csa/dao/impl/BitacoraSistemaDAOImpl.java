@@ -22,9 +22,7 @@ public class BitacoraSistemaDAOImpl  extends AbstractHibernateDao<Bitacora> impl
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Bitacora> getAllBitacoras() {
-		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.BitacoraSistemaDTO(u.numColaborador,b.accion, b.fecha) ");
-		queryTxt.append("from com.sadss.csa.modelo.entidad.Bitacora b join b.usuario u ");
-		queryTxt.append("order by b.fecha desc");
+		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.BitacoraSistemaDTO(b.accion,u.numColaborador,u.nombres, u.aPaterno, u.aMaterno, b.fecha) from com.sadss.csa.modelo.entidad.Bitacora b join b.usuario u order by b.fecha desc");
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		
 		return query.list();
@@ -49,9 +47,7 @@ public class BitacoraSistemaDAOImpl  extends AbstractHibernateDao<Bitacora> impl
 	public List<Bitacora> getBitacorasPorBusqueda(Bitacora b) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		
-		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.BitacoraSistemaDTO(u.numColaborador,b.accion, b.fecha) ");
-		queryTxt.append("from com.sadss.csa.modelo.entidad.Bitacora b join b.usuario u");
-		
+		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.BitacoraSistemaDTO(b.accion,u.numColaborador,u.nombres, u.aPaterno, u.aMaterno, b.fecha) from com.sadss.csa.modelo.entidad.Bitacora b join b.usuario u ");
 		String queryFiltros = getFiltros(b, params);
 		queryTxt.append(queryFiltros);
 		queryTxt.append(" order by b.fecha desc");

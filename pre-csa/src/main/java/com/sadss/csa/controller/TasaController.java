@@ -42,14 +42,12 @@ import freemarker.core.ParseException;
 @RequestMapping("tasas")
 public class TasaController {
 
+	//Tasa Service
 	@Autowired
 	private TasaService tasaService;
-	
+	//Bitacora Tasa Service
 	@Autowired
 	private BitacoraTasaService btService;
-	
-	@Autowired
-	private BitacoraSistemaService bsService;
 	
 	private static final Logger Logger = LoggerFactory.getLogger(TasaController.class);
 	
@@ -128,23 +126,33 @@ public class TasaController {
 		tasa.setEstado(tasa.getEstado().toUpperCase());
 		//Convierte el formulario al modelo
 		TasaSobreNomina modelo = tasa.toOrmModel(TasaSobreNomina.class);
+		//Valida si existe un registro ya creado
+		this.tasaService.validateBeforeCreate(modelo, result);
 		//Validaciones antes de agregar a la Base de datos
 		this.tasaService.validateBeforeCreate(modelo, result);
 		if(result.hasErrors()) {
 			map.put("tasa", tasa);
 			agregartipoNomina(map);
 			agregarTipoVariable(map);
+			map.put("errmsg", "Tasa registrada");
 			System.out.println("Existen errores: " + result.getAllErrors());
 			return new ModelAndView("catalogo/TSN/registro_actualizacionTSN", map);
 		}
 		//Agregar a la Base de datos
 		if(modelo.getId() == null) {
-			//bsService.guardarRegistroAccion("Registro Tasa "+tasa.getEstado(), new Date(), user);
-			tasaService.registrarAccionBitacora("Registro Tasa "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
+			//Registro Bitacora General (Registro Tasa)
+			tasaService.registrarAccionBitacoraG("Registro Tasa: "+tasa.getEstado(), new Date(), colaborador);
+			//Registro Bitacora Tasa (Registro Tasa)
+			tasaService.registrarAccionBitacora("Registro Tasa; "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
+			//Registro de la Tasa
 			this.tasaService.create(modelo);
 			map.put("succmsg", "Se creó correctamente el registro de la Tasa");
 		}else {
+			//Registro Bitacora General (Modificar Tasa)
+			tasaService.registrarAccionBitacoraG("Registro Tasa: "+tasa.getEstado(), new Date(), colaborador);
+			//Registro Bitacora Tasa (Modificar Tasa)
 			tasaService.registrarAccionBitacora("Modicación Tasa "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
+			//Modificar Tasa
 			this.tasaService.update(modelo);
 			map.put("succmsg", "Se actualizo correctamente de Tasa");
 		}
@@ -170,7 +178,9 @@ public class TasaController {
 		TasaSobreNomina tas = tasaService.findOne(id);
 		tas.setEstado(tas.getEstado());
 		String colaborador = SecurityUtils.getCurrentUser();
-		//Registro Bitacora
+		//Registro Bitacora General (Eliminar Tasa)
+		tasaService.registrarAccionBitacoraG("Tasa Eliminada: "+tas.getEstado(), new Date(), colaborador);
+		//Registro Bitacora Tasa (Eliminar Tasa)
 		tasaService.registrarAccionBitacora("Tasa Eliminada " + tas.getEstado(), new Date(), justificacionTasaForm, colaborador);
 		//ELiminar Tasa
 		tasaService.deleteById(id);

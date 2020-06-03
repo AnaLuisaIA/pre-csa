@@ -21,7 +21,12 @@ public interface TasaService extends CrudService<TasaSobreNomina>{
 	public TasaSobreNomina updateTasa(int id);
 	
 	/*
-	 * Metodo Registro en Bitacora
+	 * Metodo Registro en Bitacora Tasas
 	 * */
 	public void registrarAccionBitacora(String accion,Date fecha, String  justificacion, String user);
+	
+	/*
+	 * Metodo Registro en Bitacora General
+	 * */
+	public void registrarAccionBitacoraG(String accion,Date fecha, String user);
 }
