@@ -41,16 +41,24 @@
 		<property name="excedenteP">
 			<column name="excedenteP" not-null="true" sql-type="NUMERIC" />
 		</property>
+
 		<property name="prestacionesP">
 			<column name="prestacionesP" not-null="true"
 				sql-type="NUMERIC" />
 		</property>
+
 		<property name="gastosMedP">
 			<column name="gastosMedP" not-null="true" sql-type="NUMERIC" />
 		</property>
+
 		<property name="RTP">
 			<column name="RTP" not-null="true" sql-type="NUMERIC" />
 		</property>
+
+		<property name="guarderiaP">
+			<column name="guarderiaP" not-null="true" sql-type="NUMERIC" />
+		</property>
+
 		<property name="invVidaP">
 			<column name="invVidaP" not-null="true" sql-type="NUMERIC" />
 		</property>
@@ -72,21 +80,30 @@
 			<column name="gastosMedicosT" not-null="true"
 				sql-type="NUMERIC" />
 		</property>
+
+		<property name="invVidaT">
+			<column name="invVidaT" not-null="true" sql-type="NUMERIC" />
+		</property>
+
 		<property name="totalTrabajador">
 			<column name="totalTrabajador" not-null="true"
 				sql-type="NUMERIC" />
 		</property>
+
 		<property name="totalIMSS">
 			<column name="totalIMSS" not-null="true" sql-type="NUMERIC" />
 		</property>
+
 		<property name="infonavitPatron">
 			<column name="infonavitPatron" not-null="true"
 				sql-type="NUMERIC" />
 		</property>
+
 		<property name="infonavitTrabajador">
 			<column name="infonavitTrabajador" not-null="true"
 				sql-type="NUMERIC" />
 		</property>
+
 		<property name="totalInfonavit">
 			<column name="totalInfonavit" not-null="true"
 				sql-type="NUMERIC" />
@@ -112,7 +129,9 @@
 				sql-type="DATE" />
 		</property>
 
-
+		<many-to-one name="datos"
+			class="com.sadss.csa.modelo.entidad.DatosCarga" column="idDatos"
+			not-null="true" />
 
 	</class>
 

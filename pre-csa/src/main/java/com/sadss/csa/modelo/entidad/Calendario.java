@@ -19,7 +19,7 @@ public class Calendario extends GenericModel<Calendario> implements Serializable
 	private Integer trimestre;
 	private Integer anio;
 	private Integer semana;
-	private Integer mes;
+	private String mes;
 	private String archivo;
 
 	private Set<BitacoraCalendario> registros = new HashSet<BitacoraCalendario>();
@@ -72,14 +72,6 @@ public class Calendario extends GenericModel<Calendario> implements Serializable
 		this.semana = semana;
 	}
 
-	public Integer getMes() {
-		return mes;
-	}
-
-	public void setMes(Integer mes) {
-		this.mes = mes;
-	}
-
 	public String getArchivo() {
 		return archivo;
 	}
@@ -94,6 +86,14 @@ public class Calendario extends GenericModel<Calendario> implements Serializable
 
 	public void setRegistros(Set<BitacoraCalendario> registros) {
 		this.registros = registros;
+	}
+
+	public String getMes() {
+		return mes;
+	}
+
+	public void setMes(String mes) {
+		this.mes = mes;
 	}
 
 }

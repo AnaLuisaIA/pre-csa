@@ -5,6 +5,8 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <tiles:insertDefinition name="defaultTemplate">
 
@@ -40,13 +42,15 @@
 						<div class="caption">
 							<i class="fa fa-calendar"></i>Catálogo de Calendarios ISN
 						</div>
-						<div class="actions">
-							<a class="btn default btn-sm green-stripe"
-								href="<c:url value='/calendario/agregar'/>"><i
-								class="fa fa-plus"></i> Agregar Calendario</a>
-						</div>
-
+						<sec:authorize access="hasRole('CREA_CAT')">
+							<div class="actions">
+								<a class="btn default btn-sm green-stripe"
+									href="<c:url value='/calendario/agregar'/>"><i
+									class="fa fa-plus"></i> AGREGAR CALENDARIO</a>
+							</div>
+						</sec:authorize>
 					</div>
+					
 					<div class="portlet-body">
 
 						<div align="right">
@@ -141,7 +145,8 @@
 											<td>${a.accion}</td>
 											<td><fmt:formatDate value="${a.fechaAccion}" type="both"
 													dateStyle="short" timeStyle="short" /></td>
-											<td>${a.numColaborador} - ${a.nombre} ${a.aPaterno} ${a.aMaterno}</td>
+											<td>${a.numColaborador}- ${a.nombre} ${a.aPaterno}
+												${a.aMaterno}</td>
 										</tr>
 									</c:forEach>
 								</tbody>

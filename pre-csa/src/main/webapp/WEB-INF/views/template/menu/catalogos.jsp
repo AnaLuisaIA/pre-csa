@@ -4,30 +4,34 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@page pageEncoding="UTF-8"%>
 
-<li id="catalogos"><a href="javascript:;"> <i
-		class="icon-folder"></i> <span class="title">Catálogos</span> <span
-		class="selected"></span> <span class="arrow"></span>
-</a>
+<sec:authorize
+	access="hasAnyRole('CONSULTA_CAT', 'EDITA_CAT', 'CREA_CAT', 'CONSULTA_USER', 'EDITA_USER', 'CREA_USER')">
 
-	<ul class="sub-menu">
+	<li id="catalogos"><a href="javascript:;"> <i
+			class="icon-folder"></i> <span class="title">Catálogos</span> <span
+			class="selected"></span> <span class="arrow"></span>
+	</a>
 
-		<li id="variablesMenu"><a
-			href="<c:url value='/variables/'/>"> <i
-				class="fa fa-list-alt"></i> Variables IMSS INFONAVIT
-		</a></li>
+		<ul class="sub-menu">
 
-		<li id="tasasMenu"><a href="<c:url value='/tasas/'/>"> <i
-				class="fa fa-list-alt"></i> Tasas Sobre Nómina
-		</a></li>
+			<li id="variablesMenu"><a href="<c:url value='/variables/'/>">
+					<i class="fa fa-list-alt"></i> Variables IMSS INFONAVIT
+			</a></li>
 
-		<li id="calendariosMenu"><a href="<c:url value='/calendario/'/>">
-				<i class="fa fa-calendar-o"></i> Calendarios
-		</a></li>
+			<li id="tasasMenu"><a href="<c:url value='/tasas/'/>"> <i
+					class="fa fa-list-alt"></i> Tasas Sobre Nómina
+			</a></li>
 
-		<li id="usuariosMenu"><a href="<c:url value='/usuarios/'/>">
-				<i class="fa fa-users"></i> Usuarios
-		</a></li>
+			<li id="calendariosMenu"><a href="<c:url value='/calendario/'/>">
+					<i class="fa fa-calendar-o"></i> Calendarios
+			</a></li>
 
+			<sec:authorize access="hasAnyRole('CONSULTA_USER', 'EDITA_USER', 'CREA_USER')">
+				<li id="usuariosMenu"><a href="<c:url value='/usuarios/'/>">
+						<i class="fa fa-users"></i> Usuarios
+				</a></li>
+			</sec:authorize>
 
-	</ul></li>
+		</ul></li>
 
+</sec:authorize>

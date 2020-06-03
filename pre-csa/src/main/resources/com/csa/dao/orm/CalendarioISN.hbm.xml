@@ -35,8 +35,8 @@
 				sql-type="INTEGER" />
 		</property>
 		<property name="mes">
-			<column name="mes" length="11" not-null="true"
-				sql-type="INTEGER" />
+			<column name="mes" length="10" not-null="true"
+				sql-type="VARCHAR(10)" />
 		</property>
 
 		<property name="archivo">

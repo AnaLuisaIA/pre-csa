@@ -4,21 +4,32 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@page pageEncoding="UTF-8"%>
 
-<li id="calculosMain"><a href="javascript:;"> <i
-		class="icon-calculator"></i> <span class="title">Cálculos</span> <span
-		class="selected"></span> <span class="arrow"></span>
-</a>
+<sec:authorize
+	access="hasAnyRole('CONSULTA_REPORTE', 'GENERA_REPORTE', 'GENERA_OP', 'CIERRA_CALCULO')">
 
-	<ul class="sub-menu">
+	<li id="calculosMain"><a href="javascript:;"> <i
+			class="icon-calculator"></i> <span class="title">Cálculos</span> <span
+			class="selected"></span> <span class="arrow"></span>
+	</a>
 
-		<li id="calculosMenu"><a href="<c:url value='/calculos/'/>">
-				<i class="fa fa-calculator"> </i> Realizar cálculos
-		</a></li>
-		<li id="consultaIMSS"><a href="<c:url value='/imss/'/>"> <i
-				class="fa fa-search"></i> Consulta Cálculos IMSS e INFONAVIT
-		</a></li>
-		<li id="consultaISN"><a href="<c:url value='/isn/'/>"> <i
-				class="fa fa-search"></i> Consulta Cálculos ISN
-		</a></li>
+		<ul class="sub-menu">
 
-	</ul></li>
+			<sec:authorize access="hasAnyRole('GENERA_OP', 'CIERRA_CALCULO')">
+				<li id="calculosMenu"><a href="<c:url value='/calculos/'/>">
+						<i class="fa fa-calculator"> </i> Realizar cálculos
+				</a></li>
+			</sec:authorize>
+
+			<sec:authorize
+				access="hasAnyRole('CONSULTA_REPORTE', 'GENERA_REPORTE')">
+				<li id="consultaIMSS"><a href="<c:url value='/calculos/consultaImss/'/>"> <i
+						class="fa fa-search"></i> Consulta Cálculos IMSS e INFONAVIT
+				</a></li>
+				<li id="consultaISN"><a href="<c:url value='/isn/'/>"> <i
+						class="fa fa-search"></i> Consulta Cálculos ISN
+				</a></li>
+			</sec:authorize>
+
+		</ul></li>
+
+</sec:authorize>

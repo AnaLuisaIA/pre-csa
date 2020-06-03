@@ -10,10 +10,10 @@ public class CalendarioDTO {
 	private Integer trimestre;
 	private Integer anio;
 	private Integer semana;
-	private Integer mes;
+	private String mes;
 
 	public CalendarioDTO(Integer id, Date fechaInicio, Date fechaFin, Integer trimestre, Integer anio, Integer semana,
-			Integer mes) {
+			String mes) {
 		this.id = id;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
@@ -71,11 +71,11 @@ public class CalendarioDTO {
 		this.semana = semana;
 	}
 
-	public Integer getMes() {
+	public String getMes() {
 		return mes;
 	}
 
-	public void setMes(Integer mes) {
+	public void setMes(String mes) {
 		this.mes = mes;
 	}
 
