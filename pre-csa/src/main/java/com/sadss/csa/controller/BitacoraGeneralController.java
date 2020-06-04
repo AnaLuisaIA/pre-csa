@@ -42,7 +42,7 @@ public class BitacoraGeneralController {
 	}
 	
 	/**
-	 * Método de busqueda de registros de acuerdoa  los filtros
+	 * Método de busqueda de registros de acuerdo a  los filtros
 	 * */
 	private void fillList(ModelMap model, Bitacora b) {
 		if(b != null) {
@@ -57,7 +57,7 @@ public class BitacoraGeneralController {
 	}
 	
 	/*
-	 * Método de busqueda de acuerd a los filtros de fechas
+	 * Método de busqueda de acuerdo a los filtros de fechas
 	 * **/
 	@RequestMapping(value = "/buscarBitacora",method = RequestMethod.POST)
 	public ModelAndView busquedaBitacora(@Valid @ModelAttribute("bitacora") Bitacora b, BindingResult resul, HttpServletRequest request, RedirectAttributes ra) {

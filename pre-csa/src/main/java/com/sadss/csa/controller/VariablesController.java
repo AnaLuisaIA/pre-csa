@@ -26,15 +26,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import com.sadss.csa.controller.beans.BitacoraSistemaDTO;
 import com.sadss.csa.controller.beans.BitacoraVariableDTO;
 import com.sadss.csa.controller.beans.PeriodoVariablesForm;
 import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
+import com.sadss.csa.modelo.entidad.Bitacora;
 import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.modelo.entidad.Variable;
+import com.sadss.csa.service.BitacoraSistemaService;
 import com.sadss.csa.service.BitacoraVariablesService;
 import com.sadss.csa.service.PeriodoVariableService;
+import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.VariablesService;
 import com.sadss.csa.util.SecurityUtils;
 import com.sadss.csa.util.enums.TipoVariable;
@@ -44,12 +47,13 @@ import com.sadss.csa.util.enums.TipoVariable;
 @RequestMapping("variables")
 public class VariablesController {
 
+	//Service variables
 	@Autowired
 	private VariablesService variablesService;
-	
+	//Service Bitacora Varianbles
 	@Autowired
 	private BitacoraVariablesService bcService;
-	
+	//Service Periodo Variables
 	@Autowired
 	private PeriodoVariableService pvService;
 	
@@ -139,11 +143,11 @@ public class VariablesController {
 		VariablesForm variableForm = (new VariablesForm().fromOrmModel(variable, VariablesForm.class));
 		//Se asigna el Valor de periodo al formulario
 		variableForm.setValor(pv.getValor());
-		//Se asigan el valor a un input no visible para hacer una comparación
+		//Se asigna el valor n
 		variableForm.setValorn(pv.getValor());
 		//Se asigna la fecha de Aplicación de periodo al formulario
 		variableForm.setFechaAplicacion(pv.getFechaAplicacion());
-		//Se asigan la fecha aplicación a un input no visible
+		//Se asigna la fecha aplicación 
 		variableForm.setFechaAplicacionn(pv.getFechaAplicacion());
 		variableForm.setId(idvariable);
 		variableForm.setIdPeriodo(idPeriodo);
@@ -167,28 +171,30 @@ public class VariablesController {
 			System.out.println("Existen errores: "+ result.getAllErrors());
 			return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT",map);
 		}
-		
+		//Se obtiene el nombre del colaborador
 		String colaborador = SecurityUtils.getCurrentUser();
-		
+		//Nombre de la variable
 		variable.setNombre(variable.getNombre().toUpperCase());
 		//Convierte el formulario al modelo
 		Variable modelo = variable.toOrmModel(Variable.class);
+		//Convierte el formulario al modelo
 		PeriodoVariable model = pv.toOrmModel(PeriodoVariable.class);
-		
+		//Valida si existe un registro ya creado
+		this.variablesService.validateBeforeCreate(modelo, result);
 		//Validaciones antes de agregar a BD
-		
 		if(result.hasErrors()) {
 			map.put("variable", variable);
 			agregarInformacion(map);
 			System.out.println("Existen errores: " + result.getAllErrors());
 			return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT",map);
 		}
+		
 		//Agregar a la Base de Datos
 		if(modelo.getId() == null) {
-			//Valida si existe un resgistro ya creado
-			this.variablesService.validateBeforeCreate(modelo, result);
-			//Registro en bitacora Variables
-			variablesService.registrarAccionBitacora("Registro variable "+variable.getNombre() ,new Date() ,variable.getJustificacion(), colaborador);
+			//Registro en Bitacora General (Registro de una Variable)
+			variablesService.registrarAccionBitacoraG("Registro Variable: "+variable.getNombre(), new Date(), colaborador);
+			//Registro en bitacora Variables (Registro de una Variable)
+			variablesService.registrarAccionBitacora("Registro Variable: "+variable.getNombre() ,new Date() ,variable.getJustificacion(), colaborador);
 			//Registro en tabla Variables
 			this.variablesService.create(modelo);
 			//Asignar el id de la variable registrada
@@ -200,13 +206,17 @@ public class VariablesController {
 			map.put("succmsg", "Se creó correctamente el registro la Variable");
 		}else {
 			if(model.getValor().equals(variable.getValorn())) {
-				//Registro en bitacora variables
+				//Registro en Bitacora General (Actualización de variable)
+				variablesService.registrarAccionBitacoraG("Actualización de Variable: "+variable.getNombre(), new Date(), colaborador);
+				//Registro en bitacora variables (Actualización de variable)
 				variablesService.registrarAccionBitacora("Modifico la variable " +variable.getNombre() ,new Date() ,variable.getJustificacion(), colaborador);
 				//Modifica datos de variable
 				this.variablesService.update(modelo);
 			}else {
-				//Registro en bitacora variables
-				variablesService.registrarAccionBitacora("Registro de un nuevo periodo de variable: " +variable.getNombre() ,new Date() ,variable.getJustificacion(), colaborador);
+				//Registro en Bitacora General (Registro de un nuevo periodo)
+				variablesService.registrarAccionBitacoraG("Modificación en el valor de variable : "+variable.getNombre()+" , de  Valor: "+variable.getValorn()+" al Valor: "+variable.getValor(), new Date(), colaborador);
+				//Registro en bitacora variables (Registro de un nuevo periodo)
+				variablesService.registrarAccionBitacora("Modificación en el valor de variable : " +variable.getNombre() ,new Date() ,variable.getJustificacion(), colaborador);
 				//Variable Id
 				variable.setId((modelo.getId()));
 				//Periodo id
@@ -225,9 +235,9 @@ public class VariablesController {
 				variable.setId((modelo.getId()));
 				//Fecha aplicación
 				model.setFechaAplicacion(variable.getFechaAplicacion());
-				//Periodo id
+				//Periodo id Null para un nuevo Registro
 				model.setId(null);
-				//Fecha fin periodo 
+				//Fecha fin periodo Null para un nuevo Registro
 				model.setFechaTermino(null);
 				//valor nuevo
 				model.setValor(variable.getValor());
@@ -251,7 +261,9 @@ public class VariablesController {
 		var.setNombre(var.getNombre());
 		String colaborador = SecurityUtils.getCurrentUser();
 		System.out.println("justificacion " +justificacionIMSSForm);
-		//Registramos en bitácora la eliminación
+		//Registro en Bitacora General (Registro de un nuevo periodo)
+		variablesService.registrarAccionBitacoraG("Variable Eliminada : "+var.getNombre(), new Date(), colaborador);
+		//Registramos en bitácora Variable (Eliminar Variable)
 		variablesService.registrarAccionBitacora("Variable Eliminada "+ var.getNombre() ,new Date() , justificacionIMSSForm , colaborador);
 		//Eliminamos variable
 		variablesService.deleteById(id);
@@ -274,8 +286,10 @@ public class VariablesController {
 		variablesService.update(var);
 		String colaborador = SecurityUtils.getCurrentUser();
 		Variable variable = variablesService.updateVariable(id);
-		//agregar cambio a bitácora sin justificación
-		variablesService.registrarAccionBitacora("Modifico el estado de la Variable " + var.getNombre() ,new Date() ,justificacionIMSSForm, colaborador);
+		//Registro en Bitacora General (Modificar estado Variable)
+		variablesService.registrarAccionBitacoraG("Modifico el estado de la Variable: "+var.getNombre(), new Date(), colaborador);
+		//agregar cambio a bitácora 
+		variablesService.registrarAccionBitacora("Modifico el estado de la Variable: " + var.getNombre() ,new Date() ,justificacionIMSSForm, colaborador);
 		//enviar mensaje de que la variable está habilitada
 		ra.addFlashAttribute("succmsg","Se cambio correctamente el estado de la Variable");
 		VariablesForm variableForm = (new VariablesForm().fromOrmModel(variable, VariablesForm.class));

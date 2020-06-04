@@ -106,8 +106,8 @@
 											<div class="form-group ${status.error ? 'has-error' : ''}">
 												<label for="nombre">Variable: *</label>
 												<c:if test="${empty variable.id}"><form:input path="nombre" class="form-control" placeholder="Nombre de la variable" /></c:if>
-												<c:if test="${not empty variable.id}"><form:input path="nombre" readonly="true" class="form-control" placeholder="Nombre de la variable" /></c:if>
 												<form:errors path="nombre" class="help-block"></form:errors>
+												<c:if test="${not empty variable.id}"><form:input path="nombre" readonly="true" class="form-control" placeholder="Nombre de la variable" /></c:if>
 											</div>
 										</spring:bind>
 									</div>

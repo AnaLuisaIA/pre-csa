@@ -15,19 +15,6 @@ public interface VariablesService  extends CrudService<Variable>{
 	
 	
 	/**
-	 *Guarda registro de creación / actualizacion de Variables en Bitácora
-	 *@param usuario (Usuario que realiza la acción) 
-	 *@param accion (Acción que realizo el usuario)
-	 
-	
-	public void guardarBitacoraVariables(String usuarios, String accion);*/
-	
-	/**
-	 * Guarda Registros de Variables
-	 *
-	public void saveVariables (Variable variable); */
-	
-	/**
 	 * Lista de variables
 	 * */
 	public List<Variable> findVariables();
@@ -42,9 +29,17 @@ public interface VariablesService  extends CrudService<Variable>{
 	 * */
 	
 	public void registrarAccionBitacora(String accion, Date fecha,String justificacion, String user);
+<<<<<<< HEAD
+	/*
+	 * Metodo Registro bitacora General
+	 * */
+	
+	public void registrarAccionBitacoraG(String accion, Date fecha, String user);
+=======
 	
 	public List<PeriodoVariable> getPeriodos() throws ParseException;
 
 	public List<VariablesDTO> getVariablesCalculo(Date fechaAplicacion, Date fechaTermino);
 	
+>>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 }

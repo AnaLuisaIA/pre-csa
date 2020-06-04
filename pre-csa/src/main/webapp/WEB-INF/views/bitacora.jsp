@@ -88,9 +88,9 @@
 								<c:forEach var="a" items="${acciones}">
 									<tr>
 										<td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" 
-											value="${a.fechaAccion}" /></td>
+											value="${a.fecha}" /></td>
 										<td>${a.accion}</td>
-										<td>${a.nombreUsuario} ${a.aPaterno} ${a.aMaterno}</td>
+										<td>${a.numColaborador} - ${a.nombres} ${a.aPaterno} ${a.aMaterno}</td>
 								</c:forEach>
 							</tbody>
 

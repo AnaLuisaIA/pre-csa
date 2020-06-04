@@ -13,10 +13,12 @@ import org.springframework.validation.ValidationUtils;
 import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.dao.VariableDAO;
+import com.sadss.csa.modelo.entidad.Bitacora;
 import com.sadss.csa.modelo.entidad.BitacoraVariables;
 import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.modelo.entidad.Variable;
 import com.sadss.csa.modelo.generic.IOperations;
+import com.sadss.csa.service.BitacoraSistemaService;
 import com.sadss.csa.service.BitacoraVariablesService;
 import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.VariablesService;
@@ -34,6 +36,9 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private BitacoraSistemaService bsService;
 	
 	@Override
 	public void validateBeforeCreate(Variable entity, BindingResult result) {
@@ -67,6 +72,8 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		return dao.updateVariable(id);
 		
 	}
+<<<<<<< HEAD
+=======
 	
 	@Override
 	public List<PeriodoVariable> getPeriodos() throws ParseException{
@@ -86,6 +93,7 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		bitVariablesService.create(bv);
 		
 	}
+>>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 	
 	/**
 	 * Valida existencia de duplicados antes de guardar. Se basa en los campos:
@@ -109,6 +117,36 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 	@Override
 	public PeriodoVariable findVariablesID(Integer id) {
 		return dao.findVariablesID(id);
+	}
+
+	/*
+	 * Registro en Bitacora Variables
+	 * */
+	@Override
+	public void registrarAccionBitacora(String accion, Date fecha, String justificacion, String user) {
+
+		BitacoraVariables bv = new BitacoraVariables();
+
+		bv.setAccion(accion);
+		bv.setFechaAccion(fecha);
+		bv.setJustificacion(justificacion);
+		bv.setUsuario(usuarioService.findByUsername(user));
+		
+		bitVariablesService.create(bv);
+		
+	}
+	
+	/*
+	 * Registro en Bitagora General del Sistema
+	 * */
+	
+	@Override
+	public void registrarAccionBitacoraG(String accion, Date fecha, String user) {
+		Bitacora b = new Bitacora();
+		b.setAccion(accion);
+		b.setFecha(fecha);
+		b.setUsuario(usuarioService.findByUsername(user));
+		bsService.create(b);
 	}
 
 

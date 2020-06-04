@@ -192,7 +192,7 @@
           mensaje = "";
 		        bootbox.confirm({
 		        	title: "Eliminar Variable",
-			        message: "¿Está seguro de que desea continuar?",
+			        message: "Al eliminar esta variable se eliminarán los registros relacionados ¿Está seguro de que desea continuar?",
 			        buttons: {
 			        	cancel: {
 				            label: '<i class="fa fa-times"></i> Regresar'

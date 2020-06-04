@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -29,11 +29,11 @@
 			Alta de Tasas Sobre Nomina
 		</c:if>
 		<c:if test="${not empty tasa.id}">
-			EdiciÛn de Tasa Sobre Nomina
+			Edici√≥n de Tasa Sobre Nomina
 		</c:if>
 	</tiles:putAttribute>
 
-	<!-- Menu de navegaciÛn -->
+	<!-- Menu de navegaci√≥n -->
 	<tiles:putAttribute name="nav">
 		<li><a href='<c:url value="/tasa/"/>'>Alta</a> <i
 			class="fa fa-angle-right"></i></li>
@@ -49,7 +49,7 @@
 						<div class="caption">
 							<h3>
 								<c:if test="${empty tasa.id}">Alta de Tasas Sonbre Nomina | </c:if>
-								<c:if test="${not empty tasa.id}">EdiciÛn Tasas Sobre Nomina | </c:if>
+								<c:if test="${not empty tasa.id}">Edici√≥n Tasas Sobre Nomina | </c:if>
 								<small class="form-text form-muted"> Los campos con *
 									son obligatorios</small>
 							</h3>
@@ -66,10 +66,17 @@
 
 							<div class="form-body">
 
-								<!-- Mensaje de error, validaciÛn backend -->
+								<!-- Mensaje de error, validaci√≥n backend -->
+								<spring:hasBindErrors name="tasa">
+									<div class="alert alert-danger" style="display: block;">
+										<button class="close" data-close="alert"></button>
+										<p>ERROR: Favor de verificar campos</p>
+									</div>
+								</spring:hasBindErrors>
 								<!-- Bloques de campos de formulario a llenar -->
 								<form:hidden path="id" />
 								<div class="row">
+									
 									<div class="col-md-4">
 									<c:if test="${empty tasa.id}"><input id="estatus" name="estatus" type="hidden" value="${1}" /></c:if>
 										<c:if test="${not empty tasa.id}">
@@ -82,20 +89,22 @@
 												</c:otherwise>
 											</c:choose>
 										</c:if>
-										
-										<div class="form-group">
+										<spring:bind path="tasa.estado">
+										<div class="form-group ${status.error ? 'has-error' : ''}">
 											<label for="estado">Estado: *</label>
 											<c:if test="${empty tasa.id}"><form:input  path="estado" name="estado" class="form-control" placeholder="Ingrese el estado de la Tasa" /></c:if>
+											<form:errors path="estado" class="help-block"></form:errors>
 											<c:if test="${not empty tasa.id}"><form:input path="estado" name="estado" readonly="true"  class="form-control" placeholder="Ingrese el estado de la Tasa" /></c:if>
 										</div>
+										</spring:bind>
 									</div>
 									<div class="col-md-4">
 										<spring:bind path="tasa.tipoNomina">
 											<div class="form-group">
 												<label for="tipoNomina">Tipo Nomina: *</label>
 												<form:select path="tipoNomina" required="true"
-													class="form-control" id="tipoNominas">
-													<form:option value="">Selecciona Un Tipo</form:option>
+													class="form-control" id="tipoNomina">
+													<form:option value=""></form:option>
 													<form:options items="${tipoNomina}"></form:options>
 												</form:select>
 												<form:errors path="tipoNomina" class="help-block"></form:errors>
@@ -108,7 +117,7 @@
 												<label for="tipoVariable">Tipo Variable: *</label>
 												<form:select path="tipoVariable" required="true"
 													class="form-control" id="tipoVariable">
-													<form:option value="">Selecciona Un Tipo</form:option>
+													<form:option value=""></form:option>
 													<form:options items="${tipoVariable}"></form:options>
 												</form:select>
 												<form:errors path="tipoVariable" class="help-block"></form:errors>
@@ -148,7 +157,7 @@
 
 
 												<div class="form-group">
-													<label for="fechaA">Fecha AplicaciÛn: *</label>
+													<label for="fechaA">Fecha Aplicaci√≥n: *</label>
 
 													<div class="input-group input-medium date date-picker"
 														data-date-format="dd/mm/yyyy" data-date-end-date="0d">
@@ -212,13 +221,29 @@
 			language: 'es'
 		});
 		
+		$('#tipoNomina').select2({
+			placeholder: "Seleccione el tipo de nomina",
+			allowClear: true,
+               escapeMarkup: function (m) {
+               		return m;
+            }				 
+		});	
+		
+		$('#tipoVariable').select2({
+			placeholder: "Seleccione el tipo de variable",
+			allowClear: true,
+               escapeMarkup: function (m) {
+               		return m;
+            }				 
+		});	
+		
 		$('#cancelar').click(function(e){
 			e.preventDefault();
 			var linkRedireccion = $(this).attr("href")
 		
 			bootbox.setLocale('es');
 			bootbox.confirm({
-				message: "No se guardar· informaciÛn de la Tasa. øDesea Cancelar?",
+				message: "No se guardar√° informaci√≥n de la Tasa. ¬øDesea Cancelar?",
 				callback: function(result){
 					if(result){
 						window.location.href = linkRedireccion;
@@ -233,34 +258,34 @@
 			 
 		    if ($("#es_colaborador").val() == '1') {	
 		        if($("#inputNumColaborador").val() === ''){
-		        	mensaje+= "El campo de <strong>Colaborador</strong> est· vacÌo.<br>"
+		        	mensaje+= "El campo de <strong>Colaborador</strong> est√° vac√≠o.<br>"
 		        };
 		    }
 		    else {
 		    
 
 		    	if($("#estado").val() == ''){
-		    		mensaje+= "El campo de <strong>estado</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>estado</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#tipoNomina").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo Nomina</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Tipo Nomina</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#tipoVariable").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo Variable</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Tipo Variable</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#fechaAplicacion").val() == ''){
-		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#valor").val() == ''){
-		    		mensaje+= "El campo de <strong>Valor</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Valor</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#oficina").val() == ''){
-		    		mensaje+= "El campo de <strong>Oficina</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Oficina</strong> est√° vac√≠o.<br>"
 		    	};
 }
 
@@ -269,7 +294,7 @@
 			} else {
 		        bootbox.confirm({
 		        	title: "Registrar Tasa",
-			        message: "øEst· seguro de que desea continuar?",
+			        message: "¬øEst√° seguro de que desea continuar?",
 			        buttons: {
 			        	cancel: {
 				            label: '<i class="fa fa-times"></i> Regresar'
@@ -309,34 +334,34 @@
 			 
 		    if ($("#es_colaborador").val() == '1') {	
 		        if($("#inputNumColaborador").val() === ''){
-		        	mensaje+= "El campo de <strong>Colaborador</strong> est· vacÌo.<br>"
+		        	mensaje+= "El campo de <strong>Colaborador</strong> est√° vac√≠o.<br>"
 		        };
 		    }
 		    else {
 		    
 
 		    	if($("#estado").val() == ''){
-		    		mensaje+= "El campo de <strong>estado</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>estado</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#tipoNomina").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo Nomina</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Tipo Nomina</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#tipoVariable").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo Variable</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Tipo Variable</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#fechaAplicacion").val() == ''){
-		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#valor").val() == ''){
-		    		mensaje+= "El campo de <strong>Valor</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Valor</strong> est√° vac√≠o.<br>"
 		    	};
 		    	
 		    	if($("#oficina").val() == ''){
-		    		mensaje+= "El campo de <strong>Oficina</strong> est· vacÌo.<br>"
+		    		mensaje+= "El campo de <strong>Oficina</strong> est√° vac√≠o.<br>"
 		    	};
 }
 
@@ -345,7 +370,7 @@
 			} else {
 		        bootbox.confirm({
 		        	title: "Actualizar Tasa",
-			        message: "øEst· seguro de que desea continuar?",
+			        message: "¬øEst√° seguro de que desea continuar?",
 			        buttons: {
 			        	cancel: {
 				            label: '<i class="fa fa-times"></i> Regresar'

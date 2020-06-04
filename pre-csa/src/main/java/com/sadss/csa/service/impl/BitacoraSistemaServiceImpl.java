@@ -54,16 +54,6 @@ public class BitacoraSistemaServiceImpl extends AbstractService<Bitacora> implem
 		return dao.getBitacorasPorBusqueda(b);
 	}
 
-	@Override
-	public void guardarRegistroAccion(String accion, Date fechas, Usuario user) {
-		Bitacora b = new Bitacora();
-		b.setAccion(accion);
-		b.setFecha(fechas);
-		b.setUsuario(user);
-		
-		dao.create(b);
-		
-	}
 
 	@Override
 	protected IOperations<Bitacora> getDao() {

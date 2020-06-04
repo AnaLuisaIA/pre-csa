@@ -33,6 +33,8 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		return query.list();
 	}
 
+<<<<<<< HEAD
+=======
 	/*
 	 *Metodo Modificar Estado 
 	 * */
@@ -48,6 +50,7 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
         
 		return null;
 	}
+>>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 
 	@Override
 	public PeriodoVariable findVariablesID(Integer id) {
@@ -93,6 +96,11 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		}
 		
 		return query.list();
+	}
+
+	@Override
+	public Variable updateVariable(int id) {
+		return null;
 	}
 	
 }
