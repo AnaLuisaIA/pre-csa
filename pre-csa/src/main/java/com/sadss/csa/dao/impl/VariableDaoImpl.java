@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.sadss.csa.controller.beans.VariablesForm;
+
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.dao.VariableDAO;
 import com.sadss.csa.dao.generic.AbstractHibernateDao;
@@ -18,8 +18,6 @@ import com.sadss.csa.modelo.entidad.Variable;
 
 @Repository
 public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements VariableDAO{
-	@Autowired
-	private SessionFactory sessionFactory;
 	
 	public VariableDaoImpl() {
 		super();
@@ -37,6 +35,7 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		return query.list();
 	}
 
+<<<<<<< HEAD
 	/*
 	 *Metodo Modificar Estado 
 	 * */
@@ -53,6 +52,8 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		return null;
 	}
 
+=======
+>>>>>>> a4fdaad0932b603d4b9dbe2a70839b6f4a42a494
 	@Override
 	public PeriodoVariable findVariablesID(Integer id) {
 		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.PeriodoVariablesDTO(P.id,V.id,P.valor,P.fechaAplicacion) from com.sadss.csa.modelo.entidad.PeriodoVariable P JOIN P.variable V WHERE V.id = :id");
