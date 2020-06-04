@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
-import com.sadss.csa.controller.beans.VariablesForm;
+
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.dao.VariableDAO;
 import com.sadss.csa.dao.generic.AbstractHibernateDao;
@@ -16,8 +16,6 @@ import com.sadss.csa.modelo.entidad.Variable;
 
 @Repository
 public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements VariableDAO{
-	@Autowired
-	private SessionFactory sessionFactory;
 	
 	public VariableDaoImpl() {
 		super();
@@ -58,6 +56,7 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		query.setParameter("id", id);
 		
 		return (PeriodoVariable) (query.list().isEmpty() ? null : query.list().get(0));
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

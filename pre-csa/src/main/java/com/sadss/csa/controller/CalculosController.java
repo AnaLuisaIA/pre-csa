@@ -39,13 +39,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sadss.csa.controller.beans.CalculoIsnForm;
 import com.sadss.csa.controller.beans.CalculosImssForm;
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
 import com.sadss.csa.modelo.entidad.CalculoIMSS;
+import com.sadss.csa.modelo.entidad.Calendario;
 import com.sadss.csa.modelo.entidad.DatosCarga;
 import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.service.CalculoIMSSService;
+import com.sadss.csa.service.CalendarioService;
 import com.sadss.csa.service.DatosCargaService;
 import com.sadss.csa.service.VariablesService;
 import com.sadss.csa.util.SecurityUtils;
@@ -61,6 +64,9 @@ public class CalculosController {
 	@Autowired
 	private CalculoIMSSService imssService;
 
+	@Autowired
+	private CalendarioService calendarioService;
+	
 	@Autowired
 	private DatosCargaService datosService;
 
@@ -90,11 +96,24 @@ public class CalculosController {
 	public String calculoISN(@RequestParam("nombreArchivo") String nombreA,
 			@RequestParam("fechaInicio") Date fechaInicio, @RequestParam("fechaFin") Date fechaFin,
 			@RequestParam("periodo") String periodo, ModelMap model) {
+		
+		CalculoIsnForm isnForm = new CalculoIsnForm();
+		
+		TipoPeriodo periodoImss = null;
 
-		System.out.println(nombreA);
-		System.out.println(fechaInicio);
-		System.out.println(fechaFin);
-		System.out.println(periodo);
+		for (TipoPeriodo t : TipoPeriodo.values()) {
+			if (t.getValue().equalsIgnoreCase(periodo)) {
+				periodoImss = t;
+				break;
+			}
+		}
+		
+		isnForm.setTipoPeriodo(periodoImss);
+		isnForm.setFechaInicio(fechaInicio);
+		isnForm.setFechaFin(fechaFin);
+		
+		model.addAttribute("isnForm", isnForm);
+		model.addAttribute("anios", calendarioService.obtenerAnios());
 		
 		return "calculos/calculoISN";
 	}
@@ -293,6 +312,12 @@ public class CalculosController {
 
 		return true;
 	}
+	
+	@RequestMapping(value = "/getSemanas", method = RequestMethod.GET)
+	public @ResponseBody List<Calendario> getSemanas(@RequestParam Integer anio){
+		return calendarioService.getCalendarioPorAnio(anio);
+	}
+
 
 	@RequestMapping(value = "/layout", method = RequestMethod.GET)
 	public void descargarLayout(HttpServletRequest request, HttpServletResponse response) {
