@@ -72,28 +72,12 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		return dao.updateVariable(id);
 		
 	}
-<<<<<<< HEAD
-=======
 	
 	@Override
 	public List<PeriodoVariable> getPeriodos() throws ParseException{
 		return this.dao.getPeriodos();
 	}
 
-	@Override
-	public void registrarAccionBitacora(String accion, Date fecha, String justificacion, String user) {
-
-		BitacoraVariables bv = new BitacoraVariables();
-
-		bv.setAccion(accion);
-		bv.setFechaAccion(fecha);
-		bv.setJustificacion(justificacion);
-		bv.setUsuario(usuarioService.findByUsername(user));
-		
-		bitVariablesService.create(bv);
-		
-	}
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 	
 	/**
 	 * Valida existencia de duplicados antes de guardar. Se basa en los campos:
@@ -148,11 +132,5 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		b.setUsuario(usuarioService.findByUsername(user));
 		bsService.create(b);
 	}
-
-
-
-
-
-	
 
 }
