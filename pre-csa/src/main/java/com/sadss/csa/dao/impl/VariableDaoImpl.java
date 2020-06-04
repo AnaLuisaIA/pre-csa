@@ -33,25 +33,6 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		return query.list();
 	}
 
-<<<<<<< HEAD
-=======
-	/*
-	 *Metodo Modificar Estado 
-	 * */
-	@Override
-	public Variable updateVariable(int id) {
-        /**String hql = "UPDATE com.sadss.csa.modelo.entidad.Variable SET estado = 0 WHERE id = :id";
-        Query query =  getCurrentSession().createQuery(hql);
-        query.setParameter("id", id);
-        int result = query.executeUpdate();
-        System.out.println("Rows affected: " + result);
-        
-        query.list().get(0);**/
-        
-		return null;
-	}
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
-
 	@Override
 	public PeriodoVariable findVariablesID(Integer id) {
 		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.PeriodoVariablesDTO(P.id,V.id,P.valor,P.fechaAplicacion) from com.sadss.csa.modelo.entidad.PeriodoVariable P JOIN P.variable V WHERE V.id = :id");

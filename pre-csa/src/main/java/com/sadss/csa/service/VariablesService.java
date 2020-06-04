@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.controller.beans.generic.CrudService;
 import com.sadss.csa.modelo.entidad.PeriodoVariable;
@@ -29,17 +28,16 @@ public interface VariablesService  extends CrudService<Variable>{
 	 * */
 	
 	public void registrarAccionBitacora(String accion, Date fecha,String justificacion, String user);
-<<<<<<< HEAD
+
 	/*
 	 * Metodo Registro bitacora General
 	 * */
 	
 	public void registrarAccionBitacoraG(String accion, Date fecha, String user);
-=======
+
 	
 	public List<PeriodoVariable> getPeriodos() throws ParseException;
 
 	public List<VariablesDTO> getVariablesCalculo(Date fechaAplicacion, Date fechaTermino);
 	
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 }

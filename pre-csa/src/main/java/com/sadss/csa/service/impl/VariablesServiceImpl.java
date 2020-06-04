@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 
-import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.dao.VariableDAO;
 import com.sadss.csa.modelo.entidad.Bitacora;
@@ -72,8 +71,6 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		return dao.updateVariable(id);
 		
 	}
-<<<<<<< HEAD
-=======
 	
 	@Override
 	public List<PeriodoVariable> getPeriodos() throws ParseException{
@@ -93,7 +90,6 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		bitVariablesService.create(bv);
 		
 	}
->>>>>>> branch 'master' of https://github.com/AnaLuisaIA/pre-csa.git
 	
 	/**
 	 * Valida existencia de duplicados antes de guardar. Se basa en los campos:
@@ -117,23 +113,6 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 	@Override
 	public PeriodoVariable findVariablesID(Integer id) {
 		return dao.findVariablesID(id);
-	}
-
-	/*
-	 * Registro en Bitacora Variables
-	 * */
-	@Override
-	public void registrarAccionBitacora(String accion, Date fecha, String justificacion, String user) {
-
-		BitacoraVariables bv = new BitacoraVariables();
-
-		bv.setAccion(accion);
-		bv.setFechaAccion(fecha);
-		bv.setJustificacion(justificacion);
-		bv.setUsuario(usuarioService.findByUsername(user));
-		
-		bitVariablesService.create(bv);
-		
 	}
 	
 	/*
