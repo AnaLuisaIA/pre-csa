@@ -25,7 +25,7 @@
 				<li id="consultaIMSS"><a href="<c:url value='/calculos/consultaImss'/>"> <i
 						class="fa fa-search"></i> Consulta C&aacute;lculos IMSS e INFONAVIT
 				</a></li>
-				<li id="consultaISN"><a href="<c:url value='/cISN/'/>"> <i
+				<li id="consultaISN"><a href="<c:url value='/calculos/consultaISN'/>"> <i
 						class="fa fa-search"></i> Consulta C&aacute;lculos ISN
 				</a></li>
 			</sec:authorize>

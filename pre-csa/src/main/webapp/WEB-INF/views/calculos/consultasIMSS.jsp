@@ -109,9 +109,22 @@
 									<th>Total INFONAVIT</th>
 									<th>Fecha de Cálculo</th>
 									<th>Calculado por</th>
+									<th>Acción</th>
 								</tr>
 							 </thead>
-							 
+							 <tfoot>
+        						<tr>
+           						 <td align="right" colspan=2>Total:</td>
+            						<td></td>
+            						<td></td>
+            						<td></td>
+            						<td></td>
+            						<td></td>
+            						<td></td>
+            						<td></td>
+            						<td></td>
+       						 	</tr>
+   							 </tfoot>
 							<tbody>
 								<c:forEach var="a" items="${acciones}">
 									<tr>
@@ -125,6 +138,7 @@
 										<td>${a.totalInfonavit}</td>
 										<td><fmt:formatDate value="${a.fechaCalculo}" pattern="dd/MM/yyyy" /></td>
 										<td>${a.nombres} ${a.aPaterno} ${a.aMaterno}</td>
+										<td><a href="#" class="btn btn-primary btn-small"><i class="fa fa-edit"></i></a></td>
 								</c:forEach>
 							</tbody>
 
@@ -159,11 +173,63 @@
 			src="<c:url value='/assets/global/scripts/jquery.spring-friendly.js'/>"></script>
 		<script type="text/javascript"
 			src="<c:url value='/assets/admin/pages/scripts/ui-idletimeout.js'/>"></script>
-			<script
+		<script
 			src="<c:url value='/assets/global/plugins/bootstrap-select/bootstrap-select.min.js'/>"></script>
 		<script
 			src="<c:url value='/assets/global/plugins/select2/select2.min.js'/>"></script>
+<script>
+			/**
+			 * funcion que realiza los calculos
+			 */
+			$(document).ready(function(){
+  				//tu codigo cuando se hace click sobre un tr
 
+    			// obtenemos todas las filas del tbody
+    			var filas=document.querySelectorAll("#tablaConsultaII tbody tr");
+ 
+    			var totalP=0;
+    			var totalT=0;
+    			var totalIMSS=0;
+    			
+    			var totalIP=0;
+    			var totalIT=0;
+    			var totalI=0;
+ 
+    			// recorremos cada una de las filas
+    			filas.forEach(function(e) {
+ 
+       				 // obtenemos las columnas de cada fila
+       				 var columnas=e.querySelectorAll("td");
+ 
+        			//obtenemos los valores de la cantidad y importe
+       				var tPatron=parseFloat(columnas[2].textContent);
+        			var tTrabajador=parseFloat(columnas[3].textContent);
+        			var tIMSS=parseFloat(columnas[4].textContent);
+        			
+        			var IP=parseFloat(columnas[5].textContent);
+        			var IT=parseFloat(columnas[6].textContent);
+        			var tI=parseFloat(columnas[7].textContent);
+        			
+        			totalP+=tPatron;
+        			totalT+=tTrabajador;
+        			totalIMSS+=tIMSS;
+        			
+        			totalIP+=IP;
+        			totalIT+=IT;
+        			totalI+=tI;
+    			});
+ 
+    			// mostramos la suma total
+    			var filas=document.querySelectorAll("#tablaConsultaII tfoot tr td");
+    			filas[1].textContent=totalP.toFixed(2);
+    			filas[2].textContent=totalT.toFixed(2);
+    			filas[3].textContent=totalIMSS.toFixed(2);
+    			
+    			filas[4].textContent=totalIP.toFixed(2);
+    			filas[5].textContent=totalIT.toFixed(2);
+    			filas[6].textContent=totalI.toFixed(2);
+		});
+</script>
 	</tiles:putAttribute>
 
 
@@ -192,6 +258,7 @@
                		return m;
             }				 
 		});
+		
    </tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">

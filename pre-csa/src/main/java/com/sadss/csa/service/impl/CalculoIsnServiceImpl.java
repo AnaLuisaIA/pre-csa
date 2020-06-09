@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import com.sadss.csa.controller.beans.CalculoIsnForm;
+import com.sadss.csa.dao.calculoIsnDAO;
 import com.sadss.csa.modelo.entidad.CalculoISN;
 import com.sadss.csa.modelo.entidad.DatosCarga;
 import com.sadss.csa.modelo.generic.IOperations;
@@ -33,10 +34,13 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 	@Autowired
 	private UsuarioService usuarioService;
 	
+	@Autowired
+	private calculoIsnDAO dao;
+	
 	@Override
-	public void validateBeforeCreate(CalculoISN entity, BindingResult result) {
+	public void validateBeforeCreate(CalculoISN entity, BindingResult result) {		
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -82,6 +86,10 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 		return calculo;
 	}
 
+	@Override
+	public List<CalculoISN> getAllCalculoISN() {
+		return dao.getAllCalculoISN();
+	}
 	@SuppressWarnings("resource")
 	@Override
 	public void generarArchivoCalculos(HttpServletRequest request, HttpServletResponse response,
@@ -108,13 +116,25 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 		response.setContentType("application/vnd.ms-excel");
 
 		Writer.write(response, sheet);
-
+	
+		@Override
+	protected IOperations<CalculoISN> getDao() {
+		return this.dao;
+	}
+	
+	@Override
+	public List<CalculoISN> getAllAgente() {
+		return dao.getAllAgente();
 	}
 
 	@Override
-	protected IOperations<CalculoISN> getDao() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CalculoISN> getAllFechaCalculo() {
+		return dao.getAllFechaCalculo();
+	}
+
+	@Override
+	public List<CalculoISN> getAllColaborador() {
+		return dao.getAllColaborador();
 	}
 
 }

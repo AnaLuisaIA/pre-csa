@@ -159,6 +159,71 @@ public class CalculosController {
 		model.put("calculoIMSS", ci);
 		return new ModelAndView("calculos/consultasIMSS", model);
 	}
+	
+	/*
+	 * Método para extraer el numero de agente ISN
+	 * **/
+	private void agregarAgente(ModelMap model) {
+		List<CalculoISN> clave = isnService.getAllAgente();
+		model.put("clave", clave);
+	}
+	
+	/*
+	 * Método para extraer las fecha de calculo ISN
+	 * **/
+	private void agregarFechaCalculoI(ModelMap model) {
+		List<CalculoISN> fechaCalculo = isnService.getAllFechaCalculo();
+		model.put("fechaCalculo", fechaCalculo);
+	}
+	
+	/*
+	 * Método para extraer los Colaboradores que han realizado un proceso de isn
+	 * **/
+	private void agregarColaboradorI(ModelMap model) {
+		List<CalculoISN> usuario = isnService.getAllColaborador();
+		model.put("usuario", usuario);
+	}
+	
+	/**
+	 * Vista de Consulta de Cálculos ISN
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/consultaISN", method = RequestMethod.GET)
+	public String consultarCalculosISN(ModelMap model, HttpServletRequest request) {
+		List<CalculoISN> registros = isnService.getAllCalculoISN();
+		model.put("acciones", registros);
+		agregarAgente(model);
+		agregarFechaCalculoI(model);
+		agregarColaboradorI(model);
+		model.put("calculoISN", new CalculoISN());
+		return "calculos/consultasISN";
+	}
+	
+	/*
+	 * Método de busqueda de registros de acuerdo a los filtros
+	 * */
+	public void fillListsI(ModelMap model, CalculoISN c) {
+		if(c != null) {
+			List<CalculoISN> acciones = isnService.getCalculosISNPorBusqueda(c);
+			model.put("acciones", acciones);
+		}
+	}
+	
+	/*
+	 * Método de busqueda de acuerdo a los filtros 
+	 * */
+	@RequestMapping(value = "/buscarCalculoISN", method = RequestMethod.POST)
+	public ModelAndView busquedaCalculoISN(@Valid @ModelAttribute("calculoISN") CalculoISN c, BindingResult result, HttpServletRequest request, RedirectAttributes ra) {
+		ModelMap model = new ModelMap();
+		fillListsI(model, c);
+		agregarAgente(model);
+		agregarFechaCalculoI(model);
+		agregarColaboradorI(model);
+		model.put("calculoISN", c);
+		return new ModelAndView("calculos/consultasISN",model);
+	}
 
 	/**
 	 * Proceso de Cálculo IMSS
