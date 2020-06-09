@@ -12,6 +12,9 @@
 			href="<c:url value='/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css'/>"
 			rel="stylesheet" type="text/css" />
 		<link
+			href="<c:url value='/assets/global/plugins/select2/select2.css'/>"
+			rel="stylesheet" type="text/css" />
+		<link
 			href="<c:url value='/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css'/>"
 			rel="stylesheet" type="text/css" />
 		<link
@@ -73,18 +76,18 @@
 										<form:input path="fechaFin" type="text" class="form-control" readonly="true"
 											maxlenght="10" placeholder="Al..." />
 									</div>
-									<div class="form-group">
+
 											<form:select path="numColaborador" class="form-control" name="numColaborador" required="true">
-												<form:option value="">Calculado Por</form:option>
+												<form:option value=""></form:option>
 												<c:forEach var="u" items="${usuario}">
 													<form:option value="${u.numColaborador}"><c:out value="${u.nombres} ${u.aPaterno} ${u.aMaterno}"/></form:option>
 											 	</c:forEach>
 											</form:select>
-									</div>
+
 									<div class="form-group">
 											<form:select path="fechaCalculo" class="form-control"
 												name="fechaCalculo" required="true">
-												<form:option value="">Fecha de calculo: </form:option>}
+												<form:option value=""></form:option>
 												<form:option value="">01/01/2020</form:option>
 												<form:options items="${fecha}" itemValue="fechaCalculo" itemLabel="fechaCalculo"></form:options>
 											</form:select>
@@ -108,6 +111,8 @@
 									<th>Fecha de Cálculo</th>
 									<th>Calculado por</th>
 								</tr>
+							 </thead>
+							 
 							<tbody>
 								<c:forEach var="a" items="${acciones}">
 									<tr>
@@ -155,7 +160,10 @@
 			src="<c:url value='/assets/global/scripts/jquery.spring-friendly.js'/>"></script>
 		<script type="text/javascript"
 			src="<c:url value='/assets/admin/pages/scripts/ui-idletimeout.js'/>"></script>
-
+			<script
+			src="<c:url value='/assets/global/plugins/bootstrap-select/bootstrap-select.min.js'/>"></script>
+		<script
+			src="<c:url value='/assets/global/plugins/select2/select2.min.js'/>"></script>
 
 	</tiles:putAttribute>
 
@@ -164,27 +172,27 @@
 		$('#calculosMain').addClass("start active open");
 		$('#tablaConsultaII').DataTable();
 		$('#consultaIMSS').addClass("active");
+		
 		$('.date-picker').datepicker({
 		autoclose:true,
 		language:'es'
 		});
-		
-		$('#fechaCalculo').select2({
-			placeholder: "Fecha Calculo",
-			allowClear: true,
-               escapeMarkup: function (m) {
-               		return m;
-            }				 
-		});
 			
-		$('#usuario	').select2({
-			placeholder: "Calculado Por",
+		$('#numColaborador').select2({
+			placeholder: "Calculado Por:",
 			allowClear: true,
                escapeMarkup: function (m) {
                		return m;
             }				 
 		});	
 		
+		$('#fechaCalculo').select2({
+			placeholder: "Fecha Calculo:",
+			allowClear: true,
+               escapeMarkup: function (m) {
+               		return m;
+            }				 
+		});
    </tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">
