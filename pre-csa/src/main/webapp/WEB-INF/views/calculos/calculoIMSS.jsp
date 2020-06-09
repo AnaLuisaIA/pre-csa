@@ -96,7 +96,7 @@
 													archivo que contiene los datos de carga <span
 													class="required">*</span>
 												</label>
-												<div class="col-md-6 col-md-offset-1">
+												<div class="col-md-5 col-md-offset-1">
 													<form:input type="file" path="archivo"
 														accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 														class="form-control-file" />
@@ -269,8 +269,8 @@
 											</a> <a class="btn green button-submit ladda-button"
 												data-style="expand-right"><span class="ladda-label">Descargar
 													Archivo </span><i class="fa fa-download"></i> </a> <a
-												class="btn green button-continue" id="btnISN">
-												Continuar con Cálculo ISN <i class="fa fa-angle-right"></i>
+												class="btn green button-continue" id="btnISN"> Continuar
+												con Cálculo ISN <i class="fa fa-angle-right"></i>
 											</a>
 
 
@@ -285,6 +285,9 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="loaderFile">
+			<!-- Place at bottom of page -->
 		</div>
 	</tiles:putAttribute>
 

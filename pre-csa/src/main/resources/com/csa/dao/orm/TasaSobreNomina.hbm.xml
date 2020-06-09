@@ -38,6 +38,10 @@
 			<column name="valor" not-null="true" sql-type="NUMERIC" />
 		</property>
 
+		<property name="totalAPagar">
+			<column name="totalAPagar" sql-type="NUMERIC" />
+		</property>
+
 		<property name="oficina">
 			<column name="oficina" length="200" not-null="true"
 				sql-type="VARCHAR(200)" />

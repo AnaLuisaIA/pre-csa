@@ -39,7 +39,7 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 
 	@Autowired
 	private CalculoIMSSDao dao;
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
 
@@ -103,35 +103,44 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 	public void setValoresComplemento(DatosCarga datos, int col, Cell celda) {
 		switch (col) {
 		case 6:
-			datos.setSueldo(new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
+			datos.setSueldo((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 7:
-			datos.setAguinaldo(new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
+			datos.setAguinaldo((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 8:
-			datos.setVacaciones((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setVacaciones((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 9:
-			datos.setPrimaVacacional(
-					(new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setPrimaVacacional((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 10:
-			datos.setRepUtil((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setRepUtil((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 11:
-			datos.setIndemnizacion((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setIndemnizacion((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 12:
-			datos.setVeinteDias((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setVeinteDias((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 13:
-			datos.setPrimaAnti((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setPrimaAnti((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 14:
-			datos.setCompensacionV((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setCompensacionV((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 15:
-			datos.setPremios((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setPremios((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		default:
 			break;
@@ -143,46 +152,60 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 	public void setValoresBonos(DatosCarga datos, int col, Cell celda) {
 		switch (col) {
 		case 16:
-			datos.setBono(new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
+			datos.setBono((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 17:
-			datos.setBonoLealtad(new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
+			datos.setBonoLealtad((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 18:
-			datos.setBonoDigital((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setBonoDigital((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 19:
-			datos.setBonoTraslado((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setBonoTraslado((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 20:
-			datos.setOtroBono1((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono1((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 21:
-			datos.setOtroBono2((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono2((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 22:
-			datos.setOtroBono3((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono3((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 23:
-			datos.setOtroBono4((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono4((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 24:
-			datos.setOtroBono5((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono5((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 25:
-			datos.setOtroBono6((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono6((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 26:
-			datos.setOtroBono7((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono7((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 27:
-			datos.setOtroBono8((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono8((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 28:
-			datos.setOtroBono9((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono9((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 29:
-			datos.setOtroBono10((new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+			datos.setOtroBono10((celda == null) ? new BigDecimal("0.00")
+					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		default:
 			break;
@@ -253,10 +276,10 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 			} else if (StringUtils.containsIgnoreCase(v.getNombre(), "INFONAVIT")
 					&& v.getTipo().equals(TipoVariable.PATRON)) {
 				var.put("INF", v.getValor());
-			} 
+			}
 
 		}
-		
+
 		return var;
 
 	}
@@ -264,96 +287,95 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 	@Override
 	public CalculoIMSS realizarCalculos(CalculosImssForm cif, DatosCarga datos, LinkedHashMap<String, BigDecimal> var,
 			String colaborador, BigDecimal dias, BigDecimal salario_diario, BigDecimal sdb, int clave) {
-		
-		//IMSS PATRONAL
+
+		// IMSS PATRONAL
 		BigDecimal baseCotizacion = sdb.multiply(dias);
 		BigDecimal minimo_integrado = salario_diario.multiply(new BigDecimal(1.0452));
-		
-		//Cuota Fija
-		BigDecimal cuota = dias.multiply((var.get("UMA").multiply(var.get("CTA"))))
-				.setScale(2, RoundingMode.HALF_UP);
-		
-		//Excedente 3UMA
+
+		// Cuota Fija
+		BigDecimal cuota = dias.multiply((var.get("UMA").multiply(var.get("CTA")))).setScale(2, RoundingMode.HALF_UP);
+
+		// Excedente 3UMA
 		BigDecimal excedente;
-		if(sdb.compareTo(var.get("UMA").multiply(new BigDecimal(3))) > 0) {
+		if (sdb.compareTo(var.get("UMA").multiply(new BigDecimal(3))) > 0) {
 			excedente = dias.multiply(var.get("E3P"))
 					.multiply(sdb.subtract(var.get("UMA").multiply(new BigDecimal(3))));
 		} else {
 			excedente = new BigDecimal(0);
-		}					
-	
-		//Prestaciones en Dinero
+		}
+
+		// Prestaciones en Dinero
 		BigDecimal prestaciones = baseCotizacion.multiply(var.get("PDP"));
-		
-		//Gastos Médicos
+
+		// Gastos Médicos
 		BigDecimal gastos = baseCotizacion.multiply(var.get("GMP"));
-		
-		//RT
+
+		// RT
 		BigDecimal rt = baseCotizacion.multiply(var.get("RT"));
-		
-		//Guardería
+
+		// Guardería
 		BigDecimal guarderia = baseCotizacion.multiply(var.get("GUP"));
-		
-		//Invalidez y Vida
+
+		// Invalidez y Vida
 		BigDecimal iyv = baseCotizacion.multiply(var.get("IVP"));
-		
-		//Total Patrón
+
+		// Total Patrón
 		BigDecimal totalP = cuota.add(excedente).add(prestaciones).add(gastos).add(rt).add(guarderia).add(iyv);
-		
-		//IMSS TRABAJADOR
-		//Excedente 3UMA
+
+		// IMSS TRABAJADOR
+		// Excedente 3UMA
 		BigDecimal excedenteT;
-		if(sdb.compareTo(var.get("UMA").multiply(new BigDecimal(3))) > 0) {
+		if (sdb.compareTo(var.get("UMA").multiply(new BigDecimal(3))) > 0) {
 			excedenteT = dias.multiply(var.get("E3T"))
 					.multiply(sdb.subtract(var.get("UMA").multiply(new BigDecimal(3))));
 		} else {
 			excedenteT = new BigDecimal(0);
 		}
-		
-		//Prestaciones
+
+		// Prestaciones
 		BigDecimal prestacionesT = baseCotizacion.multiply(var.get("PDT"));
-		
-		//Gastos
+
+		// Gastos
 		BigDecimal gastosT = baseCotizacion.multiply(var.get("GMT"));
-		
-		//Invalidez y Vida
+
+		// Invalidez y Vida
 		BigDecimal iyvT = baseCotizacion.multiply(var.get("IVT"));
-		
-		//Total Trabajador
+
+		// Total Trabajador
 		BigDecimal totalT;
-		if(sdb.compareTo(minimo_integrado) <= 0) {
+		if (sdb.compareTo(minimo_integrado) <= 0) {
 			totalT = new BigDecimal(0);
 			totalP = totalP.add(excedenteT.add(prestacionesT).add(gastosT).add(iyvT));
 		} else {
 			totalT = excedenteT.add(prestacionesT).add(gastosT).add(iyvT);
 		}
-		
-		//INFONAVIT PATRONAL
-		//C y V
+
+		// INFONAVIT PATRONAL
+		// C y V
 		BigDecimal cyv = baseCotizacion.multiply(var.get("CVP"));
-		
-		///SAR
+
+		/// SAR
 		BigDecimal sar = baseCotizacion.multiply(var.get("SAR"));
-		
-		//INFONAVIT
+
+		// INFONAVIT
 		BigDecimal info = baseCotizacion.multiply(var.get("INF"));
-		
-		//INFONAVIT TRABAJADOR
-		//C y V
+
+		// INFONAVIT TRABAJADOR
+		// C y V
 		BigDecimal cyvT = baseCotizacion.multiply(var.get("CVT"));
-		
-		//PATRÓN / TRABAJADOR TOTAL IMSS
+
+		// PATRÓN / TRABAJADOR TOTAL IMSS
 		BigDecimal imssP;
 		BigDecimal imssT = new BigDecimal(0);
 		BigDecimal infonavitP;
 		BigDecimal infonavitT = new BigDecimal(0);
 		BigDecimal imssTotal;
-		
-		if(sdb.compareTo(minimo_integrado) <= 0) {
+
+		if (sdb.compareTo(minimo_integrado) <= 0) {
 			infonavitP = cyv.add(sar).add(info).add(cyvT);
 			imssP = totalP.add(infonavitP);
 			imssTotal = imssP;
-			
+
 		} else {
 			infonavitP = cyv.add(sar).add(info);
 			infonavitT = cyvT;
@@ -361,12 +383,12 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 			imssT = totalT.add(infonavitT);
 			imssTotal = imssP.add(imssT);
 		}
-		
+
 		CalculoIMSS calculo = new CalculoIMSS();
 		calculo.setClaveAgente(clave);
 		calculo.setTipoPeriodo(cif.getTipoPeriodo());
 		calculo.setTipoNomina(cif.getTipoNomina());
-		
+
 		calculo.setCuotaFijaP(cuota);
 		calculo.setExcedenteP(excedente);
 		calculo.setPrestacionesP(prestaciones);
@@ -375,55 +397,55 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 		calculo.setGuarderiaP(guarderia);
 		calculo.setInvVidaP(iyv);
 		calculo.setTotalPatron(totalP);
-		
+
 		calculo.setExcedenteT(excedenteT);
 		calculo.setPrestacionesT(prestacionesT);
 		calculo.setInvVidaT(iyvT);
 		calculo.setGastosMedicosT(gastosT);
 		calculo.setTotalTrabajador(totalT);
-		
+
 		calculo.setTotalIMSS(imssTotal);
 		calculo.setInfonavitPatron(infonavitP);
 		calculo.setInfonavitTrabajador(infonavitT);
 		calculo.setTotalInfonavit(infonavitP.add(infonavitT));
-		
+
 		calculo.setFechaCalculo(new Date());
 		calculo.setPeriodoInicio(cif.getFechaInicio());
 		calculo.setPeriodoFin(cif.getFechaFin());
 		calculo.setUsuarioCalculo(usuarioService.findByUsername(colaborador));
 		calculo.setDatos(datos);
-		
+
 		return calculo;
-		
+
 	}
 
 	@SuppressWarnings("resource")
 	@Override
 	public void generarArchivoCalculos(HttpServletRequest request, HttpServletResponse response,
 			List<CalculoIMSS> calculos, Date fechaInicio, Date fechaFin, String colaborador) {
-		
+
 		XSSFWorkbook workbook = new XSSFWorkbook();
-		
+
 		XSSFSheet sheet = workbook.createSheet("CALCULOS IMSS");
-		
+
 		int inicioRowIndex = 0;
-		int inicioColIndex = 0;	
-		
+		int inicioColIndex = 0;
+
 		Layouter.buildArchivoSalida(sheet, inicioRowIndex, inicioColIndex, fechaInicio, fechaFin, colaborador);
 		FillManager.fillCalculosIMSS(sheet, inicioRowIndex, inicioColIndex, calculos);
-		
+
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Mexico_City"));
 		calendar.setTime(new Date());
-		
-		String fileName = "CALCULOS_IMSS_"+ String.valueOf(calendar.get(Calendar.YEAR)) +
-				""+ String.valueOf(calendar.get(Calendar.MONTH)+1) +
-				""+ String.valueOf(calendar.get(Calendar.DAY_OF_MONTH))+".xlsx";
+
+		String fileName = "CALCULOS_IMSS_" + String.valueOf(calendar.get(Calendar.YEAR)) + ""
+				+ String.valueOf(calendar.get(Calendar.MONTH) + 1) + ""
+				+ String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + ".xlsx";
 		response.setHeader("Content-Disposition", "inline; filename=" + fileName);
-		
+
 		response.setContentType("application/vnd.ms-excel");
-		
+
 		Writer.write(response, sheet);
-		
+
 	}
 
 	@Override

@@ -10,4 +10,8 @@ public interface TasaDAO extends IOperations<TasaSobreNomina>{
 	public List<TasaSobreNomina> findTasas();
 	
 	public TasaSobreNomina updateTasa(int id);
+	
+	public TasaSobreNomina getTasaByOficina(String oficina);
+	
+	public TasaSobreNomina findTasaByEstado(String estado);
 }

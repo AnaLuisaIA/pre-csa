@@ -29,4 +29,18 @@ public interface TasaService extends CrudService<TasaSobreNomina>{
 	 * Metodo Registro en Bitacora General
 	 * */
 	public void registrarAccionBitacoraG(String accion,Date fecha, String user);
+	
+	/**
+	 * Obtener Tasa sobre Nómina dada una oficina
+	 * @param oficina
+	 * @return Objeto Tasa
+	 */
+	public TasaSobreNomina getTasaByOficina(String oficina);
+	
+	/**
+	 * Obtiene una Tasa dado un estado
+	 * @param estado
+	 * @return Objeto Tasa
+	 */
+	public TasaSobreNomina findTasaByEstado(String estado);
 }
