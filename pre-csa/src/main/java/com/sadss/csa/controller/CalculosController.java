@@ -23,6 +23,7 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.xmlbeans.impl.regex.REUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.sadss.csa.controller.beans.CalculoIsnForm;
+import com.sadss.csa.controller.beans.CalculosImssDTO;
+//import com.sadss.csa.controller.beans.CalculoIsnForm;
 import com.sadss.csa.controller.beans.CalculosImssForm;
 import com.sadss.csa.controller.beans.TotalAPagar;
 import com.sadss.csa.controller.beans.VariablesDTO;
@@ -52,6 +54,7 @@ import com.sadss.csa.modelo.entidad.DatosCarga;
 import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.modelo.entidad.TasaSobreNomina;
 import com.sadss.csa.service.CalculoIMSSService;
+import com.sadss.csa.service.CalculoIsnService;
 import com.sadss.csa.service.CalendarioService;
 import com.sadss.csa.service.DatosCargaService;
 import com.sadss.csa.service.TasaService;
@@ -81,6 +84,9 @@ public class CalculosController {
 	
 	@Autowired
 	private TasaService tasaService;
+	
+	@Autowired
+	private CalculoIsnService isnService;
 
 	/**
 	 * Vista principal de cálculos
@@ -106,20 +112,39 @@ public class CalculosController {
 			@RequestParam("fechaInicio") Date fechaInicio, @RequestParam("fechaFin") Date fechaFin,
 			@RequestParam("periodo") String periodo, ModelMap model) {
 
-		CalculoIsnForm isnForm = new CalculoIsnForm();
+		//CalculoIsnForm isnForm = new CalculoIsnForm();
 
 		TipoPeriodo periodoImss = getPeriodoByString(periodo);
 
-		isnForm.setTipoPeriodo(periodoImss);
-		isnForm.setFechaInicio(fechaInicio);
-		isnForm.setFechaFin(fechaFin);
+		//isnForm.setTipoPeriodo(periodoImss);
+		//isnForm.setFechaInicio(fechaInicio);
+		//isnForm.setFechaFin(fechaFin);
 		isnForm.setNombreArchivo(nombreA);
 
 		feedDetallesISN(model, isnForm);
 
+		model.addAttribute("anios", calendarioService.obtenerAnios());
+		
 		return "calculos/calculoISN";
 	}
-
+	
+	
+	/*
+	 * Método para extraer los Colaboradores que han realizado un proceso de calculo
+	 * **/
+	private void agregarColaborador(ModelMap model) {
+		List<CalculoIMSS> calculo = imssService.getUsuarios();
+		model.put("usuario", calculo);
+	}
+	
+	/*
+	 * Método para extraer las fecha de calculo 
+	 * **/
+	private void agregarFechaCalculo(ModelMap model) {
+		List<CalculoIMSS> fecha = imssService.getFechaCalculo();
+		model.put("fecha", fecha);
+	}
+	
 	/**
 	 * Vista de Consulta de Cálculos IMSS / INFONAVIT
 	 * 
@@ -127,10 +152,38 @@ public class CalculosController {
 	 * @return
 	 */
 	@RequestMapping(value = "/consultaImss", method = RequestMethod.GET)
-	public String consultarCalculos(ModelMap model) {
+	public String consultarCalculos(ModelMap model, HttpServletRequest request) {
+		List<CalculoIMSS> registros = imssService.getAllCalculo();
+		model.put("acciones", registros);
+		agregarColaborador(model);
+		agregarFechaCalculo(model);
+		model.put("calculoIMSS", new CalculoIMSS());
 		return "calculos/consultasIMSS";
 	}
-
+	
+	/*
+	 * Método de busqueda de registros de acuerdo a los filtros
+	 * */
+	public void fillLists(ModelMap model, CalculoIMSS ci) {
+		if(ci != null) {
+			List<CalculoIMSS> acciones = imssService.getCalculoIMSSPorBusqueda(ci);
+			model.put("acciones", acciones);
+		}
+	}
+	
+	/*
+	 * Método de busqueda de acuerdo a los filtros de fechas
+	 * */
+	@RequestMapping(value = "/buscarCalculoImss", method = RequestMethod.POST)
+	public ModelAndView busquedaCalculoImss(@Valid @ModelAttribute("calculoIMSS") CalculoIMSS ci, BindingResult result, HttpServletRequest request, RedirectAttributes ra) {
+		ModelMap model = new ModelMap();
+		fillLists(model, ci);
+		agregarColaborador(model);
+		agregarFechaCalculo(model);
+		model.put("calculoIMSS", ci);
+		return new ModelAndView("calculos/consultasIMSS",model);
+	}
+	
 	@SuppressWarnings("resource")
 	@RequestMapping(value = "/calcularImss", method = RequestMethod.POST)
 	public ModelAndView calcularIMSS(@Valid @ModelAttribute("calculo") CalculosImssForm cif, BindingResult result,

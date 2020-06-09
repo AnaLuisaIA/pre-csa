@@ -77,6 +77,8 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		return this.dao.getPeriodos();
 	}
 
+<<<<<<< HEAD
+=======
 	@Override
 	public void registrarAccionBitacora(String accion, Date fecha, String justificacion, String user) {
 
@@ -90,6 +92,7 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		bitVariablesService.create(bv);
 		
 	}
+>>>>>>> a4fdaad0932b603d4b9dbe2a70839b6f4a42a494
 	
 	/**
 	 * Valida existencia de duplicados antes de guardar. Se basa en los campos:
@@ -127,11 +130,5 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		b.setUsuario(usuarioService.findByUsername(user));
 		bsService.create(b);
 	}
-
-
-
-
-
-	
 
 }

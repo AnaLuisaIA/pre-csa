@@ -453,4 +453,24 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 		return this.dao.getRecalcular(fechaInicio, fechaFin, periodo);
 	}
 
+	@Override
+	public List<CalculoIMSS> getAllCalculo() {
+		return dao.getAllCalculo();
+	}
+
+	@Override
+	public List<CalculoIMSS> getCalculoIMSSPorBusqueda(CalculoIMSS ci) {
+		return dao.getCalculoIMSSPorBusqueda(ci);
+	}
+
+	@Override
+	public List<CalculoIMSS> getUsuarios() {
+		return dao.getUsuarios();
+	}
+
+	@Override
+	public List<CalculoIMSS> getFechaCalculo() {
+		return dao.getFechaCalculo();
+	}
+
 }

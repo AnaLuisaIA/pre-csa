@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
@@ -32,6 +34,23 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		return query.list();
 	}
+
+	/*
+	 *Metodo Modificar Estado 
+	 * */
+	@Override
+	public Variable updateVariable(int id) {
+        /**String hql = "UPDATE com.sadss.csa.modelo.entidad.Variable SET estado = 0 WHERE id = :id";
+        Query query =  getCurrentSession().createQuery(hql);
+        query.setParameter("id", id);
+        int result = query.executeUpdate();
+        System.out.println("Rows affected: " + result);
+        
+        query.list().get(0);**/
+        
+		return null;
+	}
+
 
 	@Override
 	public PeriodoVariable findVariablesID(Integer id) {
@@ -79,10 +98,7 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		return query.list();
 	}
 
-	@Override
-	public Variable updateVariable(int id) {
-		return null;
-	}
+
 	
 }
 
