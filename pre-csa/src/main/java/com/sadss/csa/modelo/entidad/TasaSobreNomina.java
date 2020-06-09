@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
 import com.sadss.csa.modelo.generic.GenericModel;
 import com.sadss.csa.util.enums.TipoNomina;
 import com.sadss.csa.util.enums.TipoVariableTasa;
@@ -18,6 +17,7 @@ public class TasaSobreNomina extends GenericModel<TasaSobreNomina> implements Se
 	private TipoNomina tipoNomina;
 	private TipoVariableTasa tipoVariable;
 	private BigDecimal valor;
+	private BigDecimal totalAPagar;
 	private String oficina;
 	private Date fechaAplicacion;
 	private Boolean estatus;
@@ -88,6 +88,14 @@ public class TasaSobreNomina extends GenericModel<TasaSobreNomina> implements Se
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public BigDecimal getTotalAPagar() {
+		return totalAPagar;
+	}
+
+	public void setTotalAPagar(BigDecimal totalAPagar) {
+		this.totalAPagar = totalAPagar;
 	}
 
 }

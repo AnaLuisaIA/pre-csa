@@ -307,7 +307,6 @@ var recalcularPeriodo = function() {
 var validarArchivo = function(){
 	var fd = new FormData();
 	fd.append("archivo", $('#archivo').prop('files')[0]);
-	
 	$.ajax({
 		type: "POST",
 		url: "checkFile",
@@ -328,6 +327,7 @@ var validarArchivo = function(){
 	    	}
 	    },
 	    error: function(error){
+	    	$('.loading').hide();
 	    	bootbox.alert("<strong>ERROR: No se pudo verificar el archivo de carga.</strong>");
 	    }
 		

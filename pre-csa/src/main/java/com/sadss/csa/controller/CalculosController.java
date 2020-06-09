@@ -3,6 +3,7 @@ package com.sadss.csa.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,22 +43,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sadss.csa.controller.beans.CalculoIsnForm;
 import com.sadss.csa.controller.beans.CalculosImssForm;
+import com.sadss.csa.controller.beans.TotalAPagar;
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
 import com.sadss.csa.modelo.entidad.CalculoIMSS;
 import com.sadss.csa.modelo.entidad.Calendario;
 import com.sadss.csa.modelo.entidad.DatosCarga;
 import com.sadss.csa.modelo.entidad.PeriodoVariable;
+import com.sadss.csa.modelo.entidad.TasaSobreNomina;
 import com.sadss.csa.service.CalculoIMSSService;
 import com.sadss.csa.service.CalendarioService;
 import com.sadss.csa.service.DatosCargaService;
+import com.sadss.csa.service.TasaService;
 import com.sadss.csa.service.VariablesService;
 import com.sadss.csa.util.SecurityUtils;
 import com.sadss.csa.util.enums.TipoNominaIMSS;
 import com.sadss.csa.util.enums.TipoPeriodo;
+import com.sadss.csa.util.enums.TipoVariableTasa;
 
 @Controller
-@RequestMapping("/calculos")
+@RequestMapping("calculos")
 public class CalculosController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CalculosController.class);
@@ -66,12 +72,15 @@ public class CalculosController {
 
 	@Autowired
 	private CalendarioService calendarioService;
-	
+
 	@Autowired
 	private DatosCargaService datosService;
 
 	@Autowired
 	private VariablesService variablesService;
+	
+	@Autowired
+	private TasaService tasaService;
 
 	/**
 	 * Vista principal de cálculos
@@ -87,7 +96,7 @@ public class CalculosController {
 	@RequestMapping(value = "/imss", method = RequestMethod.GET)
 	public String calculoIMSS(ModelMap model) throws ParseException {
 		model.addAttribute("calculo", new CalculosImssForm());
-		feedDetalles(model);
+		feedDetallesIMSS(model);
 
 		return "calculos/calculoIMSS";
 	}
@@ -96,25 +105,18 @@ public class CalculosController {
 	public String calculoISN(@RequestParam("nombreArchivo") String nombreA,
 			@RequestParam("fechaInicio") Date fechaInicio, @RequestParam("fechaFin") Date fechaFin,
 			@RequestParam("periodo") String periodo, ModelMap model) {
-		
-		CalculoIsnForm isnForm = new CalculoIsnForm();
-		
-		TipoPeriodo periodoImss = null;
 
-		for (TipoPeriodo t : TipoPeriodo.values()) {
-			if (t.getValue().equalsIgnoreCase(periodo)) {
-				periodoImss = t;
-				break;
-			}
-		}
-		
+		CalculoIsnForm isnForm = new CalculoIsnForm();
+
+		TipoPeriodo periodoImss = getPeriodoByString(periodo);
+
 		isnForm.setTipoPeriodo(periodoImss);
 		isnForm.setFechaInicio(fechaInicio);
 		isnForm.setFechaFin(fechaFin);
-		
-		model.addAttribute("isnForm", isnForm);
-		model.addAttribute("anios", calendarioService.obtenerAnios());
-		
+		isnForm.setNombreArchivo(nombreA);
+
+		feedDetallesISN(model, isnForm);
+
 		return "calculos/calculoISN";
 	}
 
@@ -143,7 +145,7 @@ public class CalculosController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("calculo", cif);
-			feedDetalles(model);
+			feedDetallesIMSS(model);
 			LOG.debug("Errores: " + result.getAllErrors());
 			return new ModelAndView("calculos/calculoIMSS", model);
 		}
@@ -159,7 +161,7 @@ public class CalculosController {
 			model.addAttribute("calculo", cif);
 			model.put("errmsg", "<strong>No se cuentan con todas las variables para realizar el cálculo. "
 					+ "Se tiene que verificar si están dadas de alta en la base de datos y si se encuentran habilitadas. </strong>");
-			feedDetalles(model);
+			feedDetallesIMSS(model);
 			LOG.debug("Errores: " + result.getAllErrors());
 			return new ModelAndView("calculos/calculoIMSS", model);
 
@@ -210,19 +212,19 @@ public class CalculosController {
 					datos.setSdBase(sd_base);
 					break;
 				default:
-					if (celda != null) {
-						if (col > 5 && col < 16) {
-							imssService.setValoresComplemento(datos, col, celda);
-						}
-						// Tipo Nómina Normal (Bonos WEB)
-						else if (cif.getTipoNomina() == TipoNominaIMSS.NOR) {
 
-						}
-						// Tipo Nómina Finiquito (Bonos archivo)
-						else if (cif.getTipoNomina() == TipoNominaIMSS.FIN) {
-							imssService.setValoresBonos(datos, col, celda);
-						}
+					if (col > 5 && col < 16) {
+						imssService.setValoresComplemento(datos, col, celda);
 					}
+					// Tipo Nómina Normal (Bonos WEB)
+					else if (cif.getTipoNomina() == TipoNominaIMSS.NOR) {
+
+					}
+					// Tipo Nómina Finiquito (Bonos archivo)
+					else if (cif.getTipoNomina() == TipoNominaIMSS.FIN) {
+						imssService.setValoresBonos(datos, col, celda);
+					}
+					
 					break;
 				}
 
@@ -243,6 +245,42 @@ public class CalculosController {
 				colaborador);
 
 		return null;
+	}
+
+	@RequestMapping(value = "/calcularIsn", method = RequestMethod.POST)
+	public ModelAndView calcularISN(@Valid @ModelAttribute("isnForm") CalculoIsnForm cif, BindingResult result,
+			HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
+
+		ModelMap model = new ModelMap();
+
+		if (result.hasErrors()) {
+			feedDetallesISN(model, cif);
+			LOG.debug("Errores: " + result.getAllErrors());
+			return new ModelAndView("calculos/calculoISN", model);
+		}
+
+		List<DatosCarga> datos = datosService.findDatosByPeriodo(cif.getFechaInicio(), cif.getFechaFin(),
+				cif.getTipoPeriodo());
+
+		BigDecimal total_percepciones = new BigDecimal(0);
+		BigDecimal base_gravable = new BigDecimal(0);
+
+		for (DatosCarga d : datos) {
+			total_percepciones = d.getSueldo().add(d.getAguinaldo()).add(d.getVacaciones()).add(d.getPrimaVacacional())
+					.add(d.getRepUtil()).add(d.getBono()).add(d.getBonoDigital()).add(d.getBonoLealtad())
+					.add(d.getBonoLealtad()).add(d.getBonoTraslado()).setScale(2, RoundingMode.HALF_UP);
+
+			BigDecimal sumaReparto = d.getRepUtil().add(d.getIndemnizacion()).add(d.getVeinteDias());
+
+			base_gravable = total_percepciones.subtract(sumaReparto);
+
+			// Obtener localidad de agente
+			BigDecimal tasa;
+
+			// Obtener tasa de la localidad
+		}
+
+		return new ModelAndView("redirect:/calculos/");
 	}
 
 	@SuppressWarnings("resource")
@@ -277,14 +315,7 @@ public class CalculosController {
 	public @ResponseBody Boolean revisarPeriodo(@RequestParam("fechaInicio") Date fechaInicio,
 			@RequestParam("fechaFin") Date fechaFin, @RequestParam("periodo") String periodo) {
 
-		TipoPeriodo periodoImss = null;
-
-		for (TipoPeriodo t : TipoPeriodo.values()) {
-			if (t.getValue().equalsIgnoreCase(periodo)) {
-				periodoImss = t;
-				break;
-			}
-		}
+		TipoPeriodo periodoImss = getPeriodoByString(periodo);
 
 		return imssService.periodoExiste(fechaInicio, fechaFin, periodoImss);
 	}
@@ -293,14 +324,7 @@ public class CalculosController {
 	public @ResponseBody Boolean recalcularPeriodo(@RequestParam("fechaInicio") Date fechaInicio,
 			@RequestParam("fechaFin") Date fechaFin, @RequestParam("periodo") String periodo) {
 
-		TipoPeriodo periodoImss = null;
-
-		for (TipoPeriodo t : TipoPeriodo.values()) {
-			if (t.getValue().equalsIgnoreCase(periodo)) {
-				periodoImss = t;
-				break;
-			}
-		}
+		TipoPeriodo periodoImss = getPeriodoByString(periodo);
 
 		List<CalculoIMSS> calculos = imssService.getRecalcular(fechaInicio, fechaFin, periodoImss);
 
@@ -312,12 +336,57 @@ public class CalculosController {
 
 		return true;
 	}
-	
+
 	@RequestMapping(value = "/getSemanas", method = RequestMethod.GET)
-	public @ResponseBody List<Calendario> getSemanas(@RequestParam Integer anio){
+	public @ResponseBody List<Calendario> getSemanas(@RequestParam Integer anio) {
 		return calendarioService.getCalendarioPorAnio(anio);
 	}
-
+	
+	@RequestMapping(value = "/getTAP", method = RequestMethod.GET)
+	public @ResponseBody List<TasaSobreNomina> getTAP(@RequestParam("fechaInicio") Date fechaInicio,
+			@RequestParam("fechaFin") Date fechaFin, @RequestParam("periodo") String periodo){
+		
+		List<TasaSobreNomina> tasasTAP = new ArrayList<TasaSobreNomina>();
+		
+		TipoPeriodo periodoImss = getPeriodoByString(periodo);
+		List<DatosCarga> datos = datosService.findDatosByPeriodo(fechaInicio, fechaFin, periodoImss);
+		
+		String oficina = "VER";
+		TasaSobreNomina tasa = tasaService.getTasaByOficina(oficina);
+		
+		String oficina2 = "QRO";
+		TasaSobreNomina tasa2 = tasaService.getTasaByOficina(oficina2);
+		
+		//Si la Tasa es Total a Pagar y está habilitada
+		if(tasa.getTipoVariable().equals(TipoVariableTasa.TAP) && tasa.getEstatus()) {
+			tasasTAP.add(tasa);
+		}
+		
+		if(tasa2.getTipoVariable().equals(TipoVariableTasa.TAP) && tasa2.getEstatus()) {
+			tasasTAP.add(tasa2);
+		}
+		
+		/*for(DatosCarga d: datos) {
+			//Obtener localidad del agente
+			
+			//Si la localidad es total a pagar y está habilitada
+			
+		}*/
+		
+		return tasasTAP;
+	}
+	
+	@RequestMapping(value = "/registrarTAP", method = RequestMethod.POST)
+	public @ResponseBody Boolean registrarTAP(@RequestBody List<TotalAPagar> tap, HttpServletRequest request) {
+		
+		for(TotalAPagar t: tap) {
+			TasaSobreNomina tasa = tasaService.findTasaByEstado(t.getEstado());
+			tasa.setTotalAPagar(t.getValor().setScale(2, BigDecimal.ROUND_HALF_UP));
+			tasaService.update(tasa);
+		}
+		
+		return true;
+	}
 
 	@RequestMapping(value = "/layout", method = RequestMethod.GET)
 	public void descargarLayout(HttpServletRequest request, HttpServletResponse response) {
@@ -329,12 +398,28 @@ public class CalculosController {
 		binder.registerCustomEditor(Date.class, new FechaEditor(new SimpleDateFormat("dd/MM/yyyy")));
 	}
 
-	public void feedDetalles(ModelMap model) throws ParseException {
+	public void feedDetallesIMSS(ModelMap model) throws ParseException {
 		model.addAttribute("tipoPeriodo", TipoPeriodo.valuesMenu());
 		model.addAttribute("tipoNomina", TipoNominaIMSS.valuesMenu());
 
 		List<PeriodoVariable> periodos = variablesService.getPeriodos();
 		model.addAttribute("periodos", periodos);
+	}
+
+	public void feedDetallesISN(ModelMap model, CalculoIsnForm cif) {
+		model.addAttribute("isnForm", cif);
+		model.addAttribute("anios", calendarioService.obtenerAnios());
+	}
+	
+	public TipoPeriodo getPeriodoByString(String periodo) {
+		
+		for (TipoPeriodo t : TipoPeriodo.values()) {
+			if (t.getValue().equalsIgnoreCase(periodo)) {
+				return t;
+			}
+		}
+		
+		return null;
 	}
 
 }

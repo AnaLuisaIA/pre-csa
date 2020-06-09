@@ -105,4 +105,14 @@ public class TasaServiceImpl extends AbstractService<TasaSobreNomina> implements
 		bsService.create(b);
 	}
 
+	@Override
+	public TasaSobreNomina getTasaByOficina(String oficina) {
+		return this.dao.getTasaByOficina(oficina);
+	}
+
+	@Override
+	public TasaSobreNomina findTasaByEstado(String estado) {
+		return this.dao.findTasaByEstado(estado);
+	}
+
 }
