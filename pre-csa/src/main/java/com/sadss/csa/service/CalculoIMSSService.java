@@ -70,4 +70,24 @@ public interface CalculoIMSSService extends CrudService<CalculoIMSS> {
 
 	public void generarArchivoCalculos(HttpServletRequest request, HttpServletResponse response,
 			List<CalculoIMSS> calculos, Date fechaInicio, Date fechaFin, String colaborador);
+	
+	/*
+	 * Metodo para traer los registro del calculo IMSS
+	 * */
+	public List<CalculoIMSS> getAllCalculo();
+	
+	/*
+	 * Metodo para traer los Registros del Calculos IMMS con filtros
+	 * */
+	public List<CalculoIMSS> getCalculoIMSSPorBusqueda(CalculoIMSS ci);
+	
+	/*
+	 * Método para extrarer los Colaboradores
+	 * **/
+	public List<CalculoIMSS> getUsuarios();
+	
+	/**
+	 * Método para extraer las fechas de calculo
+	 * */
+	public List<CalculoIMSS> getFechaCalculo();
 }

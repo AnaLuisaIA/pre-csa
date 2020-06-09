@@ -3,6 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
 <tiles:insertDefinition name="defaultTemplate">
@@ -15,6 +16,8 @@
 			rel="stylesheet" type="text/css" />
 		<link
 			href="<c:url value='/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css'/>"
+			rel="stylesheet" type="text/css" />
+		<link href="<c:url value='/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css'/>"
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
 	<tiles:putAttribute name="nav">
@@ -41,8 +44,56 @@
 						</div>
 					</div>
 					<div class="portlet-body">
-						<table id="tablaConsultaII"
-							class="table table-striped table-bordered table-hover">
+						<div align="justify">
+							<form:form id="buscarCalculoImss" modelAttribute="calculoIMSS" method="POST"
+								class="form-inline" action="buscarCalculoImss">
+
+								<div class="form-group">
+								<label>Periodo: </label>
+									<label>Del: </label>
+									<div class="input-group input-medium date date-picker" data-date-format="dd/mm/yyyy"
+										data-date-end-date="0d">
+										<span class="input-group-btn">
+											<button class="btn default" type="button">
+												<i class="fa fa-calendar"></i>
+											</button>
+										</span>
+										<form:input path="fechaInicio" type="text" class="form-control" readonly="true"
+											maxlenght="10" placeholder="Del..." />
+									</div>
+
+									<label>Al: </label>
+									<div class="input-group input-medium date date-picker" data-date-format="dd/mm/yyyy"
+										data-date-end-date="0d">
+										<span class="input-group-btn">
+											<button class="btn default" type="button">
+												<i class="fa fa-calendar"></i>
+											</button>
+										</span>
+										<form:input path="fechaFin" type="text" class="form-control" readonly="true"
+											maxlenght="10" placeholder="Al..." />
+									</div>
+									<div class="form-group">
+											<form:select path="numColaborador" class="form-control"
+												name="numColaborador" required="true">
+												<form:option value="">Calculado Por</form:option>
+												<form:options items="${usuario}" itemValue="numColaborador" itemLabel="numColaborador"></form:options>
+											</form:select>
+									</div>
+									<div class="form-group">
+											<form:select path="fechaCalculo" class="form-control"
+												name="fechaCalculo" required="true">
+												<form:option value="">Fecha de calculo: </form:option>}
+												<form:option value="">01/01/2020</form:option>
+												<form:options items="${fecha}" itemValue="fechaCalculo" itemLabel="fechaCalculo"></form:options>
+											</form:select>
+									</div>
+								</div>
+								<button type="submit" class="btn default green">Buscar</button>
+							</form:form>
+						</div>
+						<br/>
+						<table id="tablaConsultaII" class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
 									<th>Seleccionar Todos</th>
@@ -57,14 +108,19 @@
 									<th>Calculado por</th>
 								</tr>
 							<tbody>
-								<!--<c:forEach var="c" items="${correos}">
+								<c:forEach var="a" items="${acciones}">
 									<tr>
-										<td>${c.actividad.label}</td>
-										<td>${c.asunto}</td>
-										<td><a href="editar?id=${c.id}" class="btn btn-primary btn-small">
-												<i class="fa fa-edit"></i></a></td>
-									</tr>
-								</c:forEach>-->
+									<td><div align="center"><input type="checkbox" id="cbox2"  value="second_checkbox"></div></td>
+										<td><fmt:formatDate value="${a.periodoInicio}" pattern="dd/MM/yyyy" />-<fmt:formatDate value="${a.periodoFin}" pattern="dd/MM/yyyy" /></td>
+										<td>${a.totalPatron}</td>
+										<td>${a.totalTrabajador}</td>
+										<td>${a.totalIMSS}</td>
+										<td>${a.infonavitPatron}</td>
+										<td>${a.infonavitTrabajador}</td>
+										<td>${a.totalInfonavit}</td>
+										<td><fmt:formatDate value="${a.fechaCalculo}" pattern="dd/MM/yyyy" /></td>
+										<td>${a.nombres} ${a.aPaterno} ${a.aMaterno}</td>
+								</c:forEach>
 							</tbody>
 
 						</table>
@@ -77,7 +133,11 @@
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="scripts">
-
+		<script src="<c:url value='/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js'/>">
+		</script>
+		<script
+			src="<c:url value='/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js'/>">
+		</script>
 		<script type="text/javascript"
 			src="<c:url value='/assets/global/plugins/datatables/media/js/jquery.dataTables.js'/>"></script>
 		<script type="text/javascript"
@@ -103,6 +163,27 @@
 		$('#calculosMain').addClass("start active open");
 		$('#tablaConsultaII').DataTable();
 		$('#consultaIMSS').addClass("active");
+		$('.date-picker').datepicker({
+		autoclose:true,
+		language:'es'
+		});
+		
+		$('#fechaCalculo').select2({
+			placeholder: "Fecha Calculo",
+			allowClear: true,
+               escapeMarkup: function (m) {
+               		return m;
+            }				 
+		});
+			
+		$('#usuario	').select2({
+			placeholder: "Calculado Por",
+			allowClear: true,
+               escapeMarkup: function (m) {
+               		return m;
+            }				 
+		});	
+		
    </tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">

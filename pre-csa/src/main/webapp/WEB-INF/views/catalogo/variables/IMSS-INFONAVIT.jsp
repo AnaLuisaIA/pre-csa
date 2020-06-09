@@ -89,7 +89,8 @@
 										</a>
 											<button type="submit" class="btn btn-danger" id="btnEliminar">
 												<i class="fa fa-trash-o"></i>
-											</button></td>
+											</button>
+											</td>
 									</tr>
 								</c:forEach>
 							</tbody>

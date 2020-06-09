@@ -35,7 +35,6 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		return query.list();
 	}
 
-<<<<<<< HEAD
 	/*
 	 *Metodo Modificar Estado 
 	 * */
@@ -52,8 +51,7 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		return null;
 	}
 
-=======
->>>>>>> a4fdaad0932b603d4b9dbe2a70839b6f4a42a494
+
 	@Override
 	public PeriodoVariable findVariablesID(Integer id) {
 		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.PeriodoVariablesDTO(P.id,V.id,P.valor,P.fechaAplicacion) from com.sadss.csa.modelo.entidad.PeriodoVariable P JOIN P.variable V WHERE V.id = :id");
