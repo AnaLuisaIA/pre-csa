@@ -30,7 +30,7 @@
 		<li class="dropdown dropdown-user">
 			<h4 style="color: #397B39;
 				font-weight: 400;" class="dropdown-toggle">
-				Carga Social de Agentes (CSA)</h4>
+				Sistema de Carga Social de Agentes (CSA)</h4>
 		</li>
 
 		<!-- BEGIN USER LOGIN DROPDOWN -->

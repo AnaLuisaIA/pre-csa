@@ -149,7 +149,7 @@ public class Layouter {
 		}
 	}
 
-	public static void buildArchivoSalida(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex, Date fechaInicio,
+	public static void buildArchivoSalidaImss(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex, Date fechaInicio,
 			Date fechaFin, String colaborador) {
 
 		sheet.setColumnWidth(0, 4000);
@@ -171,12 +171,12 @@ public class Layouter {
 		sheet.setColumnWidth(16, 4000);
 		sheet.setColumnWidth(17, 4000);
 
-		buildTitleSalida(sheet, inicioRowIndex, inicioColIndex, fechaInicio, fechaFin, colaborador);
-		buildHeadersSalida(sheet, inicioRowIndex, inicioColIndex);
+		buildTitleSalidaImss(sheet, inicioRowIndex, inicioColIndex, fechaInicio, fechaFin, colaborador);
+		buildHeadersSalidaImss(sheet, inicioRowIndex, inicioColIndex);
 
 	}
 
-	public static void buildTitleSalida(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex, Date fechaInicio,
+	public static void buildTitleSalidaImss(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex, Date fechaInicio,
 			Date fechaFin, String colaborador) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -204,7 +204,7 @@ public class Layouter {
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 6, 8));
 	}
 
-	public static void buildHeadersSalida(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex) {
+	public static void buildHeadersSalidaImss(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex) {
 		Font font = sheet.getWorkbook().createFont();
 		font.setBold(true);
 		font.setColor(IndexedColors.BLACK.getIndex());
@@ -213,7 +213,7 @@ public class Layouter {
 		headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
 		headerCellStyle.setWrapText(true);
 		headerCellStyle.setFont(font);
-		
+
 		XSSFCellStyle headerCellStyle2 = sheet.getWorkbook().createCellStyle();
 		headerCellStyle2.setAlignment(HorizontalAlignment.CENTER);
 		headerCellStyle2.setWrapText(true);
@@ -228,7 +228,7 @@ public class Layouter {
 
 		CellRangeAddress range = new CellRangeAddress(2, 2, 1, 8);
 		sheet.addMergedRegion(range);
-		
+
 		XSSFCell celda = rowHeader.createCell(inicioColIndex + 1);
 		celda.setCellValue("Cuota Patronal IMSS");
 		celda.setCellStyle(headerCellStyle);
@@ -239,7 +239,7 @@ public class Layouter {
 
 		CellRangeAddress range2 = new CellRangeAddress(2, 2, 9, 13);
 		sheet.addMergedRegion(range2);
-		
+
 		XSSFCell celda2 = rowHeader.createCell(inicioColIndex + 9);
 		celda2.setCellValue("Cuota Trabajador IMSS");
 		celda2.setCellStyle(headerCellStyle);
@@ -265,5 +265,78 @@ public class Layouter {
 			contador++;
 		}
 
+	}
+
+	public static void buildArchivoSalidaIsn(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex, Date fechaInicio,
+			Date fechaFin, String colaborador) {
+
+		sheet.setColumnWidth(0, 4000);
+		sheet.setColumnWidth(1, 4000);
+		sheet.setColumnWidth(2, 4000);
+		sheet.setColumnWidth(3, 4000);
+		sheet.setColumnWidth(4, 4000);
+		sheet.setColumnWidth(5, 4000);
+
+		buildTitleSalidaIsn(sheet, inicioRowIndex, inicioColIndex, fechaInicio, fechaFin, colaborador);
+		buildHeadersSalidaIsn(sheet, inicioRowIndex, inicioColIndex);
+
+	}
+
+	public static void buildTitleSalidaIsn(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex, Date fechaInicio,
+			Date fechaFin, String colaborador) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+		XSSFCellStyle cellStyleTitle = sheet.getWorkbook().createCellStyle();
+		cellStyleTitle.setAlignment(HorizontalAlignment.CENTER);
+		cellStyleTitle.setWrapText(true);
+
+		XSSFRow rowTitle = sheet.createRow((short) inicioRowIndex);
+		rowTitle.setHeight((short) 300);
+		XSSFCell cellTitle = rowTitle.createCell(inicioColIndex);
+		cellTitle.setCellValue(
+				"Periodo del ".concat(sdf.format(fechaInicio).concat(" al ").concat(sdf.format(fechaFin))));
+		cellTitle.setCellStyle(cellStyleTitle);
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 2));
+
+		XSSFCell cellTitle2 = rowTitle.createCell(inicioColIndex + 3);
+		cellTitle2.setCellValue("Realizó cálculo: ".concat(colaborador));
+		cellTitle2.setCellStyle(cellStyleTitle);
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 3, 4));
+
+		XSSFCell cellTitle3 = rowTitle.createCell(inicioColIndex + 5);
+		cellTitle3.setCellValue("Fecha de elaboración de reporte: ".concat(sdf.format(new Date())));
+		cellTitle3.setCellStyle(cellStyleTitle);
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 5, 7));
+	}
+
+	public static void buildHeadersSalidaIsn(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex) {
+		Font font = sheet.getWorkbook().createFont();
+		font.setBold(true);
+		font.setColor(IndexedColors.BLACK.getIndex());
+
+		XSSFCellStyle headerCellStyle = sheet.getWorkbook().createCellStyle();
+		headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+		headerCellStyle.setWrapText(true);
+		headerCellStyle.setFont(font);
+		headerCellStyle.setBorderBottom(BorderStyle.THIN);
+		headerCellStyle.setBorderLeft(BorderStyle.THIN);
+		headerCellStyle.setBorderRight(BorderStyle.THIN);
+		headerCellStyle.setBorderTop(BorderStyle.THIN);
+
+		XSSFRow rowHeader = sheet.createRow((short) inicioRowIndex + 2);
+		rowHeader.setHeight((short) 600);
+
+		int contador = 0;
+		String[] cabecerasTitle = { "Localidad", "Clave Agente", "Tasa", "Base Gravable", "ISN Mensual",
+				"ISN Semanal" };
+
+		for (String titulo : cabecerasTitle) {
+			XSSFCell celda = rowHeader.createCell(inicioColIndex + contador);
+			celda.setCellValue(titulo);
+			celda.setCellStyle(headerCellStyle);
+
+			contador++;
+		}
 	}
 }

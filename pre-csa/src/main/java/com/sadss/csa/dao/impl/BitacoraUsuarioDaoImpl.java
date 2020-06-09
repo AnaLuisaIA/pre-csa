@@ -13,6 +13,11 @@ import com.sadss.csa.modelo.entidad.BitacoraUsuario;
 @Repository
 public class BitacoraUsuarioDaoImpl extends AbstractHibernateDao<BitacoraUsuario> implements BitacoraUsuarioDao {
 
+	public BitacoraUsuarioDaoImpl() {
+		super();
+		setClazz(BitacoraUsuario.class);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BitacoraUsuarioDTO> getRegistros() {

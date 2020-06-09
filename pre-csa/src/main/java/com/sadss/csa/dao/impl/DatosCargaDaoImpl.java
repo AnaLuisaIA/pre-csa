@@ -13,6 +13,11 @@ import com.sadss.csa.util.enums.TipoPeriodo;
 
 @Repository
 public class DatosCargaDaoImpl extends AbstractHibernateDao<DatosCarga> implements DatosCargaDao {
+	
+	public DatosCargaDaoImpl() {
+		super();
+		setClazz(DatosCarga.class);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

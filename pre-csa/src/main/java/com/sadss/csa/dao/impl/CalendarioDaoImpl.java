@@ -11,6 +11,12 @@ import com.sadss.csa.modelo.entidad.Calendario;
 
 @Repository
 public class CalendarioDaoImpl extends AbstractHibernateDao<Calendario> implements CalendarioDao {
+	
+	public CalendarioDaoImpl() {
+		super();
+		
+		setClazz(Calendario.class);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -35,6 +41,18 @@ public class CalendarioDaoImpl extends AbstractHibernateDao<Calendario> implemen
 		query.setParameter("anio", anio);
 		
 		return query.list();
+	}
+
+	@Override
+	public Integer getNumeroSemanasByMes(String mes) {
+		StringBuilder queryTxt = new StringBuilder("Select count(c) "
+				+ "from Calendario c "
+				+ "where c.mes = :mes");
+		
+		Query query = getCurrentSession().createQuery(queryTxt.toString());
+		query.setParameter("mes", mes);
+		
+		return ((Long) query.uniqueResult()).intValue();
 	}
 	
 	

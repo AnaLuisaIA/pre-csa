@@ -8,7 +8,7 @@
 	access="hasAnyRole('CONSULTA_CAT', 'EDITA_CAT', 'CREA_CAT', 'CONSULTA_USER', 'EDITA_USER', 'CREA_USER')">
 
 	<li id="catalogos"><a href="javascript:;"> <i
-			class="icon-folder"></i> <span class="title">Catálogos</span> <span
+			class="icon-folder"></i> <span class="title">Cat&aacute;logos</span> <span
 			class="selected"></span> <span class="arrow"></span>
 	</a>
 
@@ -19,7 +19,7 @@
 			</a></li>
 
 			<li id="tasasMenu"><a href="<c:url value='/tasas/'/>"> <i
-					class="fa fa-list-alt"></i> Tasas Sobre Nómina
+					class="fa fa-list-alt"></i> Tasas Sobre N&oacute;mina
 			</a></li>
 
 			<li id="calendariosMenu"><a href="<c:url value='/calendario/'/>">

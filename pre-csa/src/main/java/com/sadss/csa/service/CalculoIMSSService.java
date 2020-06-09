@@ -63,11 +63,39 @@ public interface CalculoIMSSService extends CrudService<CalculoIMSS> {
 	 */
 	public void setValoresBonos(DatosCarga datos, int col, Cell celda);
 	
+	/**
+	 * Obtiene los registros que se recalcularán
+	 * @param fechaInicio
+	 * @param fechaFin
+	 * @param periodo
+	 * @return Lista de Cálculos IMSS
+	 */
 	public List<CalculoIMSS> getRecalcular(Date fechaInicio, Date fechaFin, TipoPeriodo periodo);
 
+	/**
+	 * Realiza cálculo IMSS
+	 * @param cif CalculoImssForm
+	 * @param datos Fila de datos
+	 * @param var Map de Variables
+	 * @param colaborador Nombre de colaborador
+	 * @param dias Número de días trabajador
+	 * @param salario_diario Salario Diario
+	 * @param sd_base Salario Diario Base
+	 * @param clave Clave de agente
+	 * @return Objeto CálculoIMSS
+	 */
 	public CalculoIMSS realizarCalculos(CalculosImssForm cif, DatosCarga datos, LinkedHashMap<String, BigDecimal> var,
-			String colaborador, BigDecimal dias, BigDecimal sdb, BigDecimal sd_base, int clave);
+			String colaborador, BigDecimal dias, BigDecimal salario_diario, BigDecimal sd_base, int clave);
 
+	/**
+	 * Genera el archivo de salida de los cálculos IMSS realizados
+	 * @param request
+	 * @param response
+	 * @param calculos Lista de cálculos
+	 * @param fechaInicio Fecha de inicio de periodo
+	 * @param fechaFin Fecha de fin de periodo
+	 * @param colaborador Número de colaborador
+	 */
 	public void generarArchivoCalculos(HttpServletRequest request, HttpServletResponse response,
 			List<CalculoIMSS> calculos, Date fechaInicio, Date fechaFin, String colaborador);
 	

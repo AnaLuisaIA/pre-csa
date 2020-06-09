@@ -1,6 +1,5 @@
 package com.sadss.csa.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.validation.BindingResult;
 
 import com.sadss.csa.dao.BitacoraSistemaDAO;
 import com.sadss.csa.modelo.entidad.Bitacora;
-import com.sadss.csa.modelo.entidad.Usuario;
 import com.sadss.csa.modelo.generic.IOperations;
 import com.sadss.csa.service.BitacoraSistemaService;
 import com.sadss.csa.service.generic.AbstractService;

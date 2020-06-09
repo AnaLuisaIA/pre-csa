@@ -20,4 +20,11 @@ public interface CalendarioDao extends IOperations<Calendario> {
 	 * @return Lista de fechas de calendario
 	 */
 	public List<Calendario> getCalendarioPorAnio(Integer anio);
+	
+	/**
+	 * Obtiene el número de semanas de un mes
+	 * @param mes Mes del calendario
+	 * @return Número se semanas
+	 */
+	public Integer getNumeroSemanasByMes(String mes);
 }

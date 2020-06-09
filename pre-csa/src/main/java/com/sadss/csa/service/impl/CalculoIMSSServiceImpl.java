@@ -152,59 +152,59 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 	public void setValoresBonos(DatosCarga datos, int col, Cell celda) {
 		switch (col) {
 		case 16:
-			datos.setBono((celda == null) ? new BigDecimal("0.00")
+			datos.setBono((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 17:
-			datos.setBonoLealtad((celda == null) ? new BigDecimal("0.00")
+			datos.setBonoLealtad((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 18:
-			datos.setBonoDigital((celda == null) ? new BigDecimal("0.00")
+			datos.setBonoDigital((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 19:
-			datos.setBonoTraslado((celda == null) ? new BigDecimal("0.00")
+			datos.setBonoTraslado((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 20:
-			datos.setOtroBono1((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono1((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 21:
-			datos.setOtroBono2((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono2((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 22:
-			datos.setOtroBono3((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono3((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 23:
-			datos.setOtroBono4((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono4((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 24:
-			datos.setOtroBono5((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono5((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 25:
-			datos.setOtroBono6((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono6((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 26:
-			datos.setOtroBono7((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono7((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 27:
-			datos.setOtroBono8((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono8((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 28:
-			datos.setOtroBono9((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono9((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		case 29:
-			datos.setOtroBono10((celda == null) ? new BigDecimal("0.00")
+			datos.setOtroBono10((celda == null) ? new BigDecimal(0)
 					: new BigDecimal(celda.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_UP));
 			break;
 		default:
@@ -431,7 +431,7 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 		int inicioRowIndex = 0;
 		int inicioColIndex = 0;
 
-		Layouter.buildArchivoSalida(sheet, inicioRowIndex, inicioColIndex, fechaInicio, fechaFin, colaborador);
+		Layouter.buildArchivoSalidaImss(sheet, inicioRowIndex, inicioColIndex, fechaInicio, fechaFin, colaborador);
 		FillManager.fillCalculosIMSS(sheet, inicioRowIndex, inicioColIndex, calculos);
 
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Mexico_City"));

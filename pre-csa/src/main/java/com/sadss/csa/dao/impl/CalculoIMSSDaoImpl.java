@@ -17,6 +17,11 @@ import com.sadss.csa.util.enums.TipoPeriodo;
 @Repository
 public class CalculoIMSSDaoImpl extends AbstractHibernateDao<CalculoIMSS> implements CalculoIMSSDao{
 
+	public CalculoIMSSDaoImpl() {
+		super();
+		setClazz(CalculoIMSS.class);
+	}
+	
 	@Override
 	public Boolean periodoExiste(Date fechaInicio, Date fechaFin, TipoPeriodo periodo) {
 		StringBuilder queryTxt = new StringBuilder("from CalculoIMSS "
@@ -44,11 +49,6 @@ public class CalculoIMSSDaoImpl extends AbstractHibernateDao<CalculoIMSS> implem
 		query.setParameter("p", periodo);
 		
 		return query.list();
-	}
-
-	public CalculoIMSSDaoImpl() {
-		super();
-		setClazz(CalculoIMSS.class);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -192,7 +192,7 @@ var wizard = function() {
 						        message: "<strong>El periodo ya ha sido calculado. ¿Desea recalcular?</strong>",
 						        callback: function(result){
 							        if(!result){
-						       			window.location.href= "calculos/";
+						       			window.location.href= "imss";
 					        		} else {
 					        			recalcularPeriodo();
 					        		}
@@ -305,6 +305,9 @@ var recalcularPeriodo = function() {
 }
 
 var validarArchivo = function(){
+	$('#form_wizard_1').find('.button-next').addClass('disabled');
+	$('#form_wizard_1').find('.button-next').text("Validando...");
+	
 	var fd = new FormData();
 	fd.append("archivo", $('#archivo').prop('files')[0]);
 	$.ajax({
@@ -314,8 +317,11 @@ var validarArchivo = function(){
 		cache: false,
 	    contentType: false,
 	    processData: false,
-	    success: function(response){
+	    success: function(response){    	
 	    	if(!response){
+	    		$('#form_wizard_1').find('.button-next').text("Continuar ");
+	    		$('#form_wizard_1').find('.button-next').append("<i class='fa fa-angle-right'></i>");
+	    		
 	    		$($('#archivo')).closest('.form-group')
 					.removeClass('has-success').addClass('has-error');
 	    		$('<span id="errorValid" class="help-block help-block-error">El archivo no es válido</span>')
@@ -323,6 +329,11 @@ var validarArchivo = function(){
 	    		
 	    		setResultadoArchivo(false);
 	    	} else {
+	    		
+		    	$('#form_wizard_1').find('.button-next').removeClass('disabled');
+		    	$('#form_wizard_1').find('.button-next').text("Continuar ");
+		    	$('#form_wizard_1').find('.button-next').append("<i class='fa fa-angle-right'></i>");
+		    	
 	    		setResultadoArchivo(true);
 	    	}
 	    },

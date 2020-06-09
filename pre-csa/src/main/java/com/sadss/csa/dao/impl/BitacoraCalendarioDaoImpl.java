@@ -13,6 +13,12 @@ import com.sadss.csa.modelo.entidad.BitacoraCalendario;
 @Repository
 public class BitacoraCalendarioDaoImpl extends AbstractHibernateDao<BitacoraCalendario> implements BitacoraCalendarioDao {
 
+	public BitacoraCalendarioDaoImpl() {
+		super();
+		
+		setClazz(BitacoraCalendario.class);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BitacoraCalendarioDTO> getRegistros() {

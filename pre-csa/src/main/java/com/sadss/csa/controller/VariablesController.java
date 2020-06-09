@@ -26,18 +26,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.sadss.csa.controller.beans.BitacoraSistemaDTO;
 import com.sadss.csa.controller.beans.BitacoraVariableDTO;
 import com.sadss.csa.controller.beans.PeriodoVariablesForm;
 import com.sadss.csa.controller.beans.VariablesForm;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
-import com.sadss.csa.modelo.entidad.Bitacora;
 import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.modelo.entidad.Variable;
-import com.sadss.csa.service.BitacoraSistemaService;
 import com.sadss.csa.service.BitacoraVariablesService;
 import com.sadss.csa.service.PeriodoVariableService;
-import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.VariablesService;
 import com.sadss.csa.util.SecurityUtils;
 import com.sadss.csa.util.enums.TipoVariable;

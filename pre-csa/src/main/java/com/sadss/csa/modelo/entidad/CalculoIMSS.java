@@ -45,6 +45,8 @@ public class CalculoIMSS extends GenericModel<CalculoIMSS> implements Serializab
 	private Date fechaFin;
 	private String numColaborador;
 	
+	private DatosCarga datos;
+	
 	public CalculoIMSS() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.DATE, 1);
@@ -52,9 +54,6 @@ public class CalculoIMSS extends GenericModel<CalculoIMSS> implements Serializab
 		fechaInicio = calendar.getTime();
 		fechaFin = new Date();
 	}
-	
-	
-	private DatosCarga datos;
 
 	public Integer getId() {
 		return id;

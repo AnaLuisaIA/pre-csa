@@ -40,7 +40,7 @@ import com.sadss.csa.util.SecurityUtils;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
 
 @Controller
-@RequestMapping("/calendario")
+@RequestMapping("calendario")
 public class CalendarioController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CalendarioController.class);

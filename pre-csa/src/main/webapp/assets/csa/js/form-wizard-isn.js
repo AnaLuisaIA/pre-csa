@@ -189,7 +189,7 @@ var obtenerSemanas = function() {
 				var fecha1 = moment(semanas[i].fechaInicio).format("DD/MM/YYYY");
 				var fecha2 = moment(semanas[i].fechaFin).format("DD/MM/YYYY");
 				
-				var option = $('<option/>');
+				var option = $('<option />');
 				option.attr({
 					'value' : semanas[i].id
 				}).text(fecha1 + " - " + fecha2);
@@ -197,6 +197,7 @@ var obtenerSemanas = function() {
 				$('#semanaCalendario').append(option);
 			}
 		}
+		
 	});
 }
 
@@ -206,7 +207,7 @@ var verificarTasas = function() {
 		fechaFin: $('#fechaFin').val(), 
 		periodo: $('#tipoPeriodo').val()
 	}, function(localidades) {
-		console.log(localidades);
+
 		if(localidades != null || localidades.length > 0){
 			
 			$('#modalTAP').modal('show');
@@ -216,7 +217,7 @@ var verificarTasas = function() {
 			localidades.forEach(function(l){
     			tabla.append("<tr><td class='estadoTasa'>" + l.estado 
     				+ "</td><td><input type='number' class='form-control input-small total-pagar' " +
-    						"max='1000' step='0.01' value=" + l.totalAPagar + ">"
+    						"max='1000' min='0' step='0.01' value='0'>"
     				+"</td></tr>");
     		});
 		} else {
@@ -237,8 +238,7 @@ var verificarTasas = function() {
 }
 
 var registrarTAP = function(valores) {
-	console.log(valores);
-	
+
 	$.ajax({
 		type: "POST",
 		url: "registrarTAP",
@@ -278,7 +278,7 @@ $('#btnGuardarTAP').click(function() {
 		
 		if(valor === '0' || valor === ''){
 			mensaje += "El valor de Total a Pagar de <strong>" + estado + "</strong> no puede ser 0.<br>"
-		} else if (parseInt(valor) > 1000){
+		} else if (parseFloat(valor) > 1000 || parseFloat(valor) < 0){
 			mensaje += "El estado <strong>" + estado + "</strong> no tiene un valor válido de Total a Pagar.<br>"
 		} else {
 			valores.push({"estado": estado,

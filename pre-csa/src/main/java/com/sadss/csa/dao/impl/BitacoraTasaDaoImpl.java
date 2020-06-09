@@ -12,6 +12,11 @@ import com.sadss.csa.modelo.entidad.BitacoraTasas;
 
 @Repository
 public class BitacoraTasaDaoImpl extends AbstractHibernateDao<BitacoraTasas> implements BitacoraTasaDAO{
+	
+	public BitacoraTasaDaoImpl() {
+		super();
+		setClazz(BitacoraTasas.class);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

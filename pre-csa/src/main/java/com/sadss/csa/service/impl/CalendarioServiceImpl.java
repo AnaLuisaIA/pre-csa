@@ -84,7 +84,7 @@ public class CalendarioServiceImpl extends AbstractService<Calendario> implement
 
 	@Override
 	protected IOperations<Calendario> getDao() {
-		return this.dao;
+		return dao;
 	}
 
 	@Override
@@ -107,6 +107,11 @@ public class CalendarioServiceImpl extends AbstractService<Calendario> implement
 		
 		bitCalendarioService.create(bc);
 		
+	}
+
+	@Override
+	public Integer getNumeroSemanasByMes(String mes) {
+		return dao.getNumeroSemanasByMes(mes);
 	}
 
 }

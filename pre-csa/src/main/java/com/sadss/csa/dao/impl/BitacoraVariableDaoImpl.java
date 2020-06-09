@@ -14,6 +14,11 @@ import com.sadss.csa.modelo.entidad.BitacoraVariables;
 @Repository
 public class BitacoraVariableDaoImpl extends AbstractHibernateDao<BitacoraVariables> implements BitacoraVariableDAO{
 	
+	public BitacoraVariableDaoImpl() {
+		super();
+		setClazz(BitacoraVariables.class);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BitacoraVariableDTO> getRegistros() {

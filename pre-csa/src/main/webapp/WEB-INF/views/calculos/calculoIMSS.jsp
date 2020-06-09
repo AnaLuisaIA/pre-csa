@@ -266,8 +266,7 @@
 											</a> <a href="javascript:;"
 												class="btn btn-outline green button-next"> Continuar <i
 												class="fa fa-angle-right"></i>
-											</a> <a class="btn green button-submit ladda-button"
-												data-style="expand-right"><span class="ladda-label">Descargar
+											</a> <a class="btn green button-submit"><span>Descargar
 													Archivo </span><i class="fa fa-download"></i> </a> <a
 												class="btn green button-continue" id="btnISN"> Continuar
 												con Cálculo ISN <i class="fa fa-angle-right"></i>
@@ -285,9 +284,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="loaderFile">
-			<!-- Place at bottom of page -->
 		</div>
 	</tiles:putAttribute>
 

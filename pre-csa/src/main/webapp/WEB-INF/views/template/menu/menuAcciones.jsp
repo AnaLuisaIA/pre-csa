@@ -8,7 +8,7 @@
 	access="hasAnyRole('CONSULTA_REPORTE', 'GENERA_REPORTE', 'GENERA_OP', 'CIERRA_CALCULO')">
 
 	<li id="calculosMain"><a href="javascript:;"> <i
-			class="icon-calculator"></i> <span class="title">Cálculos</span> <span
+			class="icon-calculator"></i> <span class="title">C&aacute;lculos</span> <span
 			class="selected"></span> <span class="arrow"></span>
 	</a>
 
@@ -16,17 +16,17 @@
 
 			<sec:authorize access="hasAnyRole('GENERA_OP', 'CIERRA_CALCULO')">
 				<li id="calculosMenu"><a href="<c:url value='/calculos/'/>">
-						<i class="fa fa-calculator"> </i> Realizar cálculos
+						<i class="fa fa-calculator"> </i> Realizar c&aacute;lculos
 				</a></li>
 			</sec:authorize>
 
 			<sec:authorize
 				access="hasAnyRole('CONSULTA_REPORTE', 'GENERA_REPORTE')">
 				<li id="consultaIMSS"><a href="<c:url value='/calculos/consultaImss'/>"> <i
-						class="fa fa-search"></i> Consulta Cálculos IMSS e INFONAVIT
+						class="fa fa-search"></i> Consulta C&aacute;lculos IMSS e INFONAVIT
 				</a></li>
 				<li id="consultaISN"><a href="<c:url value='/cISN/'/>"> <i
-						class="fa fa-search"></i> Consulta Cálculos ISN
+						class="fa fa-search"></i> Consulta C&aacute;lculos ISN
 				</a></li>
 			</sec:authorize>
 

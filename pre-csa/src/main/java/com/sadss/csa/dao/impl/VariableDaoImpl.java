@@ -4,10 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.dao.VariableDAO;

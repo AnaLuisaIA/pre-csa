@@ -33,6 +33,13 @@ public interface CalendarioService extends CrudService<Calendario> {
 	public List<Calendario> getCalendarioPorAnio(Integer anio);
 	
 	/**
+	 * Obtiene el número de semanas dado un mes
+	 * @param mes Mes (en palabra) 
+	 * @return Número de semanas
+	 */
+	public Integer getNumeroSemanasByMes(String mes);
+	
+	/**
 	 * Se registra en la bitácora de Calendario al acción realizada
 	 * @param accion Descripción de la acción
 	 * @param fecha Fecha y hora en la que se realizó la acción

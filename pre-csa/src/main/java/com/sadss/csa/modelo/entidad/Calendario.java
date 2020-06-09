@@ -13,6 +13,7 @@ public class Calendario extends GenericModel<Calendario> implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Integer id;
 	private Date fechaInicio;
 	private Date fechaFin;
