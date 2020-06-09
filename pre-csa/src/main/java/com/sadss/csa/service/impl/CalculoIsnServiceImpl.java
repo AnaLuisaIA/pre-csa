@@ -33,14 +33,14 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
 	@Autowired
 	private calculoIsnDAO dao;
-	
+
 	@Override
-	public void validateBeforeCreate(CalculoISN entity, BindingResult result) {		
+	public void validateBeforeCreate(CalculoISN entity, BindingResult result) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -80,9 +80,9 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 		calculo.setClaveAgente(d.getClaveAgente());
 		calculo.setFechaCalculo(new Date());
 		calculo.setUsuarioCalculo(usuarioService.findByUsername(colaborador));
-		
+
 		calculo.setBaseGravable(base_gravable.intValue());
-		
+
 		return calculo;
 	}
 
@@ -90,6 +90,7 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 	public List<CalculoISN> getAllCalculoISN() {
 		return dao.getAllCalculoISN();
 	}
+
 	@SuppressWarnings("resource")
 	@Override
 	public void generarArchivoCalculos(HttpServletRequest request, HttpServletResponse response,
@@ -116,12 +117,14 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 		response.setContentType("application/vnd.ms-excel");
 
 		Writer.write(response, sheet);
-	
-		@Override
+
+	}
+
+	@Override
 	protected IOperations<CalculoISN> getDao() {
 		return this.dao;
 	}
-	
+
 	@Override
 	public List<CalculoISN> getAllAgente() {
 		return dao.getAllAgente();
@@ -135,6 +138,11 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 	@Override
 	public List<CalculoISN> getAllColaborador() {
 		return dao.getAllColaborador();
+	}
+
+	@Override
+	public List<CalculoISN> getCalculosISNPorBusqueda(CalculoISN c) {
+		return dao.getAllCalculoISNPorBusqueda(c);
 	}
 
 }

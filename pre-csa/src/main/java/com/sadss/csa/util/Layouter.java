@@ -307,7 +307,7 @@ public class Layouter {
 		XSSFCell cellTitle3 = rowTitle.createCell(inicioColIndex + 5);
 		cellTitle3.setCellValue("Fecha de elaboración de reporte: ".concat(sdf.format(new Date())));
 		cellTitle3.setCellStyle(cellStyleTitle);
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 5, 7));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 5, 9));
 	}
 
 	public static void buildHeadersSalidaIsn(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex) {

@@ -34,6 +34,8 @@ public interface CalculoIsnService extends CrudService<CalculoISN> {
 	public void generarArchivoCalculos(HttpServletRequest request, HttpServletResponse response,
 			List<CalculoISN> calculos, Date fechaInicio, Date fechaFin, String colaborador);
 	
+	public CalculoISN realizarCalculos(CalculoIsnForm cif, Integer n_semanas, DatosCarga d, String colaborador);
+	
 	/*
 	 * Método para traer los registros de las fechas periodo
 	 * **/
@@ -43,4 +45,6 @@ public interface CalculoIsnService extends CrudService<CalculoISN> {
 	 * Método para traer los registros de los colaboradores
 	 * **/
 	public List<CalculoISN> getAllColaborador();
+	
+	public List<CalculoISN> getAllAgente();
 }
