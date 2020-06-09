@@ -92,7 +92,7 @@ public class CalculoIMSSDaoImpl extends AbstractHibernateDao<CalculoIMSS> implem
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CalculoIMSS> getUsuarios() {
-		StringBuilder queryTxt = new StringBuilder("Select distinct new com.sadss.csa.controller.beans.CalculosImssDTO(u.numColaborador) from com.sadss.csa.modelo.entidad.CalculoIMSS c join c.usuarioCalculo u ");
+		StringBuilder queryTxt = new StringBuilder("Select distinct new com.sadss.csa.controller.beans.CalculosImssDTO(u.numColaborador,u.nombres,u.aPaterno, u.aMaterno) from com.sadss.csa.modelo.entidad.CalculoIMSS c join c.usuarioCalculo u ");
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		return query.list();
 	}
@@ -100,7 +100,7 @@ public class CalculoIMSSDaoImpl extends AbstractHibernateDao<CalculoIMSS> implem
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CalculoIMSS> getFechaCalculo() {
-		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.CalculosImssDTO(c.fechaCalculo) from com.sadss.csa.modelo.entidad.CalculoIMSS c join c.usuarioCalculo u ");
+		StringBuilder queryTxt = new StringBuilder("Select distinct new com.sadss.csa.controller.beans.CalculosImssDTO(c.fechaCalculo) from com.sadss.csa.modelo.entidad.CalculoIMSS c join c.usuarioCalculo u ");
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		return query.list();
 	}

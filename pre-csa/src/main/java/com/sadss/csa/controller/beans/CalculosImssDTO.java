@@ -58,10 +58,12 @@ public class CalculosImssDTO {
 
 	
 
-	public CalculosImssDTO(String numColaborador) {
+	public CalculosImssDTO(String numColaborador,String nombres, String aPaterno, String aMaterno) {
 		super();
-
 		this.numColaborador = numColaborador;
+		this.nombres = nombres;
+		this.aPaterno = aPaterno;
+		this.aMaterno = aMaterno;
 	}
 
 

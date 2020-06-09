@@ -74,10 +74,11 @@
 											maxlenght="10" placeholder="Al..." />
 									</div>
 									<div class="form-group">
-											<form:select path="numColaborador" class="form-control"
-												name="numColaborador" required="true">
+											<form:select path="numColaborador" class="form-control" name="numColaborador" required="true">
 												<form:option value="">Calculado Por</form:option>
-												<form:options items="${usuario}" itemValue="numColaborador" itemLabel="numColaborador"></form:options>
+												<c:forEach var="u" items="${usuario}">
+													<form:option value="${u.numColaborador}"><c:out value="${u.nombres} ${u.aPaterno} ${u.aMaterno}"/></form:option>
+											 	</c:forEach>
 											</form:select>
 									</div>
 									<div class="form-group">
