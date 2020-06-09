@@ -114,7 +114,7 @@
 							 </thead>
 							 <tfoot>
         						<tr>
-           						 <td align="right" colspan=2>Total:</td>
+           						 <td align="right" colspan=2>Total: </td>
             						<td></td>
             						<td></td>
             						<td></td>
