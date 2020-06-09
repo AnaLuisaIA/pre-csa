@@ -120,9 +120,9 @@ public class CalculosController {
 		//isnForm.setTipoPeriodo(periodoImss);
 		//isnForm.setFechaInicio(fechaInicio);
 		//isnForm.setFechaFin(fechaFin);
-		isnForm.setNombreArchivo(nombreA);
+		//isnForm.setNombreArchivo(nombreA);
 
-		feedDetallesISN(model, isnForm);
+		//feedDetallesISN(model, isnForm);
 
 		model.addAttribute("anios", calendarioService.obtenerAnios());
 		
@@ -154,8 +154,6 @@ public class CalculosController {
 	 */
 	@RequestMapping(value = "/consultaImss", method = RequestMethod.GET)
 	public String consultarCalculos(ModelMap model, HttpServletRequest request) {
-		List<CalculoIMSS> registros = imssService.getAllCalculo();
-		model.put("acciones", registros);
 		agregarColaborador(model);
 		agregarFechaCalculo(model);
 		model.put("calculoIMSS", new CalculoIMSS());
@@ -217,8 +215,6 @@ public class CalculosController {
 	 */
 	@RequestMapping(value = "/consultaISN", method = RequestMethod.GET)
 	public String consultarCalculosISN(ModelMap model, HttpServletRequest request) {
-		List<CalculoISN> registros = isnService.getAllCalculoISN();
-		model.put("acciones", registros);
 		agregarAgente(model);
 		agregarFechaCalculoI(model);
 		agregarColaboradorI(model);
@@ -366,41 +362,41 @@ public class CalculosController {
 		return null;
 	}
 
-	@RequestMapping(value = "/calcularIsn", method = RequestMethod.POST)
-	public ModelAndView calcularISN(@Valid @ModelAttribute("isnForm") CalculoIsnForm cif, BindingResult result,
-			HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
+	//@RequestMapping(value = "/calcularIsn", method = RequestMethod.POST)
+	//public ModelAndView calcularISN(@Valid @ModelAttribute("isnForm") CalculoIsnForm cif, BindingResult result,
+		//	HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
 
-		ModelMap model = new ModelMap();
+		//ModelMap model = new ModelMap();
 
-		if (result.hasErrors()) {
-			feedDetallesISN(model, cif);
-			LOG.debug("Errores: " + result.getAllErrors());
-			return new ModelAndView("calculos/calculoISN", model);
-		}
+		//if (result.hasErrors()) {
+		//	feedDetallesISN(model, cif);
+			//LOG.debug("Errores: " + result.getAllErrors());
+			//return new ModelAndView("calculos/calculoISN", model);
+		//}
 
-		List<DatosCarga> datos = datosService.findDatosByPeriodo(cif.getFechaInicio(), cif.getFechaFin(),
-				cif.getTipoPeriodo());
+		//List<DatosCarga> datos = datosService.findDatosByPeriodo(cif.getFechaInicio(), cif.getFechaFin(),
+				//cif.getTipoPeriodo());
 
-		BigDecimal total_percepciones = new BigDecimal(0);
-		BigDecimal base_gravable = new BigDecimal(0);
+		//BigDecimal total_percepciones = new BigDecimal(0);
+		//BigDecimal base_gravable = new BigDecimal(0);
 
-		for (DatosCarga d : datos) {
-			total_percepciones = d.getSueldo().add(d.getAguinaldo()).add(d.getVacaciones()).add(d.getPrimaVacacional())
-					.add(d.getRepUtil()).add(d.getBono()).add(d.getBonoDigital()).add(d.getBonoLealtad())
-					.add(d.getBonoLealtad()).add(d.getBonoTraslado()).setScale(2, RoundingMode.HALF_UP);
+		//for (DatosCarga d : datos) {
+			//total_percepciones = d.getSueldo().add(d.getAguinaldo()).add(d.getVacaciones()).add(d.getPrimaVacacional())
+					//.add(d.getRepUtil()).add(d.getBono()).add(d.getBonoDigital()).add(d.getBonoLealtad())
+					//.add(d.getBonoLealtad()).add(d.getBonoTraslado()).setScale(2, RoundingMode.HALF_UP);
 
-			BigDecimal sumaReparto = d.getRepUtil().add(d.getIndemnizacion()).add(d.getVeinteDias());
+			//BigDecimal sumaReparto = d.getRepUtil().add(d.getIndemnizacion()).add(d.getVeinteDias());
 
-			base_gravable = total_percepciones.subtract(sumaReparto);
+			//base_gravable = total_percepciones.subtract(sumaReparto);
 
 			// Obtener localidad de agente
-			BigDecimal tasa;
+			//BigDecimal tasa;
 
 			// Obtener tasa de la localidad
-		}
+		//}
 
-		return new ModelAndView("redirect:/calculos/");
-	}
+		///return new ModelAndView("redirect:/calculos/");
+	//}
 
 	@SuppressWarnings("resource")
 	@RequestMapping(value = "/checkFile", method = RequestMethod.POST)
@@ -525,10 +521,10 @@ public class CalculosController {
 		model.addAttribute("periodos", periodos);
 	}
 
-	public void feedDetallesISN(ModelMap model, CalculoIsnForm cif) {
-		model.addAttribute("isnForm", cif);
-		model.addAttribute("anios", calendarioService.obtenerAnios());
-	}
+	//public void feedDetallesISN(ModelMap model, CalculoIsnForm cif) {
+		//model.addAttribute("isnForm", cif);
+		//model.addAttribute("anios", calendarioService.obtenerAnios());
+	//}
 	
 	public TipoPeriodo getPeriodoByString(String periodo) {
 		
