@@ -124,9 +124,9 @@ public class CalculosController {
 		isnForm.setTipoPeriodo(periodoImss);
 		isnForm.setFechaInicio(fechaInicio);
 		isnForm.setFechaFin(fechaFin);
-		isnForm.setNombreArchivo(nombreA);
+		//isnForm.setNombreArchivo(nombreA);
 
-		feedDetallesISN(model, isnForm);
+		//feedDetallesISN(model, isnForm);
 
 		model.addAttribute("anios", calendarioService.obtenerAnios());
 
@@ -141,8 +141,6 @@ public class CalculosController {
 	 */
 	@RequestMapping(value = "/consultaImss", method = RequestMethod.GET)
 	public String consultarCalculos(ModelMap model, HttpServletRequest request) {
-		List<CalculoIMSS> registros = imssService.getAllCalculo();
-		model.put("acciones", registros);
 		agregarColaborador(model);
 		agregarFechaCalculo(model);
 		model.put("calculoIMSS", new CalculoIMSS());
@@ -192,8 +190,6 @@ public class CalculosController {
 	 */
 	@RequestMapping(value = "/consultaISN", method = RequestMethod.GET)
 	public String consultarCalculosISN(ModelMap model, HttpServletRequest request) {
-		List<CalculoISN> registros = isnService.getAllCalculoISN();
-		model.put("acciones", registros);
 		agregarAgente(model);
 		agregarFechaCalculoI(model);
 		agregarColaboradorI(model);
@@ -353,22 +349,22 @@ public class CalculosController {
 		return null;
 	}
 
-	@RequestMapping(value = "/calcularIsn", method = RequestMethod.POST)
-	public ModelAndView calcularISN(@Valid @ModelAttribute("isnForm") CalculoIsnForm cif, BindingResult result,
-			HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
+	//@RequestMapping(value = "/calcularIsn", method = RequestMethod.POST)
+	//public ModelAndView calcularISN(@Valid @ModelAttribute("isnForm") CalculoIsnForm cif, BindingResult result,
+		//	HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
 
-		ModelMap model = new ModelMap();
+		//ModelMap model = new ModelMap();
 		String colaborador = SecurityUtils.getCurrentUser();
 		System.out.println(cif.toString());
 
-		if (result.hasErrors()) {
-			feedDetallesISN(model, cif);
-			LOG.debug("Errores: " + result.getAllErrors());
-			return new ModelAndView("calculos/calculoISN", model);
-		}
+		//if (result.hasErrors()) {
+		//	feedDetallesISN(model, cif);
+			//LOG.debug("Errores: " + result.getAllErrors());
+			//return new ModelAndView("calculos/calculoISN", model);
+		//}
 
-		List<DatosCarga> datos = datosService.findDatosByPeriodo(cif.getFechaInicio(), cif.getFechaFin(),
-				cif.getTipoPeriodo());
+		//List<DatosCarga> datos = datosService.findDatosByPeriodo(cif.getFechaInicio(), cif.getFechaFin(),
+				//cif.getTipoPeriodo());
 
 		List<CalculoISN> calculosIsn = new ArrayList<CalculoISN>();
 
@@ -386,7 +382,6 @@ public class CalculosController {
 				colaborador);
 
 		return null;
-	}
 
 	/**
 	 * Revisa el archivo de carga para cálculos
@@ -563,10 +558,10 @@ public class CalculosController {
 		model.addAttribute("periodos", periodos);
 	}
 
-	public void feedDetallesISN(ModelMap model, CalculoIsnForm cif) {
-		model.addAttribute("isnForm", cif);
-		model.addAttribute("anios", calendarioService.obtenerAnios());
-	}
+	//public void feedDetallesISN(ModelMap model, CalculoIsnForm cif) {
+		//model.addAttribute("isnForm", cif);
+		//model.addAttribute("anios", calendarioService.obtenerAnios());
+	//}
 
 	public TipoPeriodo getPeriodoByString(String periodo) {
 

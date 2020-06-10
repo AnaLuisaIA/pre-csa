@@ -87,7 +87,7 @@
 											<form:select path="fechaCalculo" class="form-control"
 												name="fechaCalculo" required="true">
 												<form:option value=""></form:option>
-												<form:option value="">01/01/2020</form:option>
+												<form:option value="">Sin Fecha</form:option>
 												<form:options items="${fecha}" itemValue="fechaCalculo" itemLabel="fechaCalculo"></form:options>
 											</form:select>
 									</div>
@@ -114,7 +114,8 @@
 							 </thead>
 							 <tfoot>
         						<tr>
-           						 <td align="right" colspan=2>Total:</td>
+           						 <td align="right" colspan=2>Total: </td>
+            						<td></td>
             						<td></td>
             						<td></td>
             						<td></td>

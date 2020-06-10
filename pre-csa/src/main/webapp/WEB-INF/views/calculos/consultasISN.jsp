@@ -81,7 +81,7 @@
 									</div>
 									<form:select path="fechaCalculo" class="form-control" name="fechaCalculo" required="true">
 											<form:option value=""></form:option>
-											<form:option value="">01/01/2020</form:option>
+											<form:option value="">Sin Fecha</form:option>
 											<form:options items="${fechaCalculo}" itemValue="fechaCalculo" itemLabel="fechaCalculo"></form:options>
 									</form:select>
 									<form:select path="numColaborador" class="form-control" name="numColaborador" required="true">
@@ -177,7 +177,7 @@
 			src="<c:url value='/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js'/>">
 		</script>
 
-<script>
+		<script>
 			/**
 			 * funcion que realiza los calculos
 			 */
