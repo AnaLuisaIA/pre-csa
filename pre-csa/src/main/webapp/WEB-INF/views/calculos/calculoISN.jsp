@@ -163,7 +163,7 @@
 												class="fa fa-angle-right"></i>
 											</a> <a class="btn green button-submit" data-style="expand-right"><span>Descargar
 													Archivo </span><i class="fa fa-download"></i> </a> <a
-												class="btn green button-end" id="btnTerminar"> Terminar
+												class="btn green button-end" href="<c:url value="/calculos/" />">Terminar
 											</a>
 
 										</div>

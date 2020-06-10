@@ -288,7 +288,7 @@ public class Layouter {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		XSSFCellStyle cellStyleTitle = sheet.getWorkbook().createCellStyle();
-		cellStyleTitle.setAlignment(HorizontalAlignment.CENTER);
+		cellStyleTitle.setAlignment(HorizontalAlignment.LEFT);
 		cellStyleTitle.setWrapText(true);
 
 		XSSFRow rowTitle = sheet.createRow((short) inicioRowIndex);
@@ -304,10 +304,11 @@ public class Layouter {
 		cellTitle2.setCellStyle(cellStyleTitle);
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 3, 4));
 
-		XSSFCell cellTitle3 = rowTitle.createCell(inicioColIndex + 5);
+		XSSFRow rowTitle2 = sheet.createRow((short) inicioRowIndex + 1);
+		XSSFCell cellTitle3 = rowTitle2.createCell(inicioColIndex);
 		cellTitle3.setCellValue("Fecha de elaboración de reporte: ".concat(sdf.format(new Date())));
 		cellTitle3.setCellStyle(cellStyleTitle);
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 5, 9));
+		sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 2));
 	}
 
 	public static void buildHeadersSalidaIsn(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex) {
@@ -324,7 +325,7 @@ public class Layouter {
 		headerCellStyle.setBorderRight(BorderStyle.THIN);
 		headerCellStyle.setBorderTop(BorderStyle.THIN);
 
-		XSSFRow rowHeader = sheet.createRow((short) inicioRowIndex + 2);
+		XSSFRow rowHeader = sheet.createRow((short) inicioRowIndex + 3);
 		rowHeader.setHeight((short) 600);
 
 		int contador = 0;

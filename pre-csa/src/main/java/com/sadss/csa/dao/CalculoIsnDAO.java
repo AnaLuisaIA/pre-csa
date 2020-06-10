@@ -2,12 +2,10 @@ package com.sadss.csa.dao;
 
 import java.util.List;
 
-import org.w3c.dom.ls.LSInput;
-
 import com.sadss.csa.modelo.entidad.CalculoISN;
 import com.sadss.csa.modelo.generic.IOperations;
 
-public interface calculoIsnDAO extends IOperations<CalculoISN>{
+public interface CalculoIsnDAO extends IOperations<CalculoISN>{
 
 	public List<CalculoISN> getAllCalculoISN();
 	

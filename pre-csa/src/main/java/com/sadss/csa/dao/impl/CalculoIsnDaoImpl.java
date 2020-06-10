@@ -7,12 +7,12 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
-import com.sadss.csa.dao.calculoIsnDAO;
+import com.sadss.csa.dao.CalculoIsnDAO;
 import com.sadss.csa.dao.generic.AbstractHibernateDao;
 import com.sadss.csa.modelo.entidad.CalculoISN;
 
 @Repository
-public class CalculoIsnDaoImpl extends AbstractHibernateDao<CalculoISN> implements calculoIsnDAO{
+public class CalculoIsnDaoImpl extends AbstractHibernateDao<CalculoISN> implements CalculoIsnDAO{
 
 	public CalculoIsnDaoImpl() {
 		super();

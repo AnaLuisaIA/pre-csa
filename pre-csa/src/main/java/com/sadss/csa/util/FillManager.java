@@ -178,7 +178,7 @@ public class FillManager {
 
 	public static void fillCalculosISN(XSSFSheet sheet, int inicioRowIndex, int inicioColIndex,
 			List<CalculoISN> calculos) {
-		inicioRowIndex += 2;
+		inicioRowIndex += 4;
 
 		DataFormat fmt = sheet.getWorkbook().createDataFormat();
 
@@ -192,31 +192,31 @@ public class FillManager {
 		claveAgenteCellStyle.setWrapText(true);
 		claveAgenteCellStyle.setDataFormat(fmt.getFormat("0"));
 
-		for (int i = inicioRowIndex; i + inicioRowIndex - 2 < calculos.size() + 2; i++) {
+		for (int i = inicioRowIndex; i + inicioRowIndex - 4 < calculos.size() + 4; i++) {
 			XSSFRow row = sheet.createRow((short) i);
 
 			XSSFCell celda = row.createCell(inicioColIndex + 0);
-			celda.setCellValue(calculos.get(i - 2).getLocalidad());
+			celda.setCellValue(calculos.get(i - 4).getLocalidad());
 			celda.setCellStyle(claveAgenteCellStyle);
 
 			celda = row.createCell(inicioColIndex + 1);
-			celda.setCellValue(calculos.get(i - 2).getClaveAgente());
+			celda.setCellValue(calculos.get(i - 4).getClaveAgente());
 			celda.setCellStyle(claveAgenteCellStyle);
 
 			celda = row.createCell(inicioColIndex + 2);
-			celda.setCellValue(calculos.get(i - 2).getTasa().doubleValue());
+			celda.setCellValue(calculos.get(i - 4).getTasa().doubleValue());
 			celda.setCellStyle(bodyCellStyle);
 
 			celda = row.createCell(inicioColIndex + 3);
-			celda.setCellValue(calculos.get(i - 2).getBaseGravable().doubleValue());
+			celda.setCellValue(calculos.get(i - 4).getBaseGravable().doubleValue());
 			celda.setCellStyle(bodyCellStyle);
 
 			celda = row.createCell(inicioColIndex + 4);
-			celda.setCellValue(calculos.get(i - 2).getIsnMensual().doubleValue());
+			celda.setCellValue(calculos.get(i - 4).getIsnMensual().doubleValue());
 			celda.setCellStyle(bodyCellStyle);
 
 			celda = row.createCell(inicioColIndex + 5);
-			celda.setCellValue(calculos.get(i - 2).getIsnSemanal().doubleValue());
+			celda.setCellValue(calculos.get(i - 4).getIsnSemanal().doubleValue());
 			celda.setCellStyle(bodyCellStyle);
 
 		}

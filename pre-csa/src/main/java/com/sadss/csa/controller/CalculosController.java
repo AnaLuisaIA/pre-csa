@@ -3,6 +3,7 @@ package com.sadss.csa.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -112,6 +113,15 @@ public class CalculosController {
 		return "calculos/calculoIMSS";
 	}
 
+	/**
+	 * Vista de form wizard para Cálculos ISN
+	 * @param nombreA Nombre del archivo
+	 * @param fechaInicio Fecha de inicio de periodo de Datos cálculo
+	 * @param fechaFin Fecha final de periodo de Datos cálculo
+	 * @param periodo Periodo de datos cálculo
+	 * @param model
+	 * @return Vista de formulario de Cálculo ISN
+	 */
 	@RequestMapping(value = "/isn", method = RequestMethod.GET)
 	public String calculoISN(@RequestParam("nombreArchivo") String nombreA,
 			@RequestParam("fechaInicio") Date fechaInicio, @RequestParam("fechaFin") Date fechaFin,
@@ -124,9 +134,9 @@ public class CalculosController {
 		isnForm.setTipoPeriodo(periodoImss);
 		isnForm.setFechaInicio(fechaInicio);
 		isnForm.setFechaFin(fechaFin);
-		//isnForm.setNombreArchivo(nombreA);
+		isnForm.setNombreArchivo(nombreA);
 
-		//feedDetallesISN(model, isnForm);
+		feedDetallesISN(model, isnForm);
 
 		model.addAttribute("anios", calendarioService.obtenerAnios());
 
@@ -349,32 +359,58 @@ public class CalculosController {
 		return null;
 	}
 
-	//@RequestMapping(value = "/calcularIsn", method = RequestMethod.POST)
-	//public ModelAndView calcularISN(@Valid @ModelAttribute("isnForm") CalculoIsnForm cif, BindingResult result,
-		//	HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
+	@RequestMapping(value = "/calcularIsn", method = RequestMethod.POST)
+	public ModelAndView calcularISN(@Valid @ModelAttribute("isnForm") CalculoIsnForm cif, BindingResult result,
+		HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
 
-		//ModelMap model = new ModelMap();
+		ModelMap model = new ModelMap();
 		String colaborador = SecurityUtils.getCurrentUser();
 		System.out.println(cif.toString());
 
-		//if (result.hasErrors()) {
-		//	feedDetallesISN(model, cif);
-			//LOG.debug("Errores: " + result.getAllErrors());
-			//return new ModelAndView("calculos/calculoISN", model);
-		//}
+		if (result.hasErrors()) {
+			feedDetallesISN(model, cif);
+			LOG.debug("Errores: " + result.getAllErrors());
+			return new ModelAndView("calculos/calculoISN", model);
+		}
 
-		//List<DatosCarga> datos = datosService.findDatosByPeriodo(cif.getFechaInicio(), cif.getFechaFin(),
-				//cif.getTipoPeriodo());
+		List<DatosCarga> datos = datosService.findDatosByPeriodo(cif.getFechaInicio(), cif.getFechaFin(),
+				cif.getTipoPeriodo());
 
 		List<CalculoISN> calculosIsn = new ArrayList<CalculoISN>();
+		List<DatosCarga> datosTAP = new ArrayList<DatosCarga>();
 
 		Calendario cal = calendarioService.findOne(cif.getSemanaCalendario());
 		Integer n_semanas = calendarioService.getNumeroSemanasByMes(cal.getMes());
+		
+		BigDecimal suma_baseG = new BigDecimal(0);
+		BigDecimal total_percepciones = new BigDecimal(0);
+		BigDecimal base_gravable = new BigDecimal(0);
 
 		for (DatosCarga d : datos) {
+
+			total_percepciones = d.getSueldo().add(d.getAguinaldo()).add(d.getVacaciones()).add(d.getPrimaVacacional())
+					.add(d.getRepUtil()).add(d.getBono()).add(d.getBonoLealtad()).add(d.getBonoDigital())
+					.add(d.getBonoTraslado()).add(d.getOtroBono1()).add(d.getOtroBono2()).add(d.getOtroBono3())
+					.add(d.getOtroBono4()).add(d.getOtroBono5()).add(d.getOtroBono6()).add(d.getOtroBono7())
+					.add(d.getOtroBono8()).add(d.getOtroBono9()).add(d.getOtroBono10()).setScale(2, RoundingMode.HALF_UP);
+
+			BigDecimal sumaReparto = d.getRepUtil().add(d.getIndemnizacion()).add(d.getVeinteDias());
+
+			base_gravable = total_percepciones.subtract(sumaReparto);
 			
-			//CalculoISN calculo = isnService.realizarCalculos(cif, n_semanas, d, colaborador);
+			//Si la localidad del agente es Total A Pagar
+			datosTAP.add(d);
+			suma_baseG = suma_baseG.add(base_gravable);
+			
+			//Si el agente tiene localidad de Tasa
+			//CalculoISN calculo = isnService.realizarCalculos(cif, n_semanas, d, colaborador, base_gravable);
 			//isnService.create(calculo);
+			//calculosIsn.add(calculo);
+		}
+		
+		//Si hay datos de agentes con localidad Total a Pagar
+		if(!datosTAP.isEmpty()) {
+			calculosIsn = isnService.realizarCalculosTAP(cif, n_semanas, datosTAP, colaborador, suma_baseG, calculosIsn);
 		}
 
 		// Generar archivo de salida con lista
@@ -382,6 +418,7 @@ public class CalculosController {
 				colaborador);
 
 		return null;
+	}
 
 	/**
 	 * Revisa el archivo de carga para cálculos
@@ -558,10 +595,10 @@ public class CalculosController {
 		model.addAttribute("periodos", periodos);
 	}
 
-	//public void feedDetallesISN(ModelMap model, CalculoIsnForm cif) {
-		//model.addAttribute("isnForm", cif);
-		//model.addAttribute("anios", calendarioService.obtenerAnios());
-	//}
+	public void feedDetallesISN(ModelMap model, CalculoIsnForm cif) {
+		model.addAttribute("isnForm", cif);
+		model.addAttribute("anios", calendarioService.obtenerAnios());
+	}
 
 	public TipoPeriodo getPeriodoByString(String periodo) {
 

@@ -17,11 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import com.sadss.csa.controller.beans.CalculoIsnForm;
-import com.sadss.csa.dao.calculoIsnDAO;
+import com.sadss.csa.dao.CalculoIsnDAO;
 import com.sadss.csa.modelo.entidad.CalculoISN;
 import com.sadss.csa.modelo.entidad.DatosCarga;
 import com.sadss.csa.modelo.generic.IOperations;
 import com.sadss.csa.service.CalculoIsnService;
+import com.sadss.csa.service.CalendarioService;
+import com.sadss.csa.service.TasaService;
 import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.generic.AbstractService;
 import com.sadss.csa.util.FillManager;
@@ -35,7 +37,13 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 	private UsuarioService usuarioService;
 
 	@Autowired
-	private calculoIsnDAO dao;
+	private TasaService tasaService;
+
+	@Autowired
+	private CalendarioService calendarioService;
+
+	@Autowired
+	private CalculoIsnDAO dao;
 
 	@Override
 	public void validateBeforeCreate(CalculoISN entity, BindingResult result) {
@@ -56,32 +64,27 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 	}
 
 	@Override
-	public CalculoISN realizarCalculos(CalculoIsnForm cif, Integer n_semanas, DatosCarga d, String colaborador) {
+	public CalculoISN realizarCalculos(CalculoIsnForm cif, Integer n_semanas, DatosCarga d, String colaborador,
+			BigDecimal base_gravable) {
 
-		BigDecimal total_percepciones = new BigDecimal(0);
-		BigDecimal base_gravable = new BigDecimal(0);
+		BigDecimal tasa = tasaService.getTasaByOficina("").getValor();
 
-		total_percepciones = d.getSueldo().add(d.getAguinaldo()).add(d.getVacaciones()).add(d.getPrimaVacacional())
-				.add(d.getRepUtil()).add(d.getBono()).add(d.getBonoLealtad()).add(d.getBonoDigital())
-				.add(d.getBonoTraslado()).add(d.getOtroBono1()).add(d.getOtroBono2()).add(d.getOtroBono3())
-				.add(d.getOtroBono4()).add(d.getOtroBono5()).add(d.getOtroBono6()).add(d.getOtroBono7())
-				.add(d.getOtroBono8()).add(d.getOtroBono9()).add(d.getOtroBono10()).setScale(2, RoundingMode.HALF_UP);
-
-		BigDecimal sumaReparto = d.getRepUtil().add(d.getIndemnizacion()).add(d.getVeinteDias());
-
-		base_gravable = total_percepciones.subtract(sumaReparto);
-
-		// Obtener localidad de agente
-
-		// Obtener tasa de la localidad (si es Tasa o Total a Pagar)
+		BigDecimal isnMensual = base_gravable.multiply(tasa).setScale(2, RoundingMode.HALF_UP);
+		BigDecimal isnSemanal = isnMensual.divide(new BigDecimal(n_semanas), 2, RoundingMode.HALF_UP).setScale(2,
+				RoundingMode.HALF_UP);
 
 		// Guardar cálculo en lista
 		CalculoISN calculo = new CalculoISN();
+
 		calculo.setClaveAgente(d.getClaveAgente());
+		calculo.setLocalidad(0);
+		calculo.setTasa(tasa);
+		calculo.setBaseGravable(base_gravable.intValue());
+		calculo.setIsnMensual(isnMensual.intValue());
+		calculo.setIsnSemanal(isnSemanal.intValue());
+		calculo.setCalendario(calendarioService.findOne(cif.getSemanaCalendario()));
 		calculo.setFechaCalculo(new Date());
 		calculo.setUsuarioCalculo(usuarioService.findByUsername(colaborador));
-
-		calculo.setBaseGravable(base_gravable.intValue());
 
 		return calculo;
 	}
@@ -143,6 +146,51 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 	@Override
 	public List<CalculoISN> getCalculosISNPorBusqueda(CalculoISN c) {
 		return dao.getAllCalculoISNPorBusqueda(c);
+	}
+
+	@Override
+	public List<CalculoISN> realizarCalculosTAP(CalculoIsnForm cif, Integer n_semanas, List<DatosCarga> datos,
+			String colaborador, BigDecimal suma_baseG, List<CalculoISN> calculosIsn) {
+
+		CalculoISN calculo = new CalculoISN();
+		BigDecimal total_percepciones;
+		BigDecimal base_gravable;
+
+		for (DatosCarga d : datos) {
+			total_percepciones = d.getSueldo().add(d.getAguinaldo()).add(d.getVacaciones()).add(d.getPrimaVacacional())
+					.add(d.getRepUtil()).add(d.getBono()).add(d.getBonoLealtad()).add(d.getBonoDigital())
+					.add(d.getBonoTraslado()).add(d.getOtroBono1()).add(d.getOtroBono2()).add(d.getOtroBono3())
+					.add(d.getOtroBono4()).add(d.getOtroBono5()).add(d.getOtroBono6()).add(d.getOtroBono7())
+					.add(d.getOtroBono8()).add(d.getOtroBono9()).add(d.getOtroBono10())
+					.setScale(2, RoundingMode.HALF_UP);
+
+			BigDecimal sumaReparto = d.getRepUtil().add(d.getIndemnizacion()).add(d.getVeinteDias());
+
+			base_gravable = total_percepciones.subtract(sumaReparto);
+
+			// Encontrar Total a Pagar de la tasa
+			BigDecimal tap = tasaService.getTasaByOficina("").getTotalAPagar();
+
+			// Cálculos de ISN Mensual y Semanal
+			BigDecimal bGravableMulti = suma_baseG.multiply(base_gravable);
+			BigDecimal isnMensual = tap.divide(bGravableMulti, 2, RoundingMode.HALF_UP);
+			BigDecimal isnSemanal = isnMensual.divide(new BigDecimal(n_semanas), 2, RoundingMode.HALF_UP);
+
+			calculo.setClaveAgente(d.getClaveAgente());
+			calculo.setLocalidad(0);
+			calculo.setTasa(new BigDecimal(0));
+			calculo.setBaseGravable(base_gravable.intValue());
+			calculo.setIsnMensual(isnMensual.intValue());
+			calculo.setIsnSemanal(isnSemanal.intValue());
+			calculo.setCalendario(calendarioService.findOne(cif.getSemanaCalendario()));
+			calculo.setFechaCalculo(new Date());
+			calculo.setUsuarioCalculo(usuarioService.findByUsername(colaborador));
+
+			this.dao.create(calculo);
+			calculosIsn.add(calculo);
+		}
+
+		return calculosIsn;
 	}
 
 }
