@@ -2,7 +2,10 @@ package com.sadss.csa.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +23,18 @@ import com.sadss.csa.service.TasaService;
 import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.generic.AbstractService;
 import com.sadss.csa.service.generic.DuplicateValidator;
+import com.segurosargos.crece.api.CiudadesDAO;
+import com.segurosargos.crece.modelo.entidad.Ciudad;
+import com.segurosargos.crece.modelo.entidad.Colaborador;
 
 @Service
 public class TasaServiceImpl extends AbstractService<TasaSobreNomina> implements TasaService{
 
 	@Autowired
 	private TasaDAO dao;
+	
+	@Resource
+	private CiudadesDAO ciudadesDAO;
 	
 	@Autowired
 	private BitacoraTasaService bitVariablesService;
@@ -114,5 +123,21 @@ public class TasaServiceImpl extends AbstractService<TasaSobreNomina> implements
 	public TasaSobreNomina findTasaByEstado(String estado) {
 		return this.dao.findTasaByEstado(estado);
 	}
+
+	@Override
+	public LinkedHashMap<String, String> getListCiudades() {
+		LinkedHashMap<String, String> lista = new LinkedHashMap<String, String>();
+		List<Ciudad> ciud = this.ciudadesDAO.consultaCiudades();
+		if(ciud != null) {
+			for(Ciudad ciudad : ciud) {
+				if(ciudad != null) {
+					StringBuilder str = new StringBuilder(ciudad.getLabel());
+					lista.put(ciudad.getLabel(), str.toString());
+				}
+			}
+		}
+		return lista;
+	}
+
 
 }

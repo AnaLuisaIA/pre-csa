@@ -138,14 +138,13 @@
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-
 											<div class="form-group">
-
-
 												<div class="form-group">
 													<label for="oficina">Oficina: *</label>
-													<form:input path="oficina" name="oficina"
-														class="form-control" placeholder="Ingrese la Oficina" />
+													<form:select path="oficina" id="oficina" required="true" class="form-control">
+														<form:option value=""></form:option>
+														<form:options items="${ciudad}"/>
+													</form:select>
 												</div>
 											</div>
 										</div>
@@ -231,6 +230,14 @@
 		
 		$('#tipoVariable').select2({
 			placeholder: "Seleccione el tipo de variable",
+			allowClear: true,
+               escapeMarkup: function (m) {
+               		return m;
+            }				 
+		});	
+		
+		$('#oficina').select2({
+			placeholder: "Seleccione una Ciudad",
 			allowClear: true,
                escapeMarkup: function (m) {
                		return m;
