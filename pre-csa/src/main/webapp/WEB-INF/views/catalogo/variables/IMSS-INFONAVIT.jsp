@@ -52,7 +52,7 @@
 									<th style="display: none;">IdVariable</th>
 									<th style="display: none;">Id</th>
 									<th>Variable</th>
-									<th>Descripcion</th>
+									<th>Descripción</th>
 									<th>Valor</th>
 									<th>Tipo</th>
 									<th>Fecha de Aplicación</th>
