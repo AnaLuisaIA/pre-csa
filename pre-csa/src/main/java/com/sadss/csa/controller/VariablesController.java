@@ -200,6 +200,7 @@ public class VariablesController {
 			//registrar en tabla periodo variable
 			this.pvService.create(model);
 			map.put("succmsg", "Se creó correctamente el registro la Variable");
+			feedDetalles(map);
 		}else {
 			if(model.getValor().equals(variable.getValorn())) {
 				//Registro en Bitacora General (Actualización de variable)
@@ -240,7 +241,8 @@ public class VariablesController {
 				//se crea el nuevo registro de periodo variables
 				this.pvService.create(model);
 			}
-			map.put("succmsg", "Se actualizo correctamente la Variable");		
+			map.put("succmsg", "Se actualizo correctamente la Variable");
+			feedDetalles(map);
 		}
 		agregarLista(map);
 		return new ModelAndView("catalogo/variables/IMSS-INFONAVIT",map);

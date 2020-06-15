@@ -55,7 +55,7 @@
 									<th>Descripcion</th>
 									<th>Valor</th>
 									<th>Tipo</th>
-									<th>Fecha de Aplicacion</th>
+									<th>Fecha de Aplicación</th>
 									<th>Fecha Termino</th>
 									<th>Acciones</th>
 								</tr>

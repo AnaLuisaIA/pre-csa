@@ -26,16 +26,16 @@
 	</tiles:putAttribute>
 	<tiles:putAttribute name="title">
 		<c:if test="${empty tasa.id}">
-			Alta de Tasas Sobre Nomina
+			Alta de Tasas Sobre Nómina
 		</c:if>
 		<c:if test="${not empty tasa.id}">
-			Edición de Tasa Sobre Nomina
+			Edición de Tasa Sobre Nómina
 		</c:if>
 	</tiles:putAttribute>
 
 	<!-- Menu de navegación -->
 	<tiles:putAttribute name="nav">
-		<li><a href='<c:url value="/tasa/"/>'>Alta</a> <i
+		<li><a href='<c:url value="/tasas/"/>'>Alta</a> <i
 			class="fa fa-angle-right"></i></li>
 	</tiles:putAttribute>
 
@@ -48,8 +48,8 @@
 					<div class="portlet-title">
 						<div class="caption">
 							<h3>
-								<c:if test="${empty tasa.id}">Alta de Tasas Sonbre Nomina | </c:if>
-								<c:if test="${not empty tasa.id}">Edición Tasas Sobre Nomina | </c:if>
+								<c:if test="${empty tasa.id}">Alta de Tasas Sonbre Nómina | </c:if>
+								<c:if test="${not empty tasa.id}">Edición Tasas Sobre Nómina | </c:if>
 								<small class="form-text form-muted"> Los campos con *
 									son obligatorios</small>
 							</h3>
@@ -184,7 +184,7 @@
 									<button type="submit" class="btn btn-primary"
 										id="btnActualizarTasa">Actualizar</button>
 								</c:if>
-								<a href="../tasa/" id="cancelar" class="btn default">Cancelar</a>
+								<a href="../tasas/" id="cancelar" class="btn default">Cancelar</a>
 							</div>
 							<form:hidden path="justificacion" id="justificacionTasaForm" />
 						</form:form>
@@ -221,7 +221,7 @@
 		});
 		
 		$('#tipoNomina').select2({
-			placeholder: "Seleccione el tipo de nomina",
+			placeholder: "Seleccione el tipo de nómina",
 			allowClear: true,
                escapeMarkup: function (m) {
                		return m;
@@ -313,7 +313,7 @@
 			        callback: function(result){
 				     if(result){	
 				        		bootbox.prompt({
-				    title: "Escriba Justificacion",
+				    title: "Escriba Justificación",
 				    inputType: 'textarea',
 				    callback: function (result) {
 				    	if(result != null && result != ""){
@@ -321,7 +321,7 @@
 					       $('#saveTasa').submit();
 					    } else if(result === "") {
 					    	bootbox.alert({
-							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   message: "<b>El campo de Justificación es obligatorio.</b>",
 							   size: 'small'
 							});
 					    }
@@ -389,7 +389,7 @@
 			        callback: function(result){
 				     if(result){	
 				        		bootbox.prompt({
-				    title: "Escriba Justificacion",
+				    title: "Escriba Justificación",
 				    inputType: 'textarea',
 				    callback: function (result) {
 				    	if(result != null && result != ""){
@@ -397,7 +397,7 @@
 					       $('#saveTasa').submit();
 					    } else if(result === "") {
 					    	bootbox.alert({
-							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   message: "<b>El campo de Justificación es obligatorio.</b>",
 							   size: 'small'
 							});
 					    }
