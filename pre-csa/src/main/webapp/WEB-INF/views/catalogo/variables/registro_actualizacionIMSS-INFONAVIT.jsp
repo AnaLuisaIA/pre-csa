@@ -272,7 +272,7 @@
 			     callback: function(result){
 				     if(result){	
 				        		bootbox.prompt({
-				    title: "Escriba Justificacion",
+				    title: "Escriba Justificación",
 				    inputType: 'textarea',
 				    callback: function (result) {
 				    	if(result != null && result != ""){
@@ -280,7 +280,7 @@
 					       $('#saveVariable').submit();
 					    } else if(result === "") {
 					    	bootbox.alert({
-							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   message: "<b>El campo de Justificación es obligatorio.</b>",
 							   size: 'small'
 							});
 					    }
@@ -336,7 +336,7 @@
 			     callback: function(result){
 				     if(result){	
 				        		bootbox.prompt({
-				    title: "Escriba Justificacion",
+				    title: "Escriba Justificación",
 				    inputType: 'textarea',
 				    callback: function (result) {
 				    	if(result != null && result != ""){
@@ -344,7 +344,7 @@
 					       $('#saveVariable').submit();
 					    } else if(result === "") {
 					    	bootbox.alert({
-							   message: "<b>El campo de Justificacion es obligatorio.</b>",
+							   message: "<b>El campo de Justificación es obligatorio.</b>",
 							   size: 'small'
 							});
 					    }

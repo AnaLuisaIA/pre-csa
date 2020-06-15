@@ -161,6 +161,7 @@ public class TasaController {
 			//Registro de la Tasa
 			this.tasaService.create(modelo);
 			map.put("succmsg", "Se creó correctamente el registro de la Tasa");
+			feedDetalles(map);
 		}else {
 			//Registro Bitacora General (Modificar Tasa)
 			tasaService.registrarAccionBitacoraG("Actualización Tasa: "+tasa.getEstado(), new Date(), colaborador);
@@ -169,6 +170,7 @@ public class TasaController {
 			//Modificar Tasa
 			this.tasaService.update(modelo);
 			map.put("succmsg", "Se actualizo correctamente de Tasa");
+			feedDetalles(map);
 		}
 		
 		agregarLista(map);

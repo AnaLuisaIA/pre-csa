@@ -18,11 +18,11 @@
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
 	<tiles:putAttribute name="nav">
-		<li><a href='<c:url value="/"/>'>Tasa Sobre Nomina</a> <i
+		<li><a href='<c:url value="/"/>'>Tasa Sobre Nómina</a> <i
 			class="fa fa-angle-right"></i></li>
 	</tiles:putAttribute>
 	<meta charset="UTF-8">
-	<tiles:putAttribute name="title">Tasa Sobre Nomina</tiles:putAttribute>
+	<tiles:putAttribute name="title">Tasa Sobre Nómina</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
 	<%@include file="../../secciones/messages.jsp"%>
@@ -33,7 +33,7 @@
 					<div class="portlet-title">
 						<div class="caption">
 
-							<i class="fa fa-globe"></i>Catalogo de Tasa Sobre Nomina
+							<i class="fa fa-globe"></i>Catálogo de Tasa Sobre Nómina
 
 						</div>
 						<div class="actions">
