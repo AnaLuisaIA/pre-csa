@@ -29,7 +29,6 @@ import com.sadss.csa.controller.beans.TasaForm;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
 import com.sadss.csa.modelo.entidad.TasaSobreNomina;
 import com.sadss.csa.modelo.entidad.Usuario;
-import com.sadss.csa.service.BitacoraSistemaService;
 import com.sadss.csa.service.BitacoraTasaService;
 import com.sadss.csa.service.TasaService;
 import com.sadss.csa.util.SecurityUtils;
@@ -48,6 +47,7 @@ public class TasaController {
 	//Bitacora Tasa Service
 	@Autowired
 	private BitacoraTasaService btService;
+
 	
 	private static final Logger Logger = LoggerFactory.getLogger(TasaController.class);
 	
@@ -102,6 +102,17 @@ public class TasaController {
 		}
 		model.put("tipoVariable", tipoVariable);
 	}
+	
+	/**
+	 * Método Para agregar la lista de las ciudades
+	 * @param model Modelo
+	 * **/
+	public void obtenerCiudades(ModelMap model) {
+		LinkedHashMap<String, String> ciudad = tasaService.getListCiudades();
+		model.addAttribute("ciudad", ciudad);
+		System.out.println("Ciudad: "+ciudad);
+	}
+	
 	/*
 	 * Método para registrar una Tasa
 	 * */
@@ -109,10 +120,12 @@ public class TasaController {
 	public String altaTasa(ModelMap model, Principal principal) {
 		agregartipoNomina(model);
 		agregarTipoVariable(model);
+		obtenerCiudades(model);
 		TasaForm tasa = new TasaForm();
 		model.addAttribute("tasa",tasa);
 		return "catalogo/TSN/registro_actualizacionTSN";
 	}
+	
 	
 	/**
 	 * Método Para registrar una Variable
@@ -134,6 +147,7 @@ public class TasaController {
 			map.put("tasa", tasa);
 			agregartipoNomina(map);
 			agregarTipoVariable(map);
+			obtenerCiudades(map);
 			map.put("errmsg", "Tasa registrada");
 			System.out.println("Existen errores: " + result.getAllErrors());
 			return new ModelAndView("catalogo/TSN/registro_actualizacionTSN", map);
@@ -143,13 +157,13 @@ public class TasaController {
 			//Registro Bitacora General (Registro Tasa)
 			tasaService.registrarAccionBitacoraG("Registro Tasa: "+tasa.getEstado(), new Date(), colaborador);
 			//Registro Bitacora Tasa (Registro Tasa)
-			tasaService.registrarAccionBitacora("Registro Tasa; "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
+			tasaService.registrarAccionBitacora("Registro Tasa: "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
 			//Registro de la Tasa
 			this.tasaService.create(modelo);
 			map.put("succmsg", "Se creó correctamente el registro de la Tasa");
 		}else {
 			//Registro Bitacora General (Modificar Tasa)
-			tasaService.registrarAccionBitacoraG("Registro Tasa: "+tasa.getEstado(), new Date(), colaborador);
+			tasaService.registrarAccionBitacoraG("Actualización Tasa: "+tasa.getEstado(), new Date(), colaborador);
 			//Registro Bitacora Tasa (Modificar Tasa)
 			tasaService.registrarAccionBitacora("Modicación Tasa "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
 			//Modificar Tasa
@@ -204,6 +218,7 @@ public class TasaController {
 		model.addAttribute("tasa",tasaForm);
 		agregartipoNomina(model);
 		agregarTipoVariable(model);
+		obtenerCiudades(model);
 		return "catalogo/TSN/registro_actualizacionTSN";
 	}
 	

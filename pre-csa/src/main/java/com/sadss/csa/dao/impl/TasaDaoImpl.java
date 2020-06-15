@@ -25,7 +25,7 @@ public class TasaDaoImpl extends AbstractHibernateDao<TasaSobreNomina> implement
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TasaSobreNomina> findTasas() {
-		StringBuilder queryTxt = new StringBuilder("from com.sadss.csa.modelo.entidad.TasaSobreNomina");
+		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.TasaDTO(t.id,t.estado,t.tipoNomina,t.tipoVariable,t.valor,t.oficina,t.fechaAplicacion,t.estatus) from com.sadss.csa.modelo.entidad.TasaSobreNomina t");
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		return query.list();
 	}
