@@ -221,7 +221,7 @@
 		});
 		
 		$('#tipoNomina').select2({
-			placeholder: "Seleccione el tipo de nomina",
+			placeholder: "Seleccione el tipo de nómina",
 			allowClear: true,
                escapeMarkup: function (m) {
                		return m;
