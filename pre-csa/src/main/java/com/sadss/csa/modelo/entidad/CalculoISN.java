@@ -2,7 +2,6 @@ package com.sadss.csa.modelo.entidad;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
 
 import com.sadss.csa.modelo.generic.GenericModel;
@@ -23,18 +22,11 @@ public class CalculoISN extends GenericModel<CalculoISN> implements Serializable
 	private Usuario usuarioCalculo;
 	private Date fechaCalculo;
 	private Calendario calendario;
-	
 
-	private Date fechaI;
-	private Date fechaF;
+	private Integer idSemana;
 	private String numColaborador;
-	
+
 	public CalculoISN() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.DATE, 1);
-		
-		fechaI = calendar.getTime();
-		fechaF = new Date();
 	}
 
 	public Integer getId() {
@@ -117,22 +109,6 @@ public class CalculoISN extends GenericModel<CalculoISN> implements Serializable
 		this.calendario = calendario;
 	}
 
-	public Date getFechaI() {
-		return fechaI;
-	}
-
-	public void setFechaI(Date fechaI) {
-		this.fechaI = fechaI;
-	}
-
-	public Date getFechaF() {
-		return fechaF;
-	}
-
-	public void setFechaF(Date fechaF) {
-		this.fechaF = fechaF;
-	}
-
 	public String getNumColaborador() {
 		return numColaborador;
 	}
@@ -141,5 +117,12 @@ public class CalculoISN extends GenericModel<CalculoISN> implements Serializable
 		this.numColaborador = numColaborador;
 	}
 
-	
+	public Integer getIdSemana() {
+		return idSemana;
+	}
+
+	public void setIdSemana(Integer idSemana) {
+		this.idSemana = idSemana;
+	}
+
 }

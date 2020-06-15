@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.sadss.csa.controller.beans.CalculosImssDTO;
 import com.sadss.csa.controller.beans.CalculosImssForm;
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.dao.CalculoIMSSDao;
@@ -459,7 +460,7 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 	}
 
 	@Override
-	public List<CalculoIMSS> getCalculoIMSSPorBusqueda(CalculoIMSS ci) {
+	public List<CalculosImssDTO> getCalculoIMSSPorBusqueda(CalculoIMSS ci) {
 		return dao.getCalculoIMSSPorBusqueda(ci);
 	}
 
@@ -471,6 +472,11 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 	@Override
 	public List<CalculoIMSS> getFechaCalculo() {
 		return dao.getFechaCalculo();
+	}
+
+	@Override
+	public CalculosImssDTO consultarInfoCalculo(Integer id) {
+		return this.dao.consultarInfoCalculo(id);
 	}
 
 }

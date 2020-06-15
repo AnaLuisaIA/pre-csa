@@ -46,5 +46,9 @@ public interface CalendarioService extends CrudService<Calendario> {
 	 * @param user Colaborador que realizó la acción
 	 */
 	public void registrarAccionBitacora(String accion, Date fecha, String user);
+	
+	public List<Date> getSemanasIniciales();
+	
+	public List<Date> getSemanasFinales();
 
 }

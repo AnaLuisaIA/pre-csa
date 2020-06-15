@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,22 +42,27 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sadss.csa.controller.beans.CalculoIsnDTO;
 import com.sadss.csa.controller.beans.CalculoIsnForm;
+import com.sadss.csa.controller.beans.CalculosImssDTO;
 import com.sadss.csa.controller.beans.CalculosImssForm;
 import com.sadss.csa.controller.beans.TotalAPagar;
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
+import com.sadss.csa.modelo.entidad.Bitacora;
 import com.sadss.csa.modelo.entidad.CalculoIMSS;
 import com.sadss.csa.modelo.entidad.CalculoISN;
 import com.sadss.csa.modelo.entidad.Calendario;
 import com.sadss.csa.modelo.entidad.DatosCarga;
 import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.modelo.entidad.TasaSobreNomina;
+import com.sadss.csa.service.BitacoraSistemaService;
 import com.sadss.csa.service.CalculoIMSSService;
 import com.sadss.csa.service.CalculoIsnService;
 import com.sadss.csa.service.CalendarioService;
 import com.sadss.csa.service.DatosCargaService;
 import com.sadss.csa.service.TasaService;
+import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.VariablesService;
 import com.sadss.csa.util.SecurityUtils;
 import com.sadss.csa.util.enums.TipoNominaIMSS;
@@ -87,6 +93,12 @@ public class CalculosController {
 	@Autowired
 	private CalculoIsnService isnService;
 
+	@Autowired
+	private BitacoraSistemaService bitacoraService;
+
+	@Autowired
+	private UsuarioService usuarioService;
+
 	/**
 	 * Vista principal de cálculos
 	 * 
@@ -115,10 +127,11 @@ public class CalculosController {
 
 	/**
 	 * Vista de form wizard para Cálculos ISN
-	 * @param nombreA Nombre del archivo
+	 * 
+	 * @param nombreA     Nombre del archivo
 	 * @param fechaInicio Fecha de inicio de periodo de Datos cálculo
-	 * @param fechaFin Fecha final de periodo de Datos cálculo
-	 * @param periodo Periodo de datos cálculo
+	 * @param fechaFin    Fecha final de periodo de Datos cálculo
+	 * @param periodo     Periodo de datos cálculo
 	 * @param model
 	 * @return Vista de formulario de Cálculo ISN
 	 */
@@ -151,47 +164,78 @@ public class CalculosController {
 	 */
 	@RequestMapping(value = "/consultaImss", method = RequestMethod.GET)
 	public String consultarCalculos(ModelMap model, HttpServletRequest request) {
-		agregarColaborador(model);
-		agregarFechaCalculo(model);
+		
+		fillListsImss(model);
 		model.put("calculoIMSS", new CalculoIMSS());
+		model.put("botonExportar", false);
+		
 		return "calculos/consultasIMSS";
 	}
-
+	
+	/**
+	 * Filtrado de Cálculos IMSS
+	 * @param ci Objeto Calculo IMSS
+	 * @param result
+	 * @param request
+	 * @param ra
+	 * @return Lista de Cálculos filtrados
+	 */
 	@RequestMapping(value = "/buscarCalculoImss", method = RequestMethod.POST)
 	public ModelAndView busquedaCalculoImss(@Valid @ModelAttribute("calculoIMSS") CalculoIMSS ci, BindingResult result,
 			HttpServletRequest request, RedirectAttributes ra) {
+		
 		ModelMap model = new ModelMap();
-		fillLists(model, ci);
-		agregarColaborador(model);
-		agregarFechaCalculo(model);
+		
+		filtrarCalculosImss(ci, model);
+		fillListsImss(model);
 		model.put("calculoIMSS", ci);
+		model.put("botonExportar", true);
+		
 		return new ModelAndView("calculos/consultasIMSS", model);
 	}
 	
-	/*
-	 * Método para extraer el numero de agente ISN
-	 * **/
-	private void agregarAgente(ModelMap model) {
-		List<CalculoISN> clave = isnService.getAllAgente();
-		model.put("clave", clave);
+	/**
+	 * Genera documento Excel de Cálculo IMSS
+	 * @param id Identificador de Cálculo
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/exportarImss", method = RequestMethod.GET)
+	public void exportarCalculoImss(@RequestParam(required = true) Integer id, HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String username = SecurityUtils.getCurrentUser();
+		CalculoIMSS cal = imssService.findOne(id);
+		
+		List<CalculoIMSS> calculos = new ArrayList<CalculoIMSS>();
+		calculos.add(cal);
+		
+		imssService.generarArchivoCalculos(request, response, calculos, cal.getFechaInicio(), cal.getFechaFin(), username);
 	}
 	
-	/*
-	 * Método para extraer las fecha de calculo ISN
-	 * **/
-	private void agregarFechaCalculoI(ModelMap model) {
-		List<CalculoISN> fechaCalculo = isnService.getAllFechaCalculo();
-		model.put("fechaCalculo", fechaCalculo);
+	/**
+	 * Genera documento Excel de Cálculos IMSS
+	 * @param calculos_imss Lista de ID's de Cálculos
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/exportarCalculosImss", method = RequestMethod.GET)
+	public void exportarCalculos(@RequestParam List<Integer> calculos_imss, HttpServletRequest request, 
+			HttpServletResponse response) {
+		
+		List<CalculoIMSS> calculosImss = new ArrayList<CalculoIMSS>();
+		String colaborador = SecurityUtils.getCurrentUser();
+		
+		for(Integer calculo: calculos_imss) {
+			calculosImss.add(imssService.findOne(calculo));
+		}
+		
+		Date fechaInicio = calculosImss.get(0).getFechaInicio();
+		Date fechaFin = calculosImss.get(0).getFechaFin();
+		
+		imssService.generarArchivoCalculos(request, response, calculosImss, fechaInicio, fechaFin, colaborador);
 	}
-	
-	/*
-	 * Método para extraer los Colaboradores que han realizado un proceso de isn
-	 * **/
-	private void agregarColaboradorI(ModelMap model) {
-		List<CalculoISN> usuario = isnService.getAllColaborador();
-		model.put("usuario", usuario);
-	}
-	
+
 	/**
 	 * Vista de Consulta de Cálculos ISN
 	 * 
@@ -200,35 +244,74 @@ public class CalculosController {
 	 */
 	@RequestMapping(value = "/consultaISN", method = RequestMethod.GET)
 	public String consultarCalculosISN(ModelMap model, HttpServletRequest request) {
-		agregarAgente(model);
-		agregarFechaCalculoI(model);
-		agregarColaboradorI(model);
+		fillListsIsn(model);
 		model.put("calculoISN", new CalculoISN());
+		model.put("botonExportar", false);
+		
 		return "calculos/consultasISN";
 	}
-	
-	/*
-	 * Método de busqueda de registros de acuerdo a los filtros
-	 * */
-	public void fillListsI(ModelMap model, CalculoISN c) {
-		if(c != null) {
-			List<CalculoISN> acciones = isnService.getCalculosISNPorBusqueda(c);
-			model.put("acciones", acciones);
-		}
+
+	 /** Filtrado de Cálculos ISN
+	 * @param c Objeto Calculo IMSS
+	 * @param result
+	 * @param request
+	 * @param ra
+	 * @return Lista de Cálculos filtrados
+	 */
+	@RequestMapping(value = "/buscarCalculoISN", method = RequestMethod.POST)
+	public ModelAndView busquedaCalculoISN(@Valid @ModelAttribute("calculoISN") CalculoISN c, BindingResult result,
+			HttpServletRequest request, RedirectAttributes ra) {
+		ModelMap model = new ModelMap();
+		
+		filtrarCalculosIsn(model, c);
+		fillListsIsn(model);
+		model.put("calculoISN", c);
+		model.put("botonExportar", true);
+		
+		return new ModelAndView("calculos/consultasISN", model);
 	}
 	
-	/*
-	 * Método de busqueda de acuerdo a los filtros 
-	 * */
-	@RequestMapping(value = "/buscarCalculoISN", method = RequestMethod.POST)
-	public ModelAndView busquedaCalculoISN(@Valid @ModelAttribute("calculoISN") CalculoISN c, BindingResult result, HttpServletRequest request, RedirectAttributes ra) {
-		ModelMap model = new ModelMap();
-		fillListsI(model, c);
-		agregarAgente(model);
-		agregarFechaCalculoI(model);
-		agregarColaboradorI(model);
-		model.put("calculoISN", c);
-		return new ModelAndView("calculos/consultasISN",model);
+	/**
+	 * Genera documento Excel de Cálculo ISN
+	 * @param id Identificador de Cálculo
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/exportarIsn", method = RequestMethod.GET)
+	public void exportarCalculoIsn(@RequestParam(required = true) Integer id, HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String username = SecurityUtils.getCurrentUser();
+		CalculoISN cal = isnService.findOne(id);
+		
+		List<CalculoISN> calculos = new ArrayList<CalculoISN>();
+		calculos.add(cal);
+		
+		isnService.generarArchivoCalculos(request, response, calculos, 
+				cal.getCalendario().getFechaInicio(), cal.getCalendario().getFechaFin(), username);
+	}
+	
+	/**
+	 * Genera documento Excel de Cálculos ISN
+	 * @param calculos_isn Lista de Cálculos ISN
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/exportarCalculosIsn", method = RequestMethod.GET)
+	public void exportarCalculosIsn(@RequestParam List<Integer> calculos_isn, HttpServletRequest request, 
+			HttpServletResponse response) {
+		
+		List<CalculoISN> calculosIsn = new ArrayList<CalculoISN>();
+		String colaborador = SecurityUtils.getCurrentUser();
+		
+		for(Integer calculo: calculos_isn) {
+			calculosIsn.add(isnService.findOne(calculo));
+		}
+		
+		Date fechaInicio = calculosIsn.get(0).getCalendario().getFechaInicio();
+		Date fechaFin = calculosIsn.get(0).getCalendario().getFechaFin();
+		
+		isnService.generarArchivoCalculos(request, response, calculosIsn, fechaInicio, fechaFin, colaborador);
 	}
 
 	/**
@@ -356,12 +439,29 @@ public class CalculosController {
 		imssService.generarArchivoCalculos(request, response, calculos, cif.getFechaInicio(), cif.getFechaFin(),
 				colaborador);
 
+		// Registro en bitácora
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		Bitacora b = new Bitacora();
+		b.setAccion("Cálculos IMSS del periodo " + df.format(cif.getFechaInicio()) + " al " + df.format(cif.getFechaFin()));
+		b.setFecha(new Date());
+		b.setUsuario(usuarioService.findByUsername(colaborador));
+		bitacoraService.create(b);
+
 		return null;
 	}
 
+	/**
+	 * Proceso de cálculo ISN
+	 * @param cif CalculoIsnForm
+	 * @param result
+	 * @param request
+	 * @param response
+	 * @param ra
+	 * @return Árchivo de salida de cálculos
+	 */
 	@RequestMapping(value = "/calcularIsn", method = RequestMethod.POST)
 	public ModelAndView calcularISN(@Valid @ModelAttribute("isnForm") CalculoIsnForm cif, BindingResult result,
-		HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
+			HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
 
 		ModelMap model = new ModelMap();
 		String colaborador = SecurityUtils.getCurrentUser();
@@ -381,7 +481,7 @@ public class CalculosController {
 
 		Calendario cal = calendarioService.findOne(cif.getSemanaCalendario());
 		Integer n_semanas = calendarioService.getNumeroSemanasByMes(cal.getMes());
-		
+
 		BigDecimal suma_baseG = new BigDecimal(0);
 		BigDecimal total_percepciones = new BigDecimal(0);
 		BigDecimal base_gravable = new BigDecimal(0);
@@ -392,30 +492,41 @@ public class CalculosController {
 					.add(d.getRepUtil()).add(d.getBono()).add(d.getBonoLealtad()).add(d.getBonoDigital())
 					.add(d.getBonoTraslado()).add(d.getOtroBono1()).add(d.getOtroBono2()).add(d.getOtroBono3())
 					.add(d.getOtroBono4()).add(d.getOtroBono5()).add(d.getOtroBono6()).add(d.getOtroBono7())
-					.add(d.getOtroBono8()).add(d.getOtroBono9()).add(d.getOtroBono10()).setScale(2, RoundingMode.HALF_UP);
+					.add(d.getOtroBono8()).add(d.getOtroBono9()).add(d.getOtroBono10())
+					.setScale(2, RoundingMode.HALF_UP);
 
 			BigDecimal sumaReparto = d.getRepUtil().add(d.getIndemnizacion()).add(d.getVeinteDias());
 
 			base_gravable = total_percepciones.subtract(sumaReparto);
-			
-			//Si la localidad del agente es Total A Pagar
+
+			// Si la localidad del agente es Total A Pagar
 			datosTAP.add(d);
 			suma_baseG = suma_baseG.add(base_gravable);
-			
-			//Si el agente tiene localidad de Tasa
-			//CalculoISN calculo = isnService.realizarCalculos(cif, n_semanas, d, colaborador, base_gravable);
-			//isnService.create(calculo);
-			//calculosIsn.add(calculo);
+
+			// Si el agente tiene localidad de Tasa
+			// CalculoISN calculo = isnService.realizarCalculos(cif, n_semanas, d,
+			// colaborador, base_gravable);
+			// isnService.create(calculo);
+			// calculosIsn.add(calculo);
 		}
-		
-		//Si hay datos de agentes con localidad Total a Pagar
-		if(!datosTAP.isEmpty()) {
-			calculosIsn = isnService.realizarCalculosTAP(cif, n_semanas, datosTAP, colaborador, suma_baseG, calculosIsn);
+
+		// Si hay datos de agentes con localidad Total a Pagar
+		if (!datosTAP.isEmpty()) {
+			calculosIsn = isnService.realizarCalculosTAP(cif, n_semanas, datosTAP, colaborador, suma_baseG,
+					calculosIsn);
 		}
 
 		// Generar archivo de salida con lista
 		isnService.generarArchivoCalculos(request, response, calculosIsn, cal.getFechaInicio(), cal.getFechaFin(),
 				colaborador);
+		
+		// Registro en bitácora
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		Bitacora b = new Bitacora();
+		b.setAccion("Cálculos ISN de la semana " + df.format(cal.getFechaInicio()) + " al " + df.format(cal.getFechaFin()));
+		b.setFecha(new Date());
+		b.setUsuario(usuarioService.findByUsername(colaborador));
+		bitacoraService.create(b);
 
 		return null;
 	}
@@ -570,6 +681,27 @@ public class CalculosController {
 
 		return true;
 	}
+	
+	/**
+	 * Obtiene Cálculo IMSS único
+	 * @param id Identificador de cálculo
+	 * @return Cálculo IMSS
+	 */
+	@RequestMapping(value = "/getCalculo", method = RequestMethod.GET)
+	public @ResponseBody CalculosImssDTO obtenerCalculo(@RequestParam("id") Integer id) {
+		return imssService.consultarInfoCalculo(id);
+	}
+	
+	/**
+	 * Obtener Cálculo ISN único
+	 * @param id Identificador de cálculo
+	 * @return
+	 */
+	@RequestMapping(value = "/getCalculoIsn", method = RequestMethod.GET)
+	public @ResponseBody CalculoIsnDTO obtenerCalculoIsn(@RequestParam("id") Integer id, 
+			@RequestParam("mes") String mes) {
+		return isnService.consultarInfoCalculo(id, mes);
+	}
 
 	/**
 	 * Descarga del Layout del archivo de carga
@@ -587,6 +719,11 @@ public class CalculosController {
 		binder.registerCustomEditor(Date.class, new FechaEditor(new SimpleDateFormat("dd/MM/yyyy")));
 	}
 
+	/**
+	 * Carga datos para formulario IMSS
+	 * @param model
+	 * @throws ParseException
+	 */
 	public void feedDetallesIMSS(ModelMap model) throws ParseException {
 		model.addAttribute("tipoPeriodo", TipoPeriodo.valuesMenu());
 		model.addAttribute("tipoNomina", TipoNominaIMSS.valuesMenu());
@@ -595,11 +732,21 @@ public class CalculosController {
 		model.addAttribute("periodos", periodos);
 	}
 
+	/**
+	 * Carga datos para formulario ISN
+	 * @param model
+	 * @param cif
+	 */
 	public void feedDetallesISN(ModelMap model, CalculoIsnForm cif) {
 		model.addAttribute("isnForm", cif);
 		model.addAttribute("anios", calendarioService.obtenerAnios());
 	}
 
+	/**
+	 * Obtiene el ENUM del periodo
+	 * @param periodo Código String del periodo
+	 * @return ENUM TipoPeriodo
+	 */
 	public TipoPeriodo getPeriodoByString(String periodo) {
 
 		for (TipoPeriodo t : TipoPeriodo.values()) {
@@ -611,28 +758,63 @@ public class CalculosController {
 		return null;
 	}
 
-	/*
-	 * Método para extraer los Colaboradores que han realizado un proceso de calculo
-	 **/
-	private void agregarColaborador(ModelMap model) {
+	/**
+	 * Llena listado de Cálculos IMSS de acuerdo a filtros
+	 * @param ci Calculo IMSS
+	 * @param model
+	 */
+	public void filtrarCalculosImss(CalculoIMSS ci, ModelMap model) {
+		if (ci != null) {
+			List<CalculosImssDTO> acciones = imssService.getCalculoIMSSPorBusqueda(ci);
+			model.put("acciones", acciones);
+			
+			if(acciones.isEmpty()) {
+				model.put("infomsg", "<strong>No se encontraron coincidencias con los criterios de búsqueda.</strong>");
+			}
+		}
+	}
+	
+	/**
+	 * Llena listados de vista Consulta IMSS
+	 * @param model
+	 */
+	public void fillListsImss(ModelMap model) {
+		
+		List<CalculoIMSS> fecha = imssService.getFechaCalculo();
+		model.put("fecha", fecha);
+		
 		List<CalculoIMSS> calculo = imssService.getUsuarios();
 		model.put("usuario", calculo);
 	}
-
-	/*
-	 * Método para extraer las fecha de calculo
-	 **/
-	private void agregarFechaCalculo(ModelMap model) {
-		List<CalculoIMSS> fecha = imssService.getFechaCalculo();
-		model.put("fecha", fecha);
-	}
-
-	/*
-	 * Método de busqueda de registros de acuerdo a los filtros
+	
+	/**
+	 * Llena listados de vista Consulta ISN
+	 * @param model
+	 * @param c
 	 */
-	public void fillLists(ModelMap model, CalculoIMSS ci) {
-		if (ci != null) {
-			List<CalculoIMSS> acciones = imssService.getCalculoIMSSPorBusqueda(ci);
+	public void fillListsIsn(ModelMap model) {
+		List<CalculoISN> clave = isnService.getAllAgente();
+		model.put("clave", clave);
+		
+		List<CalculoISN> fechaCalculo = isnService.getAllFechaCalculo();
+		model.put("fechaCalculo", fechaCalculo);
+		
+		List<CalculoISN> usuario = isnService.getAllColaborador();
+		model.put("usuario", usuario);
+		
+		List<Calendario> calendario = calendarioService.findAll();
+		model.put("semanas", calendario);
+		
+	}
+	
+	/**
+	 * Filtra búsqueda de Cálculos ISN
+	 * @param model
+	 * @param c
+	 */
+	public void filtrarCalculosIsn(ModelMap model, CalculoISN c) {
+		if (c != null) {
+			List<CalculoIsnDTO> acciones = isnService.getCalculosISNPorBusqueda(c);
 			model.put("acciones", acciones);
 		}
 	}

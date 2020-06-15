@@ -1,5 +1,6 @@
 package com.sadss.csa.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.sadss.csa.modelo.entidad.Calendario;
@@ -27,4 +28,16 @@ public interface CalendarioDao extends IOperations<Calendario> {
 	 * @return Número se semanas
 	 */
 	public Integer getNumeroSemanasByMes(String mes);
+	
+	/**
+	 * Obtiene lista de fechas iniciales de todos los calendarios
+	 * @return Lista de fechas
+	 */
+	public List<Date> getSemanasIniciales();
+	
+	/**
+	 * Obtiene lista de fechas finales de todos los calendarios
+	 * @return Lista de fechas
+	 */
+	public List<Date> getSemanasFinales();
 }

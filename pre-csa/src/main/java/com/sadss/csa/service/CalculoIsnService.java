@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sadss.csa.controller.beans.CalculoIsnDTO;
 import com.sadss.csa.controller.beans.CalculoIsnForm;
 import com.sadss.csa.controller.beans.generic.CrudService;
 import com.sadss.csa.modelo.entidad.CalculoISN;
@@ -22,7 +23,7 @@ public interface CalculoIsnService extends CrudService<CalculoISN> {
 	/*
 	 * Método para traer los Registros de Calculos ISN con filtros
 	 **/
-	public List<CalculoISN> getCalculosISNPorBusqueda(CalculoISN c);
+	public List<CalculoIsnDTO> getCalculosISNPorBusqueda(CalculoISN c);
 
 	/**
 	 * Genera archivo de salida de Cálculo ISN
@@ -54,4 +55,6 @@ public interface CalculoIsnService extends CrudService<CalculoISN> {
 	public List<CalculoISN> getAllColaborador();
 
 	public List<CalculoISN> getAllAgente();
+	
+	public CalculoIsnDTO consultarInfoCalculo(Integer id, String mes);
 }

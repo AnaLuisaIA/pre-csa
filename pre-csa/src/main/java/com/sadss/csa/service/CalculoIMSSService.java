@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Cell;
 
+import com.sadss.csa.controller.beans.CalculosImssDTO;
 import com.sadss.csa.controller.beans.CalculosImssForm;
 import com.sadss.csa.controller.beans.VariablesDTO;
 import com.sadss.csa.controller.beans.generic.CrudService;
@@ -107,7 +108,7 @@ public interface CalculoIMSSService extends CrudService<CalculoIMSS> {
 	/*
 	 * Metodo para traer los Registros del Calculos IMMS con filtros
 	 * */
-	public List<CalculoIMSS> getCalculoIMSSPorBusqueda(CalculoIMSS ci);
+	public List<CalculosImssDTO> getCalculoIMSSPorBusqueda(CalculoIMSS ci);
 	
 	/*
 	 * Método para extrarer los Colaboradores
@@ -118,4 +119,11 @@ public interface CalculoIMSSService extends CrudService<CalculoIMSS> {
 	 * Método para extraer las fechas de calculo
 	 * */
 	public List<CalculoIMSS> getFechaCalculo();
+	
+	/**
+	 * Extrae información de Cálculo IMSS
+	 * @param id Identificador Cálculo
+	 * @return CalculoImssDTO
+	 */
+	public CalculosImssDTO consultarInfoCalculo(Integer id);
 }

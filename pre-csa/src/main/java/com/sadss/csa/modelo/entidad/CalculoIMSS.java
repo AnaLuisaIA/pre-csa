@@ -15,6 +15,7 @@ public class CalculoIMSS extends GenericModel<CalculoIMSS> implements Serializab
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Integer id;
 	private TipoPeriodo tipoPeriodo;
 	private TipoNominaIMSS tipoNomina;

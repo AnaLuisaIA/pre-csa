@@ -1,5 +1,6 @@
 package com.sadss.csa.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -53,6 +54,28 @@ public class CalendarioDaoImpl extends AbstractHibernateDao<Calendario> implemen
 		query.setParameter("mes", mes);
 		
 		return ((Long) query.uniqueResult()).intValue();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Date> getSemanasIniciales() {
+		StringBuilder queryTxt = new StringBuilder("Select fechaInicio "
+				+ "from Calendario");
+		
+		Query query = getCurrentSession().createQuery(queryTxt.toString());
+		
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Date> getSemanasFinales() {
+		StringBuilder queryTxt = new StringBuilder("Select fechaFin "
+				+ "from Calendario");
+		
+		Query query = getCurrentSession().createQuery(queryTxt.toString());
+		
+		return query.list();
 	}
 	
 	

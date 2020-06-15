@@ -8,7 +8,7 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
-
+import com.sadss.csa.controller.beans.CalculosImssDTO;
 import com.sadss.csa.dao.CalculoIMSSDao;
 import com.sadss.csa.dao.generic.AbstractHibernateDao;
 import com.sadss.csa.modelo.entidad.CalculoIMSS;
@@ -54,29 +54,63 @@ public class CalculoIMSSDaoImpl extends AbstractHibernateDao<CalculoIMSS> implem
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CalculoIMSS> getAllCalculo() {
-		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.CalculosImssDTO(c.totalPatron,c.totalTrabajador,c.totalIMSS,c.infonavitPatron,c.infonavitTrabajador,c.totalInfonavit,c.fechaCalculo,c.periodoInicio,c.periodoFin,u.nombres, u.aPaterno, u.aMaterno) from com.sadss.csa.modelo.entidad.CalculoIMSS c join c.usuarioCalculo u order by c.fechaCalculo desc");
+		StringBuilder queryTxt = new StringBuilder("Select new "
+				+ "com.sadss.csa.controller.beans.CalculosImssDTO(c.totalPatron, c.totalTrabajador, c.totalIMSS, "
+				+ "c.infonavitPatron, c.infonavitTrabajador, c.totalInfonavit, c.fechaCalculo, c.periodoInicio, "
+				+ "c.periodoFin, u.nombres, u.aPaterno, u.aMaterno) "
+				+ "from CalculoIMSS c "
+				+ "join c.usuarioCalculo u "
+				+ "order by c.fechaCalculo desc");
+		
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		return query.list();
 	}
 
 	private String getFiltros(CalculoIMSS ci, Map<String, Object> params) {
 		String query = "";
+		
 		if(ci.getFechaInicio() != null) {
 			if(query.isEmpty()) query += "where"; else query += "and";
-			query += " (c.periodoInicio = :f1 and c.periodoFin = :f2 and u.numColaborador = :numColaborador and c.fechaCalculo = fechaCalculo) ";
+			
+			query += " c.periodoInicio >= :f1 ";
 			params.put("f1", ci.getFechaInicio());
-			params.put("f2", ci.getFechaFin());
-			params.put("numColaborador", ci.getNumColaborador());
-			params.put("fechaCalculo", ci.getFechaCalculo());
 		}
+		
+		if(ci.getFechaFin() != null) {
+			if(query.isEmpty()) query += "where"; else query += "and";
+			
+			query += " c.periodoFin <= :f2 ";
+			params.put("f2", ci.getFechaFin());
+		}
+		
+		if(ci.getNumColaborador() != "") {
+			if(query.isEmpty()) query += " where "; else query += " and ";
+			
+			query += " u.numColaborador = :colab ";
+			params.put("colab", ci.getNumColaborador());
+		}
+		
+		if(ci.getFechaCalculo() != null) {
+			if(query.isEmpty()) query += " where "; else query += " and ";
+			
+			query += " c.fechaCalculo = :f_calculo ";
+			params.put("f_calculo", ci.getFechaCalculo());
+		}
+		
 		return query;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CalculoIMSS> getCalculoIMSSPorBusqueda(CalculoIMSS ci) {
+	public List<CalculosImssDTO> getCalculoIMSSPorBusqueda(CalculoIMSS ci) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.CalculosImssDTO(c.totalPatron,c.totalTrabajador,c.totalIMSS,c.infonavitPatron,c.infonavitTrabajador,c.totalInfonavit,c.fechaCalculo,c.periodoInicio,c.periodoFin,u.nombres, u.aPaterno, u.aMaterno) from com.sadss.csa.modelo.entidad.CalculoIMSS c join c.usuarioCalculo u ");
+		
+		StringBuilder queryTxt = new StringBuilder("Select new "
+				+ "com.sadss.csa.controller.beans.CalculosImssDTO(c.id, c.totalPatron, c.totalTrabajador, c.totalIMSS, "
+				+ "c.infonavitPatron, c.infonavitTrabajador, c.totalInfonavit, c.fechaCalculo, c.periodoInicio, c.periodoFin, "
+				+ "u.nombres,u.aPaterno,u.aMaterno) from CalculoIMSS c "
+				+ "join c.usuarioCalculo u ");
+		
 		String queryFiltros = getFiltros(ci, params);
 		queryTxt.append(queryFiltros);
 		queryTxt.append(" order by c.periodoInicio desc");
@@ -92,7 +126,10 @@ public class CalculoIMSSDaoImpl extends AbstractHibernateDao<CalculoIMSS> implem
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CalculoIMSS> getUsuarios() {
-		StringBuilder queryTxt = new StringBuilder("Select distinct new com.sadss.csa.controller.beans.CalculosImssDTO(u.numColaborador,u.nombres,u.aPaterno, u.aMaterno) from com.sadss.csa.modelo.entidad.CalculoIMSS c join c.usuarioCalculo u ");
+		StringBuilder queryTxt = new StringBuilder("Select distinct new "
+				+ "com.sadss.csa.controller.beans.CalculosImssDTO(u.numColaborador,u.nombres,u.aPaterno, u.aMaterno) "
+				+ "from CalculoIMSS c "
+				+ "join c.usuarioCalculo u ");
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		return query.list();
 	}
@@ -100,9 +137,29 @@ public class CalculoIMSSDaoImpl extends AbstractHibernateDao<CalculoIMSS> implem
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CalculoIMSS> getFechaCalculo() {
-		StringBuilder queryTxt = new StringBuilder("Select distinct new com.sadss.csa.controller.beans.CalculosImssDTO(c.fechaCalculo) from com.sadss.csa.modelo.entidad.CalculoIMSS c join c.usuarioCalculo u ");
+		StringBuilder queryTxt = new StringBuilder("Select distinct new "
+				+ "com.sadss.csa.controller.beans.CalculosImssDTO(c.fechaCalculo) "
+				+ "from CalculoIMSS c "
+				+ "join c.usuarioCalculo u ");
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		return query.list();
+	}
+
+	@Override
+	public CalculosImssDTO consultarInfoCalculo(Integer id) {
+		StringBuilder queryTxt = new StringBuilder("Select new "
+				+ "com.sadss.csa.controller.beans.CalculosImssDTO(c.id, c.claveAgente, c.cuotaFijaP, c.excedenteP, c.prestacionesP, "
+				+ "c.gastosMedP, c.RTP, c.guarderiaP, c.invVidaP, c.totalPatron, c.excedenteT, c.prestacionesT, c.gastosMedicosT, "
+				+ "c.invVidaT, c.totalTrabajador, c.totalIMSS, c.infonavitPatron, c.infonavitTrabajador, c.totalInfonavit, "
+				+ "c.fechaCalculo, c.periodoInicio, c.periodoFin, u.nombres, u.aPaterno, u.aMaterno, u.numColaborador) "
+				+ "from CalculoIMSS c "
+				+ "join c.usuarioCalculo u "
+				+ "where c.id = :id");
+		
+		Query query = getCurrentSession().createQuery(queryTxt.toString());
+		query.setParameter("id", id);
+		
+		return (CalculosImssDTO) query.uniqueResult();
 	}
 
 }

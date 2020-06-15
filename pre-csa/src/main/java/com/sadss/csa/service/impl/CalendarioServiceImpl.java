@@ -114,4 +114,14 @@ public class CalendarioServiceImpl extends AbstractService<Calendario> implement
 		return dao.getNumeroSemanasByMes(mes);
 	}
 
+	@Override
+	public List<Date> getSemanasIniciales() {
+		return this.dao.getSemanasIniciales();
+	}
+
+	@Override
+	public List<Date> getSemanasFinales() {
+		return this.dao.getSemanasFinales();
+	}
+
 }

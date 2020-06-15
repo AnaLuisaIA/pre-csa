@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.sadss.csa.controller.beans.CalculoIsnDTO;
 import com.sadss.csa.controller.beans.CalculoIsnForm;
 import com.sadss.csa.dao.CalculoIsnDAO;
 import com.sadss.csa.modelo.entidad.CalculoISN;
@@ -144,7 +145,7 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 	}
 
 	@Override
-	public List<CalculoISN> getCalculosISNPorBusqueda(CalculoISN c) {
+	public List<CalculoIsnDTO> getCalculosISNPorBusqueda(CalculoISN c) {
 		return dao.getAllCalculoISNPorBusqueda(c);
 	}
 
@@ -191,6 +192,11 @@ public class CalculoIsnServiceImpl extends AbstractService<CalculoISN> implement
 		}
 
 		return calculosIsn;
+	}
+
+	@Override
+	public CalculoIsnDTO consultarInfoCalculo(Integer id, String mes) {
+		return this.dao.consultarInfoCalculo(id, mes);
 	}
 
 }
