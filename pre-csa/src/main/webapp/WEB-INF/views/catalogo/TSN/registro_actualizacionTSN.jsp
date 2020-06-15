@@ -48,7 +48,7 @@
 					<div class="portlet-title">
 						<div class="caption">
 							<h3>
-								<c:if test="${empty tasa.id}">Alta de Tasas Sonbre Nómina | </c:if>
+								<c:if test="${empty tasa.id}">Alta de Tasas Sobre Nómina | </c:if>
 								<c:if test="${not empty tasa.id}">Edición Tasas Sobre Nómina | </c:if>
 								<small class="form-text form-muted"> Los campos con *
 									son obligatorios</small>
