@@ -55,7 +55,7 @@
 								<div class="row">
 									<div class="col-md-offset-5 col-md-5">
 										<button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
-										<a href="<c:url value="/calendario/"/>" type="button"
+										<a href="<c:url value="/calendario/"/>" type="button" id="cancelar"
 											class="btn default">Cancelar</a>
 									</div>
 								</div>
@@ -81,6 +81,21 @@
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open")
 		$('#calendarioMenu').addClass("active");
+		
+		$('#cancelar').click(function(e){
+			e.preventDefault();
+			var linkRedireccion = $(this).attr("href")
+		
+			bootbox.setLocale('es');
+			bootbox.confirm({
+				message: "No se guardará información del Calendario. ¿Desea Cancelar?",
+				callback: function(result){
+					if(result){
+						window.location.href = linkRedireccion;
+					}
+				}
+			});
+		});
 		
 	</tiles:putAttribute>
 
