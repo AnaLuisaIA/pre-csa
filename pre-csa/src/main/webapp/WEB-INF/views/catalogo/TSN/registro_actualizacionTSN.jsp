@@ -130,8 +130,8 @@
 										<div class="form-group">
 											<div class="form-group">
 												<label for="valor">Valor: *</label>
-												<form:input path="valor" name="valor" class="form-control"
-													placeholder="Ingrese el valor de la Tasa" />
+												<form:input path="valor" name="valor" class="form-control" step="0.000001" type="number"
+													 />
 											</div>
 
 										</div>
@@ -289,7 +289,12 @@
 		    	
 		    	if($("#valor").val() == ''){
 		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    	}else{
+		    		if($("#valor").val() <= 0 ){
+		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros en 0 o negativos<br>"
 		    	};
+		    	
+		    	}
 		    	
 		    	if($("#oficina").val() == ''){
 		    		mensaje+= "El campo de <strong>Oficina</strong> está vacío.<br>"
@@ -365,7 +370,12 @@
 		    	
 		    	if($("#valor").val() == ''){
 		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    	}else{
+		    		if($("#valor").val() <= 0 ){
+		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros en 0 o negativos<br>"
 		    	};
+		    	
+		    	}
 		    	
 		    	if($("#oficina").val() == ''){
 		    		mensaje+= "El campo de <strong>Oficina</strong> está vacío.<br>"
