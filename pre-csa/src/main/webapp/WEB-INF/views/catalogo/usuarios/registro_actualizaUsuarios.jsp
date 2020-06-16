@@ -187,6 +187,42 @@
 			});
 		});
 		
+		$('#btnGuardarUser').click(function(e) {
+        	e.preventDefault();
+			mensaje = '';
+				
+		        if($("#inputNumColaborador").val() === ''){
+		        	mensaje+= "El campo de <strong>Colaborador</strong> está vacío.<br>"
+		        };
+		    	if($("#permisos").val() == ''){
+		    		mensaje+= "El campo de <strong>permisos</strong> está vacío.<br>"
+		    	};
+			
+			if(mensaje != ''){
+				bootbox.alert(mensaje);
+			} else {
+		        bootbox.confirm({
+		        	title: "Agregar Usuario",
+			        message: "¿Está seguro de que desea continuar? Una vez creado el Usuario, la acción no se podrá deshacer.",
+			        buttons: {
+			        	cancel: {
+				            label: '<i class="fa fa-times"></i> Regresar'
+				        },
+				        confirm: {
+				            label: '<i class="fa fa-check"></i> Confirmar'
+				        }
+			        },	        
+			        callback: function(result){
+				        if(result){
+			       			$('#saveUser').submit();
+		        		}
+		        	}
+		        });
+			}
+
+        });
+		
+		
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">
