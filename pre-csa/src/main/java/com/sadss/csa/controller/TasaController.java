@@ -28,7 +28,6 @@ import com.sadss.csa.controller.beans.BitacoraTasaDTO;
 import com.sadss.csa.controller.beans.TasaForm;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
 import com.sadss.csa.modelo.entidad.TasaSobreNomina;
-import com.sadss.csa.modelo.entidad.Usuario;
 import com.sadss.csa.service.BitacoraTasaService;
 import com.sadss.csa.service.TasaService;
 import com.sadss.csa.util.SecurityUtils;
@@ -41,209 +40,221 @@ import freemarker.core.ParseException;
 @RequestMapping("tasas")
 public class TasaController {
 
-	//Tasa Service
+	// Tasa Service
 	@Autowired
 	private TasaService tasaService;
-	//Bitacora Tasa Service
+	// Bitacora Tasa Service
 	@Autowired
 	private BitacoraTasaService btService;
 
-	
-	private static final Logger Logger = LoggerFactory.getLogger(TasaController.class);
-	
+	private static final Logger LOG = LoggerFactory.getLogger(TasaController.class);
+
 	/**
 	 * Metodo Principal
-	 * */
-	@RequestMapping(value ="/", method = RequestMethod.GET)
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String tasaHome(ModelMap model) {
 		feedDetalles(model);
 		agregarLista(model);
 		agregartipoNomina(model);
 		return "catalogo/TSN/tasaSobreNomina";
 	}
-	
+
 	/*
 	 * Método para encontrar los Registros de las Tasas
-	 * */
-	
+	 */
+
 	private void agregarLista(ModelMap model) {
 		List<TasaSobreNomina> tasa = tasaService.findTasas();
 		model.put("tasa", tasa);
 	}
-	
+
 	/*
 	 * Consulta Bitacora Tasas
-	 * */
+	 */
 	public void feedDetalles(ModelMap model) {
 		List<BitacoraTasaDTO> accionest = btService.getRegistros();
 		model.put("accionest", accionest);
 	}
-	
+
 	/*
 	 * Listar el tipo de Nomina
+	 * 
 	 * @param model
-	 * */
+	 */
 	private void agregartipoNomina(ModelMap model) {
 		LinkedHashMap<String, String> tipoNomina = new LinkedHashMap<String, String>();
-		for(TipoNomina tn: TipoNomina.values()) {
+		for (TipoNomina tn : TipoNomina.values()) {
 			tipoNomina.put(tn.getValue(), tn.getLabel());
 		}
 		model.put("tipoNomina", tipoNomina);
 	}
-	
+
 	/*
 	 * Lista Tipo variable Tasa
+	 * 
 	 * @param Molde
-	 * */
+	 */
 	private void agregarTipoVariable(ModelMap model) {
 		LinkedHashMap<String, String> tipoVariable = new LinkedHashMap<String, String>();
-		for(TipoVariableTasa tv: TipoVariableTasa.values()) {
+		for (TipoVariableTasa tv : TipoVariableTasa.values()) {
 			tipoVariable.put(tv.getValue(), tv.getLabel());
 		}
 		model.put("tipoVariable", tipoVariable);
 	}
-	
+
 	/**
 	 * Método Para agregar la lista de las ciudades
+	 * 
 	 * @param model Modelo
-	 * **/
+	 **/
 	public void obtenerCiudades(ModelMap model) {
 		LinkedHashMap<String, String> ciudad = tasaService.getListCiudades();
 		model.addAttribute("ciudad", ciudad);
-		System.out.println("Ciudad: "+ciudad);
+		System.out.println("Ciudad: " + ciudad);
 	}
-	
+
 	/*
 	 * Método para registrar una Tasa
-	 * */
+	 */
 	@RequestMapping(value = "/alta", method = RequestMethod.GET)
 	public String altaTasa(ModelMap model, Principal principal) {
 		agregartipoNomina(model);
 		agregarTipoVariable(model);
 		obtenerCiudades(model);
 		TasaForm tasa = new TasaForm();
-		model.addAttribute("tasa",tasa);
+		model.addAttribute("tasa", tasa);
 		return "catalogo/TSN/registro_actualizacionTSN";
 	}
-	
-	
+
 	/**
 	 * Método Para registrar una Variable
-	 * */
+	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView agregarTasa(@Valid @ModelAttribute("tasa") TasaForm tasa, BindingResult result, 
+	public ModelAndView agregarTasa(@Valid @ModelAttribute("tasa") TasaForm tasa, BindingResult result,
 			HttpServletRequest request, RedirectAttributes ra) throws ParseException {
+
 		ModelMap map = new ModelMap();
 		String colaborador = SecurityUtils.getCurrentUser();
-		Usuario user = new Usuario();
+
 		tasa.setEstado(tasa.getEstado().toUpperCase());
-		//Convierte el formulario al modelo
+
 		TasaSobreNomina modelo = tasa.toOrmModel(TasaSobreNomina.class);
-		//Valida si existe un registro ya creado
+
 		this.tasaService.validateBeforeCreate(modelo, result);
-		//Validaciones antes de agregar a la Base de datos
-		this.tasaService.validateBeforeCreate(modelo, result);
-		if(result.hasErrors()) {
+
+		if (result.hasErrors()) {
 			map.put("tasa", tasa);
 			agregartipoNomina(map);
 			agregarTipoVariable(map);
 			obtenerCiudades(map);
 			map.put("errmsg", "Tasa registrada");
-			System.out.println("Existen errores: " + result.getAllErrors());
+			LOG.info("Existen errores: " + result.getAllErrors());
+
 			return new ModelAndView("catalogo/TSN/registro_actualizacionTSN", map);
 		}
-		//Agregar a la Base de datos
-		if(modelo.getId() == null) {
-			//Registro Bitacora General (Registro Tasa)
-			tasaService.registrarAccionBitacoraG("Registro Tasa: "+tasa.getEstado(), new Date(), colaborador);
-			//Registro Bitacora Tasa (Registro Tasa)
-			tasaService.registrarAccionBitacora("Registro Tasa: "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
-			//Registro de la Tasa
+
+		if (modelo.getId() == null) {
+			tasaService.registrarAccionBitacoraG("Registro Tasa: " + tasa.getEstado(), new Date(), colaborador);
+			tasaService.registrarAccionBitacora("Registro Tasa: " + tasa.getEstado(), new Date(),
+					tasa.getJustificacion(), colaborador);
 			this.tasaService.create(modelo);
+
 			map.put("succmsg", "Se creó correctamente el registro de la Tasa");
 			feedDetalles(map);
-		}else {
-			//Registro Bitacora General (Modificar Tasa)
-			tasaService.registrarAccionBitacoraG("Actualización Tasa: "+tasa.getEstado(), new Date(), colaborador);
-			//Registro Bitacora Tasa (Modificar Tasa)
-			tasaService.registrarAccionBitacora("Modicación Tasa "+tasa.getEstado(), new Date(), tasa.getJustificacion(), colaborador);
-			//Modificar Tasa
+		}
+
+		else {
+
+			tasaService.registrarAccionBitacoraG("Actualización Tasa: " + tasa.getEstado(), new Date(), colaborador);
+			tasaService.registrarAccionBitacora("Modicación Tasa " + tasa.getEstado(), new Date(),
+					tasa.getJustificacion(), colaborador);
 			this.tasaService.update(modelo);
+
 			map.put("succmsg", "Se actualizo correctamente de Tasa");
 			feedDetalles(map);
 		}
-		
+
 		agregarLista(map);
 		return new ModelAndView("catalogo/TSN/tasaSobreNomina", map);
 	}
-	
+
 	/*
-	 * Conversión de los objetos que se encuentran en los formunalrios para evitar error.
+	 * Conversión de los objetos que se encuentran en los formunalrios para evitar
+	 * error.
+	 * 
 	 * @param binder
-	 * */
+	 */
 	@InitBinder
 	void intBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new FechaEditor(new SimpleDateFormat("dd/MM/yyyy")));
 	}
-	
+
 	/*
 	 * Método para eliminar una Tasa
-	 * */
+	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deteTasa(@ModelAttribute("tasa") @RequestParam("id") int id, @RequestParam("justificacionTasaForm") String justificacionTasaForm, RedirectAttributes ra, TasaForm tf) {
+	public String deteTasa(@ModelAttribute("tasa") @RequestParam("id") int id,
+			@RequestParam("justificacionTasaForm") String justificacionTasaForm, RedirectAttributes ra, TasaForm tf) {
 		TasaSobreNomina tas = tasaService.findOne(id);
 		tas.setEstado(tas.getEstado());
 		String colaborador = SecurityUtils.getCurrentUser();
-		//Registro Bitacora General (Eliminar Tasa)
-		tasaService.registrarAccionBitacoraG("Tasa Eliminada: "+tas.getEstado(), new Date(), colaborador);
-		//Registro Bitacora Tasa (Eliminar Tasa)
-		tasaService.registrarAccionBitacora("Tasa Eliminada " + tas.getEstado(), new Date(), justificacionTasaForm, colaborador);
-		//ELiminar Tasa
+		// Registro Bitacora General (Eliminar Tasa)
+		tasaService.registrarAccionBitacoraG("Tasa Eliminada: " + tas.getEstado(), new Date(), colaborador);
+		// Registro Bitacora Tasa (Eliminar Tasa)
+		tasaService.registrarAccionBitacora("Tasa Eliminada " + tas.getEstado(), new Date(), justificacionTasaForm,
+				colaborador);
+		// ELiminar Tasa
 		tasaService.deleteById(id);
 		ra.addFlashAttribute("succmsg", "La tasa a sido eliminada con exito");
 		return "redirect:/tasas/";
 	}
-	
+
 	/*
 	 * Metodo Para editar una Tasa
+	 * 
 	 * @param id(id de la tasa)
+	 * 
 	 * @param model (Modelo vacío)
-	 * */
+	 */
 	@RequestMapping(value = "/editar", method = RequestMethod.GET)
 	public String editarTasa(@RequestParam(required = true) Integer id, ModelMap model) {
 		String colaborador = SecurityUtils.getCurrentUser();
 		TasaSobreNomina tasa = tasaService.findOne(id);
-		if(tasa == null) {
+		if (tasa == null) {
 			return "catalogo/TSN/tasaSobreNomina";
 		}
 		TasaForm tasaForm = (new TasaForm().fromOrmModel(tasa, TasaForm.class));
-		model.addAttribute("tasa",tasaForm);
+		model.addAttribute("tasa", tasaForm);
 		agregartipoNomina(model);
 		agregarTipoVariable(model);
 		obtenerCiudades(model);
 		return "catalogo/TSN/registro_actualizacionTSN";
 	}
-	
+
 	/**
 	 * Método para editar el Estado de una tasa
-	 * @param id (id de la tasa)
+	 * 
+	 * @param id                    (id de la tasa)
 	 * @param justificacionTasaForm (Justificacion del cambio de estado de la tasa)
-	 * @param model (Modelo vacío)
-	 * */
+	 * @param model                 (Modelo vacío)
+	 */
 	@RequestMapping(value = "/editarEstados", method = RequestMethod.GET)
-	public String editarEstadoTasa(@RequestParam(required = true) int id, @RequestParam("justificacionTasaForm") String justificacionTasaForm, RedirectAttributes ra, TasaForm tf, ModelMap model) {
-		ModelMap map = new ModelMap();
-		System.out.print("id" + tasaService.findOne(id));
+	public String editarEstadoTasa(@RequestParam(required = true) int id,
+			@RequestParam("justificacionTasaForm") String justificacionTasaForm, RedirectAttributes ra, TasaForm tf,
+			ModelMap model) {
+		
 		TasaSobreNomina tas = tasaService.findOne(id);
 		tas.setEstatus(!tas.getEstatus());
 		tasaService.update(tas);
 		String colaborador = SecurityUtils.getCurrentUser();
 		TasaSobreNomina tasa = tasaService.updateTasa(id);
-		//Agregar cambios a bitacora
-		tasaService.registrarAccionBitacora("Modifico el estatus de la tasa "+ tas.getEstado(), new Date(), justificacionTasaForm, colaborador);
+
+		tasaService.registrarAccionBitacora("Modifico el estatus de la tasa " + tas.getEstado(), new Date(),
+				justificacionTasaForm, colaborador);
+		
 		ra.addFlashAttribute("succmsg", "Se cambio correctamente el estado de la tasa");
-		TasaForm tasaFom = (new TasaForm().fromOrmModel(tasa, TasaForm.class));
+
 		return "redirect:/tasas/";
 	}
 }
-

@@ -100,7 +100,7 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 	 */
 	private void validateDuplicates(Variable entity, BindingResult result) {
 		ArrayList<String[]> props = new ArrayList<String[]>();
-		props.add(new String[] { "nombre" });
+		props.add(new String[] { "nombre"});
 		DuplicateValidator<Variable> validator = new DuplicateValidator<Variable>(Variable.class, this, props);
 		ValidationUtils.invokeValidator(validator, entity, result);
 	}
@@ -126,6 +126,11 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 		b.setFecha(fecha);
 		b.setUsuario(usuarioService.findByUsername(user));
 		bsService.create(b);
+	}
+
+	@Override
+	public Boolean esVariableDuplicada(Variable v) {
+		return this.dao.esVariableDuplicada(v);
 	}
 
 }

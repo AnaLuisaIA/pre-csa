@@ -19,5 +19,7 @@ public interface VariableDAO extends IOperations<Variable>{
 	public List<PeriodoVariable> getPeriodos();
 	
 	public List<VariablesDTO> getVariablesCalculo(Date fechaAplicacion, Date fechaTermino);
+	
+	public Boolean esVariableDuplicada(Variable v);
 
 }

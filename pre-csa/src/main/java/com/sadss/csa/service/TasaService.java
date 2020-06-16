@@ -1,18 +1,18 @@
 package com.sadss.csa.service;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.sadss.csa.controller.beans.generic.CrudService;
 import com.sadss.csa.modelo.entidad.TasaSobreNomina;
 
 public interface TasaService extends CrudService<TasaSobreNomina>{
-
+	
 	/*
 	 * Lista de Tasas
 	 * */
 	public List<TasaSobreNomina> findTasas();
-	
 	
 	/*
 	 * Metodo Actualizar Tasa
@@ -43,4 +43,6 @@ public interface TasaService extends CrudService<TasaSobreNomina>{
 	 * @return Objeto Tasa
 	 */
 	public TasaSobreNomina findTasaByEstado(String estado);
+	
+	public LinkedHashMap<String, String> getListCiudades();
 }

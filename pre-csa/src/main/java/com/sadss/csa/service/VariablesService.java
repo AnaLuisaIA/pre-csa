@@ -38,5 +38,7 @@ public interface VariablesService  extends CrudService<Variable>{
 	public List<PeriodoVariable> getPeriodos() throws ParseException;
 
 	public List<VariablesDTO> getVariablesCalculo(Date fechaAplicacion, Date fechaTermino);
+	
+	public Boolean esVariableDuplicada(Variable v);
 
 }

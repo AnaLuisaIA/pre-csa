@@ -12,7 +12,6 @@ import com.sadss.csa.dao.generic.AbstractHibernateDao;
 import com.sadss.csa.modelo.entidad.PeriodoVariable;
 import com.sadss.csa.modelo.entidad.Variable;
 
-
 @Repository
 public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements VariableDAO{
 	
@@ -93,6 +92,24 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 		}
 		
 		return query.list();
+	}
+
+	@Override
+	public Boolean esVariableDuplicada(Variable v) {
+		StringBuilder queryTxt = new StringBuilder("from Variable "
+				+ "where nombre = :nombre and tipo = :tipo");
+		
+		Query query = getCurrentSession().createQuery(queryTxt.toString());
+		query.setParameter("nombre", v.getNombre());
+		query.setParameter("tipo", v.getTipo());
+		
+		Variable resultado = (Variable) (query.list().isEmpty() ? null : query.list().get(0));
+		
+		if(resultado == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 

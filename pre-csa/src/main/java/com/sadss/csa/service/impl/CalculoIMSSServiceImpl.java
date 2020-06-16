@@ -280,6 +280,8 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 			}
 
 		}
+		
+		System.out.println(var.toString());
 
 		return var;
 
