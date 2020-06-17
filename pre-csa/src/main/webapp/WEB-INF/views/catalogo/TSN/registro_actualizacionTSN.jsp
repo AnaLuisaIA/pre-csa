@@ -141,7 +141,7 @@
 											<div class="form-group">
 												<div class="form-group">
 													<label for="oficina">Oficina: *</label>
-													<form:select path="oficina" id="oficina" required="true" class="form-control">
+													<form:select path="oficina" id="oficina" multiple="true" required="true" class="form-control">
 														<form:option value=""></form:option>
 														<form:options items="${ciudad}"/>
 													</form:select>
