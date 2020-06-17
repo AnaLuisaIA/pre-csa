@@ -174,18 +174,19 @@ public class VariablesController {
 		
 		Variable modelo = variable.toOrmModel(Variable.class);
 		PeriodoVariable model = pv.toOrmModel(PeriodoVariable.class);
-		
-		// Validaciones antes de agregar a BD
-		if (variablesService.esVariableDuplicada(modelo)) {
-			map.put("variable", variable);
-			agregarInformacion(map);
-			map.put("infomsg", "La variable ya existe en el catálogo.");
-			LOG.info("Existen errores: " + result.getAllErrors());
-			return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT", map);
-		}
 
 		// Agregar a la Base de Datos
 		if (modelo.getId() == null) {
+			
+			// Validaciones antes de agregar a BD
+			if (variablesService.esVariableDuplicada(modelo)) {
+				map.put("variable", variable);
+				agregarInformacion(map);
+				map.put("infomsg", "La variable ya existe en el catálogo.");
+				LOG.info("Existen errores: " + result.getAllErrors());
+				return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT", map);
+			}
+			
 			this.variablesService.create(modelo);
 			
 			variablesService.registrarAccionBitacoraG("Registro Variable: " + variable.getNombre(), new Date(),
@@ -252,12 +253,11 @@ public class VariablesController {
 		var.setNombre(var.getNombre());
 		String colaborador = SecurityUtils.getCurrentUser();
 		System.out.println("justificacion " + justificacionIMSSForm);
-		// Registro en Bitacora General (Registro de un nuevo periodo)
+
 		variablesService.registrarAccionBitacoraG("Variable Eliminada : " + var.getNombre(), new Date(), colaborador);
-		// Registramos en bitácora Variable (Eliminar Variable)
 		variablesService.registrarAccionBitacora("Variable Eliminada " + var.getNombre(), new Date(),
 				justificacionIMSSForm, colaborador);
-		// Eliminamos variable
+
 		variablesService.deleteById(id);
 
 		ra.addFlashAttribute("succmsg", "La variable a sido eliminada con exito");
