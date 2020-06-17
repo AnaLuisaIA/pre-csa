@@ -47,8 +47,25 @@ public interface CalendarioService extends CrudService<Calendario> {
 	 */
 	public void registrarAccionBitacora(String accion, Date fecha, String user);
 	
+	/**
+	 * Obtiene las semanas iniciales de todos los calendarios
+	 * @return Lista de fechas
+	 */
 	public List<Date> getSemanasIniciales();
 	
+	/**
+	 * Obtiene las semanas finales de todos los calendarios
+	 * @return Lista de fechas
+	 */
 	public List<Date> getSemanasFinales();
+	
+	/**
+	 * Carga archivo Calendario a directorio FTP
+	 * @param nombre Nombre del archivo
+	 * @param bytes Array de bytes de archivo
+	 * @return true - El archivo se cargó con éxtio
+	 * 		   false - El archivo no se cargó correctamente
+	 */
+	public boolean cargarArchivo(String nombre, byte[] bytes);
 
 }

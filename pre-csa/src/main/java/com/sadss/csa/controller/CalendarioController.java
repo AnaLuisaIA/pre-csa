@@ -51,7 +51,11 @@ public class CalendarioController {
 	@Autowired
 	private BitacoraCalendarioService bcService;
 	
-
+	/**
+	 * Vista principal de Catálogo de Calendario
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String verCalendarios(ModelMap model) {
 
@@ -62,6 +66,13 @@ public class CalendarioController {
 		return "catalogo/calendario/calendario";
 	}
 
+	/**
+	 * Búsqueda específica de Calendario
+	 * @param bc BusquedaCalendarioForm
+	 * @param result
+	 * @param ra
+	 * @return Vista filtrada de Calendario
+	 */
 	@RequestMapping(value = "/buscar", method = RequestMethod.POST)
 	public ModelAndView buscarCalendario(@Valid @ModelAttribute("buscarCalendario") BusquedaCalendarioForm bc,
 			BindingResult result, RedirectAttributes ra) {
@@ -81,6 +92,11 @@ public class CalendarioController {
 		return new ModelAndView("catalogo/calendario/calendario", model);
 	}
 
+	/**
+	 * Alta de Calendario
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/agregar", method = RequestMethod.GET)
 	public String agregarCalendario(Model model) {
 		CalendarioForm cf = new CalendarioForm();
@@ -89,6 +105,15 @@ public class CalendarioController {
 		return "catalogo/calendario/alta_calendario";
 	}
 
+	/**
+	 * Proceso de Alta de Calendario
+	 * @param calendarioForm
+	 * @param result
+	 * @param ra
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView addCalendario(@Valid @ModelAttribute("calendario") CalendarioForm calendarioForm,
 			BindingResult result, RedirectAttributes ra) throws IOException, ParseException {
@@ -147,6 +172,7 @@ public class CalendarioController {
 			cal.setArchivo(calendarioForm.getFileName());
 
 			calendarioService.create(cal);
+			calendarioService.cargarArchivo(calendarioForm.getFileName(), calendarioForm.getArchivo().getBytes());
 
 		}
 		
@@ -156,6 +182,11 @@ public class CalendarioController {
 		return new ModelAndView("redirect:/calendario/");
 	}
 
+	/**
+	 * Descargar archivo Excel de layout de carga de Calendario
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping(value = "/layout", method = RequestMethod.GET)
 	public void descargarLayout(HttpServletRequest request, HttpServletResponse response) {
 		calendarioService.descargarCalendarioXLSX(request, response);
@@ -166,6 +197,10 @@ public class CalendarioController {
 		binder.registerCustomEditor(Date.class, new FechaEditor(new SimpleDateFormat("dd/MM/yyyy")));
 	}
 
+	/**
+	 * Inserta datos en vista Calendario
+	 * @param model
+	 */
 	public void feedDetalles(ModelMap model) {
 		List<Integer> aniosCalendario = calendarioService.obtenerAnios();
 		model.addAttribute("anios", aniosCalendario);
@@ -174,6 +209,11 @@ public class CalendarioController {
 		model.put("acciones", bitacoraCalendario);
 	}
 
+	/**
+	 * Búsqueda filtrada de Calendario
+	 * @param model
+	 * @param anio
+	 */
 	public void busquedaCalendario(ModelMap model, Integer anio) {
 		List<Calendario> calendario = calendarioService.getCalendarioPorAnio(anio);
 		model.put("fechas", calendario);

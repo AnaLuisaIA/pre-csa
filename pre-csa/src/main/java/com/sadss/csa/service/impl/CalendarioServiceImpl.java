@@ -23,6 +23,7 @@ import com.sadss.csa.service.CalendarioService;
 import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.generic.AbstractService;
 import com.sadss.csa.util.FillManager;
+import com.sadss.csa.util.FtpUtil;
 import com.sadss.csa.util.Layouter;
 import com.sadss.csa.util.Writer;
 
@@ -122,6 +123,11 @@ public class CalendarioServiceImpl extends AbstractService<Calendario> implement
 	@Override
 	public List<Date> getSemanasFinales() {
 		return this.dao.getSemanasFinales();
+	}
+
+	@Override
+	public boolean cargarArchivo(String nombre, byte[] bytes) {
+		return FtpUtil.cargarArchivoCalendario(nombre, bytes);
 	}
 
 }
