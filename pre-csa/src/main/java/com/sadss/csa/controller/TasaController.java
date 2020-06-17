@@ -110,7 +110,6 @@ public class TasaController {
 	public void obtenerCiudades(ModelMap model) {
 		LinkedHashMap<String, String> ciudad = tasaService.getListCiudades();
 		model.addAttribute("ciudad", ciudad);
-		System.out.println("Ciudad: "+ciudad);
 	}
 	
 	/*
@@ -210,13 +209,8 @@ public class TasaController {
 	 * @param model (Modelo vacío)
 	 * */
 	@RequestMapping(value = "/editar", method = RequestMethod.GET)
-	public String editarTasa(@RequestParam(required = true) Integer id, ModelMap model) {
-		String colaborador = SecurityUtils.getCurrentUser();
-		TasaSobreNomina tasa = tasaService.findOne(id);
-		if(tasa == null) {
-			return "catalogo/TSN/tasaSobreNomina";
-		}
-		TasaForm tasaForm = (new TasaForm().fromOrmModel(tasa, TasaForm.class));
+	public String editarTasa(@RequestParam("id") int id, ModelMap model) {	
+		TasaForm tasaForm = (new TasaForm().fromOrmModel(tasaService.findOne(id), TasaForm.class));
 		model.addAttribute("tasa",tasaForm);
 		agregartipoNomina(model);
 		agregarTipoVariable(model);
