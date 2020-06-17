@@ -202,15 +202,21 @@ public class VariablesController {
 			feedDetalles(map);
 		} else {
 			if (model.getValor().equals(variable.getValorn())) {
+				//Variable Id
+				variable.setId((modelo.getId()));
+				//Periodo id
+				model.setId(variable.getIdPeriodo());
 				this.variablesService.update(modelo);
-				variablesService.registrarAccionBitacoraG("Actualización de Variable: " + variable.getNombre(),
-						new Date(), colaborador);
-				variablesService.registrarAccionBitacora("Modifico la variable " + variable.getNombre(), new Date(),
-						variable.getJustificacion(), colaborador);
-			} 
-			
-			else {
-				
+				//Se envia la fecha termino
+				model.setFechaTermino(null);
+				//se envia el valor anterior
+				model.setValor(variable.getValor());
+				//Se envia el formulario variables a periodo 
+				model.setVariable(modelo);
+				//Fecha aplicación
+				model.setFechaAplicacion(variable.getFechaAplicacion());
+				//Modifica datos de periodo
+				this.pvService.update(model);
 				variable.setId((modelo.getId()));
 				model.setId(variable.getIdPeriodo());
 				model.setFechaTermino(new Date());
