@@ -211,8 +211,22 @@ public class VariablesController {
 				variablesService.registrarAccionBitacoraG("Actualización de Variable: "+variable.getNombre(), new Date(), colaborador);
 				//Registro en bitacora variables (Actualización de variable)
 				variablesService.registrarAccionBitacora("Modifico la variable " +variable.getNombre() ,new Date() ,variable.getJustificacion(), colaborador);
+				//Variable Id
+				variable.setId((modelo.getId()));
+				//Periodo id
+				model.setId(variable.getIdPeriodo());
 				//Modifica datos de variable
 				this.variablesService.update(modelo);
+				//Se envia la fecha termino
+				model.setFechaTermino(null);
+				//se envia el valor anterior
+				model.setValor(variable.getValor());
+				//Se envia el formulario variables a periodo 
+				model.setVariable(modelo);
+				//Fecha aplicación
+				model.setFechaAplicacion(variable.getFechaAplicacion());
+				//Modifica datos de periodo
+				this.pvService.update(model);
 			}else {
 				//Registro en Bitacora General (Registro de un nuevo periodo)
 				variablesService.registrarAccionBitacoraG("Modificación en el valor de variable : "+variable.getNombre()+" , de  Valor: "+variable.getValorn()+" al Valor: "+variable.getValor(), new Date(), colaborador);
