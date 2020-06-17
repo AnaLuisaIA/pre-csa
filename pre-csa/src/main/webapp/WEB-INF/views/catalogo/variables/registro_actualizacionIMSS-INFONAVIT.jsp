@@ -245,7 +245,12 @@
 		    	
 		    	if($("#valor").val() == ''){
 		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    	}else{
+		    		if($("#valor").val() <= 0 ){
+		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros en 0 o negativos<br>"
 		    	};
+		    	
+		    	}
 		    	
 		    	if($("#fechaAplicacion").val() == ''){
 		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
@@ -309,7 +314,12 @@
 		    	
 		    	if($("#valor").val() == ''){
 		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
+		    	}else{
+		    		if($("#valor").val() <= 0 ){
+		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros en 0 o negativos<br>"
 		    	};
+		    	
+		    	}
 		    	
 		    	if($("#fechaAplicacion").val() == ''){
 		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
