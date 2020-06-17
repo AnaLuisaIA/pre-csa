@@ -40,4 +40,10 @@ public interface CalendarioDao extends IOperations<Calendario> {
 	 * @return Lista de fechas
 	 */
 	public List<Date> getSemanasFinales();
+	
+	/**
+	 * Elimina los registros de un Calendario
+	 * @param anio Año del Calendario
+	 */
+	public void deleteCalendarioPorAnio(Integer anio);
 }

@@ -67,5 +67,11 @@ public interface CalendarioService extends CrudService<Calendario> {
 	 * 		   false - El archivo no se cargó correctamente
 	 */
 	public boolean cargarArchivo(String nombre, byte[] bytes);
+	
+	/**
+	 * Elimina todos los registros de un Calendario
+	 * @param anio Año del calendario
+	 */
+	public void deleteCalendarioPorAnio(Integer anio);
 
 }

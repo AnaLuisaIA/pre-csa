@@ -63,6 +63,7 @@
 
 							<form:hidden path="anio" />
 							<form:hidden path="fileName" />
+							<form:hidden path="nuevo" />
 						</form:form>
 					</div>
 

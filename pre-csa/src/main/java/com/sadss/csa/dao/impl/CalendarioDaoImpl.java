@@ -77,6 +77,18 @@ public class CalendarioDaoImpl extends AbstractHibernateDao<Calendario> implemen
 		
 		return query.list();
 	}
+
+	@Override
+	public void deleteCalendarioPorAnio(Integer anio) {
+		StringBuilder queryTxt = new StringBuilder("DELETE FROM Calendario "
+				+ "WHERE anio = :anio");
+		
+		Query query = getCurrentSession().createQuery(queryTxt.toString());
+		query.setParameter("anio", anio);
+		
+		query.executeUpdate();
+		
+	}
 	
 	
 }

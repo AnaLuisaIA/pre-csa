@@ -10,6 +10,7 @@ public class CalendarioForm extends GenericForm<CalendarioForm, Calendario> {
 	private MultipartFile archivo;
 	private Integer anio;
 	private String fileName;
+	private boolean nuevo;
 
 	public CalendarioForm() {
 	}
@@ -36,6 +37,14 @@ public class CalendarioForm extends GenericForm<CalendarioForm, Calendario> {
 
 	public void setAnio(Integer anio) {
 		this.anio = anio;
+	}
+
+	public boolean isNuevo() {
+		return nuevo;
+	}
+
+	public void setNuevo(boolean nuevo) {
+		this.nuevo = nuevo;
 	}
 
 }

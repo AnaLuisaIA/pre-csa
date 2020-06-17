@@ -117,17 +117,22 @@ public class CalendarioServiceImpl extends AbstractService<Calendario> implement
 
 	@Override
 	public List<Date> getSemanasIniciales() {
-		return this.dao.getSemanasIniciales();
+		return dao.getSemanasIniciales();
 	}
 
 	@Override
 	public List<Date> getSemanasFinales() {
-		return this.dao.getSemanasFinales();
+		return dao.getSemanasFinales();
 	}
 
 	@Override
 	public boolean cargarArchivo(String nombre, byte[] bytes) {
 		return FtpUtil.cargarArchivoCalendario(nombre, bytes);
+	}
+
+	@Override
+	public void deleteCalendarioPorAnio(Integer anio) {
+		this.dao.deleteCalendarioPorAnio(anio);
 	}
 
 }

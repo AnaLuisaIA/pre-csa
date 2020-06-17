@@ -14,7 +14,11 @@ import javax.validation.Valid;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,6 +43,7 @@ import com.sadss.csa.controller.beans.CalendarioForm;
 import com.sadss.csa.modelo.entidad.Calendario;
 import com.sadss.csa.service.BitacoraCalendarioService;
 import com.sadss.csa.service.CalendarioService;
+import com.sadss.csa.util.FtpUtil;
 import com.sadss.csa.util.SecurityUtils;
 import com.sadss.csa.controller.beans.generic.FechaEditor;
 
@@ -44,7 +52,7 @@ import com.sadss.csa.controller.beans.generic.FechaEditor;
 public class CalendarioController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CalendarioController.class);
-
+	
 	@Autowired
 	private CalendarioService calendarioService;
 	
@@ -118,12 +126,27 @@ public class CalendarioController {
 	public ModelAndView addCalendario(@Valid @ModelAttribute("calendario") CalendarioForm calendarioForm,
 			BindingResult result, RedirectAttributes ra) throws IOException, ParseException {
 
+		ModelMap model = new ModelMap();
+		
 		if (result.hasErrors()) {
-			ModelMap model = new ModelMap();
 			model.put("calendario", calendarioForm);
 			model.put("errmsg", "El archivo cargado tiene errores. Favor de verificar.");
 			LOG.debug("Errores: " + result.getAllErrors());
 			return new ModelAndView("catalogo/calendario/alta_calendario", model);
+		}
+		
+		//SI EXISTE CALENDARIO, ELIMINAMOS REGISTROS
+		if(!calendarioForm.isNuevo()) {
+			try {
+				calendarioService.deleteCalendarioPorAnio(calendarioForm.getAnio());
+				FtpUtil.eliminarCalendario(calendarioForm.getFileName());
+			} catch (ConstraintViolationException e) {
+				model.put("errmsg", "El Calendario "+ calendarioForm.getAnio() +" ya está siendo utilizado en cálculos del sistema. "
+						+ "No puede ser actualizado.");
+				model.put("calendario", calendarioForm);
+				return new ModelAndView("catalogo/calendario/alta_calendario", model);
+			}
+
 		}
 
 		String colaborador  = SecurityUtils.getCurrentUser();
@@ -172,10 +195,9 @@ public class CalendarioController {
 			cal.setArchivo(calendarioForm.getFileName());
 
 			calendarioService.create(cal);
-			calendarioService.cargarArchivo(calendarioForm.getFileName(), calendarioForm.getArchivo().getBytes());
-
 		}
 		
+		calendarioService.cargarArchivo(calendarioForm.getFileName(), calendarioForm.getArchivo().getBytes());
 		calendarioService.registrarAccionBitacora("Creación de Calendario " + calendarioForm.getAnio(), new Date(), colaborador );
 		
 		ra.addFlashAttribute("succmsg", "Los registros del calendario se ha registrado correctamente.");
@@ -195,6 +217,44 @@ public class CalendarioController {
 	@InitBinder
 	void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new FechaEditor(new SimpleDateFormat("dd/MM/yyyy")));
+	}
+	
+	@SuppressWarnings("resource")
+	@RequestMapping(value = "/checkCalendario", method = RequestMethod.POST)
+	public @ResponseBody Integer validarArchivo(@RequestParam("archivo") MultipartFile archivo, 
+			@RequestParam("anio") Integer anio) throws IOException {
+		
+		List<Calendario> cal = calendarioService.getCalendarioPorAnio(anio);
+		
+		if(cal.isEmpty()) {
+			
+			InputStream file = archivo.getInputStream();
+
+			Workbook workbook = new XSSFWorkbook(file);
+			Sheet sheet = workbook.getSheetAt(0);
+			
+			if (sheet.getSheetName().equalsIgnoreCase("CALENDARIO")) {
+				return 3;
+			} else {
+				
+				try {
+					CellReference cellRef = new CellReference("A2");
+					XSSFRow row = (XSSFRow) sheet.getRow(cellRef.getRow());
+					XSSFCell cell = row.getCell(cellRef.getCol());
+
+					if (cell.getStringCellValue().equalsIgnoreCase("Semana")) {
+						return 3;
+					}
+				} catch (NullPointerException e) {
+					return 2;
+				}
+			}
+			
+		} else {
+			return 1;
+		}
+			
+		return 2;
 	}
 
 	/**
