@@ -290,8 +290,8 @@
 		    	if($("#valor").val() == ''){
 		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
 		    	}else{
-		    		if($("#valor").val() <= 0 ){
-		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros en 0 o negativos<br>"
+		    		if($("#valor").val() < 0 ){
+		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros negativos<br>"
 		    	};
 		    	
 		    	}
@@ -371,8 +371,8 @@
 		    	if($("#valor").val() == ''){
 		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
 		    	}else{
-		    		if($("#valor").val() <= 0 ){
-		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros en 0 o negativos<br>"
+		    		if($("#valor").val() < 0 ){
+		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros negativos<br>"
 		    	};
 		    	
 		    	}
