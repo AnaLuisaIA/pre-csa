@@ -153,7 +153,7 @@
 										<div class="form-group">
 											<label for="tipos">Tipo de Variable: *</label>
 											<form:select path="tipo" class="form-control"
-												name="fecha_var" required="true">
+												name="yipo" required="true">
 												<form:option value=""></form:option>
 												<form:options items="${tipovariable}"></form:options>
 											</form:select>
@@ -245,10 +245,10 @@
 		    	
 		    	if($("#valor").val() == ''){
 		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
-		    	}else{
+		    	} else {
 		    		if($("#valor").val() <= 0 ){
-		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros en 0 o negativos<br>"
-		    	};
+		    			mensaje+= "El campo de <strong>Valor</strong> no puede ser 0.<br>"
+		    		}
 		    	
 		    	}
 		    	
@@ -263,6 +263,7 @@
 			
 			if(mensaje != ''){
 				bootbox.alert(mensaje);
+				
 			} else {
 		        bootbox.confirm({
 		        	title: "Registrar Variable",
@@ -276,26 +277,26 @@
 				        }
 			        },	   
 			     callback: function(result){
-				     if(result){	
-				        		bootbox.prompt({
-				    title: "Escriba Justificación",
-				    inputType: 'textarea',
-				    callback: function (result) {
-				    	if(result != null && result != ""){
-					     $('#justificacionSolicitudForm').val(result);
-					       $('#saveVariable').submit();
-					    } else if(result === "") {
-					    	bootbox.alert({
-							   message: "<b>El campo de Justificación es obligatorio.</b>",
-							   size: 'small'
-							});
-					    }
-				    }
-				});			   
+				 	if(result){	
+				    	bootbox.prompt({
+				    		title: "Escriba Justificación",
+				    		inputType: 'textarea',
+				    		callback: function (result) {
+				    			if(result != null && result != ""){
+					     			$('#justificacionSolicitudForm').val(result);
+					       			$('#saveVariable').submit();
+					   			} else if(result === "") {
+					    			bootbox.alert({
+									   message: "<b>El campo de Justificación es obligatorio.</b>",
+									   size: 'small'
+									});
+					    		}
+				    		}
+						});			   
 			       			
-		        		}
 		        	}
-		        });
+		        }
+		      });
 			}
 
         });

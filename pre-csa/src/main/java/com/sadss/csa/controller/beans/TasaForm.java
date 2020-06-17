@@ -3,6 +3,7 @@ package com.sadss.csa.controller.beans;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,10 +15,10 @@ import com.sadss.csa.modelo.entidad.TasaSobreNomina;
 import com.sadss.csa.util.enums.TipoNomina;
 import com.sadss.csa.util.enums.TipoVariableTasa;
 
-public class TasaForm  extends GenericForm<TasaForm, TasaSobreNomina>{
-	
+public class TasaForm extends GenericForm<TasaForm, TasaSobreNomina> {
+
 	private Integer id;
-	
+
 	@NotNull
 	@NotEmpty
 	@Size(max = 100)
@@ -27,22 +28,22 @@ public class TasaForm  extends GenericForm<TasaForm, TasaSobreNomina>{
 	private TipoVariableTasa tipoVariable;
 
 	private BigDecimal valor;
-	private String oficina;
+	private Set<String> oficinas;
 	private Date fechaAplicacion;
 	private Boolean estatus;
-	
+
 	private String justificacion;
-	
+	private String oficina;
+
 	SimpleDateFormat sd = new SimpleDateFormat();
-	
+
 	public TasaForm() {
-		
+
 	}
 
 	public Integer getId() {
 		return id;
 	}
-	
 
 	public TipoVariableTasa getTipoVariable() {
 		return tipoVariable;
@@ -72,7 +73,6 @@ public class TasaForm  extends GenericForm<TasaForm, TasaSobreNomina>{
 		this.tipoNomina = tipoNomina;
 	}
 
-
 	public BigDecimal getValor() {
 		return valor;
 	}
@@ -81,12 +81,12 @@ public class TasaForm  extends GenericForm<TasaForm, TasaSobreNomina>{
 		this.valor = valor;
 	}
 
-	public String getOficina() {
-		return oficina;
+	public Set<String> getOficinas() {
+		return oficinas;
 	}
 
-	public void setOficina(String oficina) {
-		this.oficina = oficina;
+	public void setOficinas(Set<String> oficinas) {
+		this.oficinas = oficinas;
 	}
 
 	public Date getFechaAplicacion() {
@@ -120,6 +120,13 @@ public class TasaForm  extends GenericForm<TasaForm, TasaSobreNomina>{
 	public void setSd(SimpleDateFormat sd) {
 		this.sd = sd;
 	}
-	
-	
+
+	public String getOficina() {
+		return oficina;
+	}
+
+	public void setOficina(String oficina) {
+		this.oficina = oficina;
+	}
+
 }

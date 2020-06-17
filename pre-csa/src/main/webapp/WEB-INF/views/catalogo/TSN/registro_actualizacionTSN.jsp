@@ -76,26 +76,38 @@
 								<!-- Bloques de campos de formulario a llenar -->
 								<form:hidden path="id" />
 								<div class="row">
-									
+
 									<div class="col-md-4">
-									<c:if test="${empty tasa.id}"><input id="estatus" name="estatus" type="hidden" value="${1}" /></c:if>
+										<c:if test="${empty tasa.id}">
+											<input id="estatus" name="estatus" type="hidden" value="${1}" />
+										</c:if>
 										<c:if test="${not empty tasa.id}">
-										<c:choose>
+											<c:choose>
 												<c:when test="${tasa.estatus == true}">
-													<input id="estatus" name="estatus" type="hidden" value="${1}" />
+													<input id="estatus" name="estatus" type="hidden"
+														value="${1}" />
 												</c:when>
 												<c:otherwise>
-											 	<input id="estatus" name="estatus" type="hidden" value="${0}" />
+													<input id="estatus" name="estatus" type="hidden"
+														value="${0}" />
 												</c:otherwise>
 											</c:choose>
 										</c:if>
 										<spring:bind path="tasa.estado">
-										<div class="form-group ${status.error ? 'has-error' : ''}">
-											<label for="estado">Estado: *</label>
-											<c:if test="${empty tasa.id}"><form:input  path="estado" name="estado" class="form-control" placeholder="Ingrese el estado de la Tasa" /></c:if>
-											<form:errors path="estado" class="help-block"></form:errors>
-											<c:if test="${not empty tasa.id}"><form:input path="estado" name="estado" readonly="true"  class="form-control" placeholder="Ingrese el estado de la Tasa" /></c:if>
-										</div>
+											<div class="form-group ${status.error ? 'has-error' : ''}">
+												<label for="estado">Estado: *</label>
+												<c:if test="${empty tasa.id}">
+													<form:input path="estado" name="estado"
+														class="form-control"
+														placeholder="Ingrese el estado de la Tasa" />
+												</c:if>
+												<form:errors path="estado" class="help-block"></form:errors>
+												<c:if test="${not empty tasa.id}">
+													<form:input path="estado" name="estado" readonly="true"
+														class="form-control"
+														placeholder="Ingrese el estado de la Tasa" />
+												</c:if>
+											</div>
 										</spring:bind>
 									</div>
 									<div class="col-md-4">
@@ -130,44 +142,33 @@
 										<div class="form-group">
 											<div class="form-group">
 												<label for="valor">Valor: *</label>
-												<form:input path="valor" name="valor" class="form-control" step="0.000001" type="number"
-													 />
+												<form:input path="valor" name="valor" class="form-control"
+													step="0.000001" type="number" />
 											</div>
 
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-											<div class="form-group">
-												<div class="form-group">
-													<label for="oficina">Oficina: *</label>
-													<form:select path="oficina" id="oficina" multiple="true" required="true" class="form-control">
-														<form:options items="${ciudad}"/>
-													</form:select>
-												</div>
-											</div>
+											<label for="oficinas">Oficina: *</label>
+											<form:select path="oficinas" id="oficinas" multiple="true"
+												required="true" class="form-control">
+												<form:options items="${ciudad}" />
+											</form:select>
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-
-											<div class="form-group">
-
-
-												<div class="form-group">
-													<label for="fechaA">Fecha Aplicación: *</label>
-
-													<div class="input-group input-medium date date-picker"
-														data-date-format="dd/mm/yyyy" data-date-end-date="0d">
-														<span class="input-group-btn">
-															<button class="btn default" type="button">
-																<i class="fa fa-calendar"></i>
-															</button>
-														</span>
-														<form:input path="fechaAplicacion" type="text"
-															class="form-control" readonly="true" maxlenght="10" />
-													</div>
-												</div>
+											<label for="fechaA">Fecha Aplicación: *</label>
+											<div class="input-group input-medium date date-picker"
+												data-date-format="dd/mm/yyyy" data-date-end-date="0d">
+												<span class="input-group-btn">
+													<button class="btn default" type="button">
+														<i class="fa fa-calendar"></i>
+													</button>
+												</span>
+												<form:input path="fechaAplicacion" type="text"
+													class="form-control" readonly="true" maxlenght="10" />
 											</div>
 										</div>
 									</div>
@@ -205,8 +206,6 @@
 			src="<c:url value='/assets/global/plugins/select2/select2.min.js'/>"></script>
 		<script type="text/javascript"
 			src="<c:url value='/assets/global/scripts/jquery.spring-friendly.js'/>"></script>
-		<script type="text/javascript"
-			src="<c:url value='/assets/admin/pages/scripts/ui-idletimeout.js'/>"></script>
 
 	</tiles:putAttribute>
 
@@ -235,7 +234,18 @@
             }				 
 		});	
 		
-		$("#oficina").select2();
+		$("#oficinas").select2();
+		
+		$('#tipoVariable').change(function(){
+			
+			if($(this).val() === 'TAP'){
+				$("#valor").attr('readonly', true);
+				$("#valor").val(0);
+			} else {
+				$("#valor").attr('readonly', false);
+			}
+			
+		});
 		
 		$('#cancelar').click(function(e){
 			e.preventDefault();

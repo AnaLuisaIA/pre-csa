@@ -1,4 +1,4 @@
-package com.sadss.csa.controller;
+package com.sadss.csa.controller.beans;
 
 public class UsuarioDTO {
 

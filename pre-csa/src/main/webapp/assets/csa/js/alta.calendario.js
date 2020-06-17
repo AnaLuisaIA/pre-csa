@@ -41,7 +41,7 @@ var checkCalendario = function(nombreArchivo, anio){
 	    contentType: false,
 	    processData: false,
 	    success: function(response) {
-	    	console.log(response);
+
 			//Calendario existe
 	    	if(response === 1){
 	    		
