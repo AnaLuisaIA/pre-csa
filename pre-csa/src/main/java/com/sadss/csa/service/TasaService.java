@@ -15,12 +15,6 @@ public interface TasaService extends CrudService<TasaSobreNomina>{
 	public List<TasaSobreNomina> findTasas();
 	
 	/*
-	 * Metodo Actualizar Tasa
-	 * */
-	
-	public TasaSobreNomina updateTasa(int id);
-	
-	/*
 	 * Metodo Registro en Bitacora Tasas
 	 * */
 	public void registrarAccionBitacora(String accion,Date fecha, String  justificacion, String user);

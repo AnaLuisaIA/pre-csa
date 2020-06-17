@@ -25,7 +25,6 @@ import com.sadss.csa.service.generic.AbstractService;
 import com.sadss.csa.service.generic.DuplicateValidator;
 import com.segurosargos.crece.api.CiudadesDAO;
 import com.segurosargos.crece.modelo.entidad.Ciudad;
-import com.segurosargos.crece.modelo.entidad.Colaborador;
 
 @Service
 public class TasaServiceImpl extends AbstractService<TasaSobreNomina> implements TasaService{
@@ -82,10 +81,6 @@ public class TasaServiceImpl extends AbstractService<TasaSobreNomina> implements
 		return dao.findTasas();
 	}
 
-	@Override
-	public TasaSobreNomina updateTasa(int id) {
-		return dao.updateTasa(id);
-	}
 
 	@Override
 	public void registrarAccionBitacora(String accion, Date fecha, String justificacion, String user) {

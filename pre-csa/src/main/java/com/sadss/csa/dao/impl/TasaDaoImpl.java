@@ -31,13 +31,6 @@ public class TasaDaoImpl extends AbstractHibernateDao<TasaSobreNomina> implement
 	}
 
 	@Override
-	public TasaSobreNomina updateTasa(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
 	public TasaSobreNomina getTasaByOficina(String oficina) {
 		StringBuilder queryTxt = new StringBuilder("from TasaSobreNomina t "
 				+ "where t.oficina like :oficina");

@@ -40,10 +40,9 @@ import freemarker.core.ParseException;
 @RequestMapping("tasas")
 public class TasaController {
 
-	// Tasa Service
 	@Autowired
 	private TasaService tasaService;
-	// Bitacora Tasa Service
+
 	@Autowired
 	private BitacoraTasaService btService;
 
@@ -219,11 +218,13 @@ public class TasaController {
 	 */
 	@RequestMapping(value = "/editar", method = RequestMethod.GET)
 	public String editarTasa(@RequestParam(required = true) Integer id, ModelMap model) {
-		String colaborador = SecurityUtils.getCurrentUser();
+
 		TasaSobreNomina tasa = tasaService.findOne(id);
+		
 		if (tasa == null) {
 			return "catalogo/TSN/tasaSobreNomina";
 		}
+		
 		TasaForm tasaForm = (new TasaForm().fromOrmModel(tasa, TasaForm.class));
 		model.addAttribute("tasa", tasaForm);
 		agregartipoNomina(model);
@@ -248,7 +249,6 @@ public class TasaController {
 		tas.setEstatus(!tas.getEstatus());
 		tasaService.update(tas);
 		String colaborador = SecurityUtils.getCurrentUser();
-		TasaSobreNomina tasa = tasaService.updateTasa(id);
 
 		tasaService.registrarAccionBitacora("Modifico el estatus de la tasa " + tas.getEstado(), new Date(),
 				justificacionTasaForm, colaborador);
