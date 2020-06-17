@@ -49,6 +49,7 @@
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
+		<%@include file="../../secciones/messages.jsp"%>
 		<div class="row">
 
 			<div class="col-md-10 col-md-offset-1">

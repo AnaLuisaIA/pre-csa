@@ -42,13 +42,12 @@ import com.sadss.csa.util.enums.TipoVariable;
 @RequestMapping("variables")
 public class VariablesController {
 
-	// Service variables
 	@Autowired
 	private VariablesService variablesService;
-	// Service Bitacora Varianbles
+
 	@Autowired
 	private BitacoraVariablesService bcService;
-	// Service Periodo Variables
+
 	@Autowired
 	private PeriodoVariableService pvService;
 
