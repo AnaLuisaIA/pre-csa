@@ -15,7 +15,6 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 	private String nombre;
 	private String descripcion;
 	private TipoVariable tipo;
-	private Boolean estado;
 
 	Set<PeriodoVariable> periodos = new HashSet<PeriodoVariable>();
 
@@ -49,14 +48,6 @@ public class Variable extends GenericModel<Variable> implements Serializable {
 
 	public void setTipo(TipoVariable tipo) {
 		this.tipo = tipo;
-	}
-
-	public Boolean getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
 	}
 
 	public Set<PeriodoVariable> getPeriodos() {

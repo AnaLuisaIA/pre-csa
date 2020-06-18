@@ -17,9 +17,9 @@ public class PeriodoVariable extends GenericModel<PeriodoVariable> implements Se
 	private Date fechaAplicacion;
 	private Date fechaTermino;
 	private Variable variable;
+	private Boolean estado;
 
 	public PeriodoVariable() {
-
 	}
 
 	public Integer getId() {
@@ -61,5 +61,13 @@ public class PeriodoVariable extends GenericModel<PeriodoVariable> implements Se
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
-	
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
+	}
+
 }

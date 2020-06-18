@@ -289,7 +289,7 @@ public class VariablesController {
 		
 		int id = idVariable;
 		Variable var = variablesService.findOne(id);
-		var.setEstado(!var.getEstado());
+		//var.setEstado(!var.getEstado());
 		variablesService.update(var);
 		String colaborador = SecurityUtils.getCurrentUser();
 

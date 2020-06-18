@@ -3,7 +3,6 @@ package com.sadss.csa.controller.beans;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.sadss.csa.modelo.entidad.Variable;
 import com.sadss.csa.util.enums.TipoVariable;
 
 public class PeriodoVariablesDTO {

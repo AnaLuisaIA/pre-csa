@@ -24,6 +24,11 @@
 			<column name="valor" not-null="true" sql-type="NUMERIC" />
 		</property>
 
+		<property name="estado">
+			<column name="estado" length="1" not-null="true"
+				sql-type="BOOLEAN" />
+		</property>
+
 		<many-to-one name="variable" column="idVariable"
 			class="com.sadss.csa.modelo.entidad.Variable" update="true"
 			insert="true" lazy="false">
