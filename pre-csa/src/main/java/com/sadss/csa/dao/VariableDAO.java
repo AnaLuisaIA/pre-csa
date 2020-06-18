@@ -14,8 +14,6 @@ public interface VariableDAO extends IOperations<Variable>{
 
 	public PeriodoVariable findVariablesID(Integer id);
 	
-	public Variable updateVariable(int id);
-	
 	public List<PeriodoVariable> getPeriodos();
 	
 	public List<VariablesDTO> getVariablesCalculo(Date fechaAplicacion, Date fechaTermino);

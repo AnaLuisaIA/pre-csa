@@ -20,9 +20,6 @@ public interface VariablesService  extends CrudService<Variable>{
 	
 	public PeriodoVariable findVariablesID(Integer id);
 	
-	
-	public Variable updateVariable(int id);
-	
 	/*
 	 * Metodo Registro bitacora
 	 * */

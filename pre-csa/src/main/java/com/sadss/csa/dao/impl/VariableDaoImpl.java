@@ -26,27 +26,10 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Variable> findVariables() {
-		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.PeriodoVariablesDTO(P.id,V.id,V.nombre,V.descripcion,V.estado,P.valor,V.tipo,P.fechaAplicacion,P.fechaTermino) from com.sadss.csa.modelo.entidad.PeriodoVariable P JOIN P.variable V");
+		StringBuilder queryTxt = new StringBuilder("Select new com.sadss.csa.controller.beans.PeriodoVariablesDTO(P.id,V.id,V.nombre,V.descripcion,P.estado,P.valor,V.tipo,P.fechaAplicacion,P.fechaTermino) from com.sadss.csa.modelo.entidad.PeriodoVariable P JOIN P.variable V");
 		Query query = getCurrentSession().createQuery(queryTxt.toString());
 		return query.list();
 	}
-
-	/*
-	 *Metodo Modificar Estado 
-	 * */
-	@Override
-	public Variable updateVariable(int id) {
-        /**String hql = "UPDATE com.sadss.csa.modelo.entidad.Variable SET estado = 0 WHERE id = :id";
-        Query query =  getCurrentSession().createQuery(hql);
-        query.setParameter("id", id);
-        int result = query.executeUpdate();
-        System.out.println("Rows affected: " + result);
-        
-        query.list().get(0);**/
-        
-		return null;
-	}
-
 
 	@Override
 	public PeriodoVariable findVariablesID(Integer id) {

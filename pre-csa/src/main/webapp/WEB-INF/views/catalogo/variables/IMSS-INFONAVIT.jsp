@@ -3,6 +3,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <tiles:insertDefinition name="defaultTemplate">
 
@@ -17,11 +19,12 @@
 			href="<c:url value='/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css'/>"
 			rel="stylesheet" type="text/css" />
 	</tiles:putAttribute>
+	
 	<tiles:putAttribute name="nav">
 		<li><a href='<c:url value="/variables/"/>'>Variables IMSS e
 				INFONAVIT</a> <i class="fa fa-angle-right"></i></li>
 	</tiles:putAttribute>
-	<meta charset="UTF-8">
+
 	<tiles:putAttribute name="title">Variables IMSS e INFONAVIT</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
@@ -38,10 +41,12 @@
 
 						</div>
 						<div class="actions">
-							<a href="alta" class="btn default green-stripe"> <i
-								class="fa fa-plus"></i> <span class="hidden-480"> AGREGAR
-									VARIABLE </span>
-							</a>
+							<sec:authorize access="hasRole('CREA_CAT')">
+								<a href="alta" class="btn default green-stripe"> <i
+									class="fa fa-plus"></i> <span class="hidden-480"> AGREGAR
+										VARIABLE </span>
+								</a>
+							</sec:authorize>
 						</div>
 					</div>
 					<div class="portlet-body">
@@ -56,7 +61,7 @@
 									<th>Valor</th>
 									<th>Tipo</th>
 									<th>Fecha de Aplicación</th>
-									<th>Fecha Termino</th>
+									<th>Fecha Término</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
@@ -84,9 +89,12 @@
 												<i class="fa fa-power-off"></i>
 												</a>
 												</c:otherwise>
-											</c:choose> <a href="editar?idvariable=${v.idVariable}&idPeriodo=${v.id}"
-											class="btn btn-primary btn-small"> <i class="fa fa-edit"></i>
-										</a>
+											</c:choose> 
+										<sec:authorize access="hasRole('EDITA_CAT')">
+											<a href="editar?idvariable=${v.idVariable}&idPeriodo=${v.id}"
+												class="btn btn-primary btn-small"> <i class="fa fa-edit"></i>
+											</a>
+										</sec:authorize>	
 											<button type="submit" class="btn btn-danger" id="btnEliminar">
 												<i class="fa fa-trash-o"></i>
 											</button>
@@ -105,7 +113,7 @@
 				<div class="portlet light portlet-fit bordered">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-pencil-square-o"></i>Bitacora de cambios
+							<i class="fa fa-pencil-square-o"></i>Bitácora de cambios
 						</div>
 						<div class="tools">
 							<a href="" class="expand"></a>
@@ -160,11 +168,7 @@
 		<script type="text/javascript"
 			src="<c:url value='/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js'/>"></script>
 		<script type="text/javascript"
-			src="<c:url value='/assets/admin/pages/scripts/argostable.js'/>"></script>
-		<script type="text/javascript"
 			src="<c:url value='/assets/global/scripts/jquery.spring-friendly.js'/>"></script>
-		<script type="text/javascript"
-			src="<c:url value='/assets/admin/pages/scripts/ui-idletimeout.js'/>"></script>
 
 	</tiles:putAttribute>
 
@@ -174,102 +178,92 @@
 		$('#variablesMenu').addClass("active");
 		
 		$('#tablaVariables').DataTable();
+		
 		$('#tablaBitacora').DataTable({
         	"searching": false,
         	"bLengthChange": false,
         	"order": [[ 1, "desc" ]]
 		});
-
-  
-  //Metodo Eliminar Variable
-    // code to read selected table row cell data (values).
-    $("#tablaVariables").on('click','#btnEliminar',function(){
-         // get the current row
-         var currentRow=$(this).closest("tr"); 
-         
-         var col1=currentRow.find("td:eq(0)").text(); // get current row 1st TD value
-         var idVariable=col1;
-
-          mensaje = "";
-		        bootbox.confirm({
-		        	title: "Eliminar Variable",
-			        message: "Al eliminar esta variable se eliminarán los registros relacionados ¿Está seguro de que desea continuar?",
-			        buttons: {
-			        	cancel: {
-				            label: '<i class="fa fa-times"></i> Regresar'
-				        },
-				        confirm: {
-				            label: '<i class="fa fa-check"></i> Confirmar'
-				        }
-			        },	   
-			        callback: function(result){
-				     if(result){	
-				        		bootbox.prompt({
-				    title: "Escriba Justificacion",
-				    inputType: 'textarea',
-				    callback: function (result) {
-				    	if(result != null && result != ""){
-					     $('#justificacionIMSSForm').val(result);
-					       var justificacionIMSSForm = $('#justificacionIMSSForm').val();
-					      	window.location.href= 'delete?idVariable='+idVariable+"&justificacionIMSSForm="+justificacionIMSSForm;
-					    } else if(result === "") {
-					    	bootbox.alert({
-							   message: "<b>El campo de Justificación es obligatorio.</b>",
-							   size: 'small'
-							});
-					    }
-				    }
-				});			     			
-		        		}
-		        	}
+		
+		//Eliminar Variable
+		$("#tablaVariables").on("click", "#btnEliminar", function () {
+		
+		  let currentRow = $(this).closest("tr");
+		  let idVariable = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+		
+		  bootbox.confirm({
+		    title: "Eliminar Variable",
+		    message:
+		      "Al eliminar esta variable se eliminarán los registros relacionados ¿Está seguro de que desea continuar?",
+		    buttons: {
+		      cancel: {
+		        label: '<i class="fa fa-times"></i> Regresar',
+		      },
+		      confirm: {
+		        label: '<i class="fa fa-check"></i> Confirmar',
+		      },
+		    },
+		    callback: function (result) {
+		      if (result) {
+		        bootbox.prompt({
+		          title: "Escriba Justificación",
+		          inputType: "textarea",
+		          callback: function (result) {
+		            if (result != null && result != "") {
+		              var justificacionIMSSForm = result
+		              window.location.href = "delete?idVariable=" + idVariable + "&justificacionIMSSForm=" + justificacionIMSSForm;
+		            } else if (result === "") {
+		              bootbox.alert({
+		                message: "<b>El campo de Justificación es obligatorio.</b>",
+		                size: "small",
+		              });
+		            }
+		          },
 		        });
-    });
+		      }
+		    },
+		  });
+		});
 
-
-     //Metodo Modificar Estado Variable
-
-    // code to read selected table row cell data (values).
-    $("#tablaVariables").on('click','#btnModificarEstado',function(){
-         // get the current row
-         var currentRow=$(this).closest("tr"); 
-         
-         var col1=currentRow.find("td:eq(0)").text();
-         var idVariable=col1;
-
-		        bootbox.confirm({
-		        	title: "Estado Variable",
-			        message: "¿Está seguro de que desea continuar?",
-			        buttons: {
-			        	cancel: {
-				            label: '<i class="fa fa-times"></i> Regresar'
-				        },
-				        confirm: {
-				            label: '<i class="fa fa-check"></i> Confirmar'
-				        }
-			        },	   
-			        callback: function(result){
-				     if(result){	
-				        		bootbox.prompt({
-				    title: "Escriba Justificacion",
-				    inputType: 'textarea',
-				    callback: function (result) {
-				    	if(result != null && result != ""){
-					     $('#justificacionIMSSForm').val(result);
-					       var justificacionIMSSForm = $('#justificacionIMSSForm').val();
-					      	window.location.href= 'editarEstado?idVariable='+idVariable+"&justificacionIMSSForm="+justificacionIMSSForm;
-					    } else if(result === "") {
-					    	bootbox.alert({
-							   message: "<b>El campo de Justificación es obligatorio.</b>",
-							   size: 'small'
-							});
-					    }
-				    }
-				});			     			
-		        		}
-		        	}
+     //Modificar Estatus Variable
+		$("#tablaVariables").on("click", "#btnModificarEstado", function () {
+		  let currentRow = $(this).closest("tr");
+		  let idPeriodo = currentRow.find("td:eq(1)").text();
+		  let nombreV = currentRow.find("td:eq(2)").text();
+		
+		  bootbox.confirm({
+		    title: "Estatus de Variable",
+		    message: "¿Está seguro de que desea continuar?",
+		    buttons: {
+		      cancel: {
+		        label: '<i class="fa fa-times"></i> Regresar',
+		      },
+		      confirm: {
+		        label: '<i class="fa fa-check"></i> Confirmar',
+		      },
+		    },
+		    callback: function (result) {
+		      if (result) {
+		        bootbox.prompt({
+		          title: "Escriba Justificación",
+		          inputType: "textarea",
+		          callback: function (result) {
+		            if (result != null && result != "") {
+		              var justificacionIMSSForm = result
+		              window.location.href = "editarEstado?idPeriodo=" + idPeriodo + "&justificacionIMSSForm=" 
+		                + justificacionIMSSForm + "&nombreV=" + nombreV;
+		            } else if (result === "") {
+		              bootbox.alert({
+		                message: "<b>El campo de Justificación es obligatorio.</b>",
+		                size: "small",
+		              });
+		            }
+		          },
 		        });
-
-    });
+		      }
+		    },
+		  });
+		});
 
    </tiles:putAttribute>
 

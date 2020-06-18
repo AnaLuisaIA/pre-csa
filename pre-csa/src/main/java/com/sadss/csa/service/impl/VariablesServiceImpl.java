@@ -65,12 +65,6 @@ public class VariablesServiceImpl  extends AbstractService<Variable> implements 
 	protected IOperations<Variable> getDao() {
 		return dao;
 	}
-
-	@Override
-	public Variable updateVariable(int id) {
-		return dao.updateVariable(id);
-		
-	}
 	
 	@Override
 	public List<PeriodoVariable> getPeriodos() throws ParseException{

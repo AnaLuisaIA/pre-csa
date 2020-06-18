@@ -79,8 +79,13 @@
 										<p>ERROR: Favor de verificar campos</p>
 									</div>
 								</spring:hasBindErrors>
-								<!-- Bloques de campos de formulario a llenar -->
-								<form:hidden path="id" />
+								
+								<!-- JQuery Validation -->
+								<div class="alert alert-danger display-none">
+									<button class="close" data-dismiss="alert"></button>
+									Existen campos no válidos. Favor de verificar.
+								</div>
+								
 								<div class="row">
 
 									<div class="col-md-4">
@@ -102,8 +107,14 @@
 										<spring:bind path="tasa.estado">
 											<div class="form-group ${status.error ? 'has-error' : ''}">
 												<label for="estado">Estado: *</label>
-												<form:input path="estado" name="estado" class="form-control"
-													placeholder="Ingrese el estado de la Tasa" />
+												<c:if test="${empty estado.id}">
+													<form:input path="estado" class="form-control"
+														placeholder="Nombre del Estado" />
+												</c:if>
+												<c:if test="${not empty estado.id}">
+													<form:input path="estado" readonly="true"
+														class="form-control" />
+												</c:if>
 												<form:errors path="estado" class="help-block"></form:errors>
 											</div>
 										</spring:bind>
@@ -190,6 +201,8 @@
 								</c:if>
 								<a href="../tasas/" id="cancelar" class="btn default">Cancelar</a>
 							</div>
+							
+							<form:hidden path="id" />
 							<form:hidden path="justificacion" id="justificacionTasaForm" />
 						</form:form>
 					</div>

@@ -1,4 +1,4 @@
-var form = $("#saveTasa");
+var form = $("#saveVariable");
 var error = $(".alert-danger", form);
 var success = $(".alert-success", form);
 
@@ -8,51 +8,46 @@ form.validate({
   errorClass: "help-block help-block-error",
   focusInvalid: false,
   rules: {
-	estado: {
+	nombre: {
+      required: true,
+      maxlength: 100
+    },
+    descripcion: {
       required: true,
       maxlength: 200
-    },
-    tipoNomina: {
-      required: true,
-    },
-    tipoVariable: {
-      required: true,
     },
     valor: {
       required: true,
       max: 100000.00,
       min: 0.00,
     },
-    oficinas: {
-      required: true,
-    },
     fechaAplicacion: {
-      required: true,
+      required: true
     },
+    tipo: {
+    	required: true
+    }
   },
 
   messages: {
-    estado: {
-    	required: "El campo Estado es requerido",
+    nombre: {
+    	required: "El campo Nombre es requerido",
+    	maxlength: "Se excedieron los 100 caracteres"
+    },
+    descripcion: {
+    	required: "El campo Descripción es requerido",
     	maxlength: "Se excedieron los 200 caracteres"
-    },
-    tipoNomina: {
-    	required: "Se tiene que seleccionar una Nómina"
-    },
-    tipoVariable: {
-    	required: "Se tiene que seleccionar un Tipo de Variable"
     },
     valor: {
     	required: "Ingrese un valor para la tasa",
-    	number: "Ingrese un número válido",
     	max: "El valor de la tasa es inválido",
     	min: "El valor de la tasa tiene que ser mayor",
     },
-    oficinas: {
-    	required: "Seleccione al menos una Oficina"
-    },
     fechaAplicacion: {
     	required: "Seleccione una Fecha"
+    },
+    tipo: {
+    	required: "El campo Tipo de Variable es requerido"
     }
   },
 
@@ -103,11 +98,7 @@ form.validate({
   },
 });
 
-$('#tipoNomina', form).change(function() {
-	form.validate().element($(this)); // revalida select en cambio
-});
-
-$('#oficinas', form).change(function() {
+$('#tipo', form).change(function() {
 	form.validate().element($(this)); // revalida select en cambio
 });
 
@@ -115,76 +106,77 @@ $('.date-picker .form-control').change(function() {
 	form.validate().element($(this)); // revalida las fechas en cambio
 });
 
-$('#btnGuardarTasa').click(function(e) {
+$('#btnGuardarVariable').click(function(e) {
 	e.preventDefault();
 	
 	if(form.valid()){
-		
 		if($('#valor')[0].validity.stepMismatch){
 			bootbox.alert("El campo <strong>Valor</strong> no puede tener más de 6 decimales");
-		} else{
+		} 
+		
+		else{
+			bootbox.setLocale('es');
+	        bootbox.confirm({
+	        	title: "Registrar Variable",
+	        	message: "¿Está seguro de que desea continuar?",  
+	        	callback: function(result){
+			 	if(result){	
+			    	bootbox.prompt({
+			    		title: "Escriba Justificación",
+			    		inputType: 'textarea',
+			    		callback: function (result) {
+			    			if(result != null && result != ""){
+				     			$('#justificacionSolicitudForm').val(result);
+				       			form.submit();
+				   			} else if(result === "") {
+				    			bootbox.alert({
+								   message: "<b>El campo de Justificación es obligatorio.</b>",
+								   size: 'small'
+								});
+				    		}
+			    		}
+					});			   
+		       			
+	        	}
+	        }
+	      });
+		}
+	}
+});
+
+$('#btnActualizarVariable').click(function(e) {
+	e.preventDefault();
+	
+	if(form.valid()){
+		if($('#valor')[0].validity.stepMismatch){
+			bootbox.alert("El campo <strong>Valor</strong> no puede tener más de 6 decimales");
+		} 
+		
+		else {
 			bootbox.setLocale('es');
 			bootbox.confirm({
-				  title: "Registrar Tasa",
+				  title: "Actualizar Variable",
 				  message: "¿Está seguro de que desea continuar?",
 				  callback: function (result) {
 				    if (result) {
 				      bootbox.prompt({
 				        title: "Escriba Justificación",
-				        inputType: 'textarea',
+				        inputType: "textarea",
 				        callback: function (result) {
 				          if (result != null && result != "") {
-				            $('#justificacionTasaForm').val(result);
-				            form.submit();
+				            $("#justificacionSolicitudForm").val(result);
+				            $("#saveVariable").submit();
 				          } else if (result === "") {
 				            bootbox.alert({
 				              message: "<b>El campo de Justificación es obligatorio.</b>",
-				              size: 'small'
+				              size: "small",
 				            });
 				          }
-				        }
+				        },
 				      });
-
 				    }
-				  }
-				});	
+				  },
+				});
 		}
 	}
-});
-
-$('#btnActualizarTasa').click(function(e) {
-	e.preventDefault();
-	
-	if(form.valid()){
-		if($('#valor')[0].validity.stepMismatch){
-			bootbox.alert("El campo <strong>Valor</strong> no puede tener más de 6 decimales");
-		} else {
-			bootbox.setLocale('es');
-			  bootbox.confirm({
-			    title: "Actualizar Tasa",
-			    message: "¿Está seguro de que desea continuar?",
-			    callback: function (result) {
-			      if (result) {
-			        bootbox.prompt({
-			          title: "Escriba Justificación",
-			          inputType: "textarea",
-			          callback: function (result) {
-			            if (result != null && result != "") {
-			              $("#justificacionTasaForm").val(result);
-			              form.submit();
-			            } else if (result === "") {
-			              bootbox.alert({
-			                message: "<b>El campo de Justificación es obligatorio.</b>",
-			                size: "small",
-			              });
-			            }
-			          },
-			        });
-			      }
-			    },
-			  });
-			}
-
-	}
-	
 });

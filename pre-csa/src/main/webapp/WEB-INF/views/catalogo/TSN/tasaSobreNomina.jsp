@@ -111,7 +111,7 @@
 				<div class="portlet light portlet-fit bordered">
 					<div class="portlet-title">
 						<div class="caption">
-							<i class="fa fa-pencil-square-o"></i>Bitacora de cambios
+							<i class="fa fa-pencil-square-o"></i>Bitácora de cambios
 						</div>
 						<div class="tools">
 							<a href="" class="expand"></a>

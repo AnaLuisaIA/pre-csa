@@ -5,6 +5,8 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <tiles:insertDefinition name="defaultTemplate">
 	<tiles:putAttribute name="styles">
@@ -27,10 +29,10 @@
 
 	<tiles:putAttribute name="title">
 		<c:if test="${empty variable.id}">
-			Alta de Variables IMSS/INFONAVIT
+			Alta de Variable IMSS/INFONAVIT
 		</c:if>
 		<c:if test="${not empty variable.id}">
-			Edición de Variables IMSS/INFONAVIT
+			Edición de Variable IMSS/INFONAVIT
 		</c:if>
 	</tiles:putAttribute>
 
@@ -43,8 +45,9 @@
 				class="fa fa-angle-right"></i></li>
 		</c:if>
 		<c:if test="${not empty variable.id}">
-			<li><a href='<c:url value="/variables/editar?id=${variable.id}"/>'>Edición</a> <i
-				class="fa fa-angle-right"></i></li>
+			<li><a
+				href='<c:url value="/variables/editar?id=${variable.id}"/>'>Edición</a>
+				<i class="fa fa-angle-right"></i></li>
 		</c:if>
 	</tiles:putAttribute>
 
@@ -58,8 +61,8 @@
 					<div class="portlet-title">
 						<div class="caption">
 							<h3>
-								<c:if test="${empty variable.id}">Alta de Variables IMSS/INFONAVIT | </c:if>
-								<c:if test="${not empty variable.id}">Edición Variables IMSS/INFONAVIT | </c:if>
+								<c:if test="${empty variable.id}">Alta de Variable IMSS/INFONAVIT | </c:if>
+								<c:if test="${not empty variable.id}">Edición Variable IMSS/INFONAVIT | </c:if>
 								<small class="form-text form-muted"> Los campos con *
 									son obligatorios</small>
 							</h3>
@@ -84,9 +87,12 @@
 									</div>
 								</spring:hasBindErrors>
 
-								<!-- Bloques de campos de formulario a llenar -->
-								<form:hidden path="id" />
-								<form:hidden path="idPeriodo" />
+								<!-- JQuery Validation -->
+								<div class="alert alert-danger display-none">
+									<button class="close" data-dismiss="alert"></button>
+									Existen campos no válidos. Favor de verificar.
+								</div>
+
 								<div class="row">
 									<div class="col-md-4">
 										<c:if test="${empty variable.id}">
@@ -105,13 +111,20 @@
 
 										<spring:bind path="variable.nombre">
 											<div class="form-group ${status.error ? 'has-error' : ''}">
-												<label for="nombre">Variable: *</label>
-												<c:if test="${empty variable.id}"><form:input path="nombre" class="form-control" placeholder="Nombre de la variable" /></c:if>
+												<label for="nombre">Nombre de Variable: *</label>
+												<c:if test="${empty variable.id}">
+													<form:input path="nombre" class="form-control"
+														placeholder="Nombre de la variable" />
+												</c:if>
 												<form:errors path="nombre" class="help-block"></form:errors>
-												<c:if test="${not empty variable.id}"><form:input path="nombre" readonly="true" class="form-control" placeholder="Nombre de la variable" /></c:if>
+												<c:if test="${not empty variable.id}">
+													<form:input path="nombre" readonly="true"
+														class="form-control" />
+												</c:if>
 											</div>
 										</spring:bind>
 									</div>
+
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="descripcion">Descripción: *</label>
@@ -119,23 +132,23 @@
 												class="form-control" placeholder="Ingrese una descripción" />
 										</div>
 									</div>
+
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="valor">Valor: *</label>
 											<form:input path="valor" name="valor" class="form-control"
 												step="0.000001" type="number" />
-											<form:hidden path="valorn" name="valorn"/>
 										</div>
-										</div>
+									</div>
 								</div>
 
 								<div class="row">
+
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="fechaA">Fecha de Aplicación: *</label>
-
 											<div class="input-group input-medium date date-picker"
-												data-date-format="dd/mm/yyyy" data-date-end-date="0d">
+												data-date-format="dd/mm/yyyy" data-date-end-date="0d" id="aplicacionDatePicker">
 												<span class="input-group-btn">
 													<button class="btn default" type="button">
 														<i class="fa fa-calendar"></i>
@@ -143,17 +156,16 @@
 												</span>
 												<form:input path="fechaAplicacion" type="text"
 													class="form-control" maxlenght="10" readonly="true" />
-												
+
 											</div>
-											<form:hidden path="fechaAplicacionn" name="fechaAplicacionn"/>
 										</div>
 									</div>
 
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="tipos">Tipo de Variable: *</label>
-											<form:select path="tipo" class="form-control"
-												name="yipo" required="true">
+											<form:select path="tipo" class="form-control" name="tipo"
+												required="true">
 												<form:option value=""></form:option>
 												<form:options items="${tipovariable}"></form:options>
 											</form:select>
@@ -174,7 +186,13 @@
 								</c:if>
 								<a href="../variables/" id="cancelar" class="btn default">Cancelar</a>
 							</div>
+
 							<form:hidden path="justificacion" id="justificacionSolicitudForm" />
+							<form:hidden path="id" />
+							<form:hidden path="idPeriodo" />
+							<form:hidden path="valorn" />
+							<form:hidden path="fechaAplicacionn" name="fechaAplicacionn" />
+							<form:hidden path="fechaTermino" name="fechaTermino" />
 						</form:form>
 					</div>
 				</div>
@@ -184,6 +202,9 @@
 
 
 	<tiles:putAttribute name="scripts">
+		<script
+			src="<c:url value='/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'/>"
+			type="text/javascript"></script>
 		<script
 			src="<c:url value='/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js'/>"></script>
 		<script
@@ -195,8 +216,7 @@
 		<script type="text/javascript"
 			src="<c:url value='/assets/global/scripts/jquery.spring-friendly.js'/>"></script>
 		<script type="text/javascript"
-			src="<c:url value='/assets/admin/pages/scripts/ui-idletimeout.js'/>"></script>
-
+			src="<c:url value='/assets/csa/js/variables.js'/>"></script>
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="ready"> 
@@ -209,7 +229,7 @@
 		});
 		
 		$('#tipo').select2({
-			placeholder: "Seleccione el tipo de variable",
+			placeholder: "Selecciona el tipo de variable",
 			allowClear: true,
                escapeMarkup: function (m) {
                		return m;
@@ -230,145 +250,10 @@
 				}
 			});
 		});
-		//Registro Variable
-		$('#btnGuardarVariable').click(function(e) {
-        	e.preventDefault();
-			mensaje = '';
-		    
-		    	if($("#nombre").val() == ''){
-		    		mensaje+= "El campo de <strong>Variable</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#descripcion").val() == ''){
-		    		mensaje+= "El campo de <strong>Descripcion</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#valor").val() == ''){
-		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
-		    	} else {
-		    		if($("#valor").val() <= 0 ){
-		    			mensaje+= "El campo de <strong>Valor</strong> no puede ser 0.<br>"
-		    		}
-		    	
-		    	}
-		    	
-		    	if($("#fechaAplicacion").val() == ''){
-		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#tipo").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo</strong> está vacío.<br>"
-		    	};
 
-			
-			if(mensaje != ''){
-				bootbox.alert(mensaje);
-				
-			} else {
-		        bootbox.confirm({
-		        	title: "Registrar Variable",
-			        message: "¿Está seguro de que desea continuar?",
-			        buttons: {
-			        	cancel: {
-				            label: '<i class="fa fa-times"></i> Regresar'
-				        },
-				        confirm: {
-				            label: '<i class="fa fa-check"></i> Confirmar'
-				        }
-			        },	   
-			     callback: function(result){
-				 	if(result){	
-				    	bootbox.prompt({
-				    		title: "Escriba Justificación",
-				    		inputType: 'textarea',
-				    		callback: function (result) {
-				    			if(result != null && result != ""){
-					     			$('#justificacionSolicitudForm').val(result);
-					       			$('#saveVariable').submit();
-					   			} else if(result === "") {
-					    			bootbox.alert({
-									   message: "<b>El campo de Justificación es obligatorio.</b>",
-									   size: 'small'
-									});
-					    		}
-				    		}
-						});			   
-			       			
-		        	}
-		        }
-		      });
-			}
-
-        });
-        //Actualizar Variable
-        $('#btnActualizarVariable').click(function(e) {
-        	e.preventDefault();
-			mensaje = '';
-		    
-		    	if($("#nombre").val() == ''){
-		    		mensaje+= "El campo de <strong>Variable</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#descripcion").val() == ''){
-		    		mensaje+= "El campo de <strong>Descripcion</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#valor").val() == ''){
-		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
-		    	}else{
-		    		if($("#valor").val() <= 0 ){
-		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros en 0 o negativos<br>"
-		    	};
-		    	
-		    	}
-		    	
-		    	if($("#fechaAplicacion").val() == ''){
-		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#tipo").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo</strong> está vacío.<br>"
-		    	};
-
-			
-			if(mensaje != ''){
-				bootbox.alert(mensaje);
-			} else {
-		        bootbox.confirm({
-		        	title: "Actualizar Variable",
-			        message: "¿Está seguro de que desea continuar?",
-			        buttons: {
-			        	cancel: {
-				            label: '<i class="fa fa-times"></i> Regresar'
-				        },
-				        confirm: {
-				            label: '<i class="fa fa-check"></i> Confirmar'
-				        }
-			        },	   
-			     callback: function(result){
-				     if(result){	
-				        		bootbox.prompt({
-				    title: "Escriba Justificación",
-				    inputType: 'textarea',
-				    callback: function (result) {
-				    	if(result != null && result != ""){
-					     $('#justificacionSolicitudForm').val(result);
-					       $('#saveVariable').submit();
-					    } else if(result === "") {
-					    	bootbox.alert({
-							   message: "<b>El campo de Justificación es obligatorio.</b>",
-							   size: 'small'
-							});
-					    }
-				    }
-				});			   
-			       			
-		        		}
-		        	}
-		        });
-			}
-
-        });
+		if($('#id').val() != "") {
+			$('#aplicacionDatePicker').datepicker('remove');
+		}
         
 	</tiles:putAttribute>
 
