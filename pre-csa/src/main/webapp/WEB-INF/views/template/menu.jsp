@@ -26,14 +26,14 @@
 	<!-- Menï¿½ de Bitï¿½cora del sistema -->
 	<sec:authorize access="hasRole('CONSULTA_CAT')">
 		<li id="bitacora"><a href="javascript:;"> <i
-				class="icon-folder"></i> <span class="title">Bitácoras</span> <span
+				class="icon-folder"></i> <span class="title">Bit&aacute;coras</span> <span
 				class="selected"></span> <span class="arrow"></span>
 		</a>
 
 			<ul class="sub-menu">
 
 				<li id="bitacoraMenu"><a href="<c:url value='/bitacora/'/>">
-						<i class="fa fa-list-alt"></i> Bitácora del sistema
+						<i class="fa fa-list-alt"></i> Bit&aacute;cora del sistema
 				</a></li>
 
 			</ul></li>

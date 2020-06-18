@@ -26,7 +26,7 @@
 	</tiles:putAttribute>
 	<tiles:putAttribute name="title">
 		<c:if test="${empty tasa.id}">
-			Alta de Tasas Sobre Nómina
+			Alta de Tasa Sobre Nómina
 		</c:if>
 		<c:if test="${not empty tasa.id}">
 			Edición de Tasa Sobre Nómina
@@ -35,8 +35,14 @@
 
 	<!-- Menu de navegación -->
 	<tiles:putAttribute name="nav">
-		<li><a href='<c:url value="/tasas/"/>'>Alta</a> <i
+		<li><a href='<c:url value="/tasas/"/>'>Tasas sobre Nómina</a> <i
 			class="fa fa-angle-right"></i></li>
+		<c:if test="${empty tasa.id}">
+			<li><a>Alta</a></li>
+		</c:if>
+		<c:if test="${not empty tasa.id}">
+			<li><a>Edición</a></li>
+		</c:if>
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="body">
@@ -48,8 +54,8 @@
 					<div class="portlet-title">
 						<div class="caption">
 							<h3>
-								<c:if test="${empty tasa.id}">Alta de Tasas Sobre Nómina | </c:if>
-								<c:if test="${not empty tasa.id}">Edición Tasas Sobre Nómina | </c:if>
+								<c:if test="${empty tasa.id}">Alta de Tasa Sobre Nómina | </c:if>
+								<c:if test="${not empty tasa.id}">Edición Tasa Sobre Nómina | </c:if>
 								<small class="form-text form-muted"> Los campos con *
 									son obligatorios</small>
 							</h3>
@@ -96,24 +102,17 @@
 										<spring:bind path="tasa.estado">
 											<div class="form-group ${status.error ? 'has-error' : ''}">
 												<label for="estado">Estado: *</label>
-												<c:if test="${empty tasa.id}">
-													<form:input path="estado" name="estado"
-														class="form-control"
-														placeholder="Ingrese el estado de la Tasa" />
-												</c:if>
+												<form:input path="estado" name="estado" class="form-control"
+													placeholder="Ingrese el estado de la Tasa" />
 												<form:errors path="estado" class="help-block"></form:errors>
-												<c:if test="${not empty tasa.id}">
-													<form:input path="estado" name="estado" readonly="true"
-														class="form-control"
-														placeholder="Ingrese el estado de la Tasa" />
-												</c:if>
 											</div>
 										</spring:bind>
 									</div>
+
 									<div class="col-md-4">
 										<spring:bind path="tasa.tipoNomina">
 											<div class="form-group">
-												<label for="tipoNomina">Tipo Nomina: *</label>
+												<label for="tipoNomina">Tipo Nómina: *</label>
 												<form:select path="tipoNomina" required="true"
 													class="form-control" id="tipoNomina">
 													<form:option value=""></form:option>
@@ -123,6 +122,7 @@
 											</div>
 										</spring:bind>
 									</div>
+
 									<div class="col-md-4">
 										<spring:bind path="tasa.tipoVariable">
 											<div class="form-group">
@@ -137,17 +137,20 @@
 										</spring:bind>
 									</div>
 								</div>
+
 								<div class="row">
+
 									<div class="col-md-4">
 										<div class="form-group">
 											<div class="form-group">
 												<label for="valor">Valor: *</label>
 												<form:input path="valor" name="valor" class="form-control"
-													step="0.000001" type="number" />
+													step="0.000001" min="0" type="number" />
 											</div>
 
 										</div>
 									</div>
+
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="oficinas">Oficina: *</label>
@@ -157,6 +160,7 @@
 											</form:select>
 										</div>
 									</div>
+
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="fechaA">Fecha Aplicación: *</label>
@@ -197,6 +201,12 @@
 
 	<tiles:putAttribute name="scripts">
 		<script
+			src="<c:url value='/assets/global/plugins/jquery-validation/js/jquery.validate.min.js'/>"
+			type="text/javascript"></script>
+		<script
+			src="<c:url value='/assets/global/plugins/jquery-validation/js/additional-methods.min.js'/>"
+			type="text/javascript"></script>
+		<script
 			src="<c:url value='/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js'/>"></script>
 		<script
 			src="<c:url value='/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js'/>"></script>
@@ -206,12 +216,14 @@
 			src="<c:url value='/assets/global/plugins/select2/select2.min.js'/>"></script>
 		<script type="text/javascript"
 			src="<c:url value='/assets/global/scripts/jquery.spring-friendly.js'/>"></script>
+		<script type="text/javascript"
+			src="<c:url value='/assets/csa/js/tasa_sobre_nomina.js'/>"></script>
 
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="ready"> 
 		$('#catalogos').addClass("start active open")
-		$('#catalogosMenu').addClass("active");
+		$('#tasasMenu').addClass("active");
 		
 		$('.date-picker').datepicker({
 			autoclose: true,
@@ -237,7 +249,7 @@
 		$("#oficinas").select2();
 		
 		$('#tipoVariable').change(function(){
-			
+			form.validate().element($(this));
 			if($(this).val() === 'TAP'){
 				$("#valor").attr('readonly', true);
 				$("#valor").val(0);
@@ -261,178 +273,10 @@
 				}
 			});
 		});
-		
-		$('#btnGuardarTasa').click(function(e) {
-        	e.preventDefault();
-			mensaje = '';
-			 
-		    if ($("#es_colaborador").val() == '1') {	
-		        if($("#inputNumColaborador").val() === ''){
-		        	mensaje+= "El campo de <strong>Colaborador</strong> está vacío.<br>"
-		        };
-		    }
-		    else {
-		    
-
-		    	if($("#estado").val() == ''){
-		    		mensaje+= "El campo de <strong>estado</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#tipoNomina").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo Nomina</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#tipoVariable").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo Variable</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#fechaAplicacion").val() == ''){
-		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#valor").val() == ''){
-		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
-		    	}else{
-		    		if($("#valor").val() < 0 ){
-		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros negativos<br>"
-		    	};
-		    	
-		    	}
-		    	
-		    	if($("#oficina").val() == ''){
-		    		mensaje+= "El campo de <strong>Oficina</strong> está vacío.<br>"
-		    	};
-}
-
-			if(mensaje != ''){
-				bootbox.alert(mensaje);
-			} else {
-		        bootbox.confirm({
-		        	title: "Registrar Tasa",
-			        message: "¿Está seguro de que desea continuar?",
-			        buttons: {
-			        	cancel: {
-				            label: '<i class="fa fa-times"></i> Regresar'
-				        },
-				        confirm: {
-				            label: '<i class="fa fa-check"></i> Confirmar'
-				        }
-			        },	   
-			        callback: function(result){
-				     if(result){	
-				        		bootbox.prompt({
-				    title: "Escriba Justificación",
-				    inputType: 'textarea',
-				    callback: function (result) {
-				    	if(result != null && result != ""){
-					     $('#justificacionTasaForm').val(result);
-					       $('#saveTasa').submit();
-					    } else if(result === "") {
-					    	bootbox.alert({
-							   message: "<b>El campo de Justificación es obligatorio.</b>",
-							   size: 'small'
-							});
-					    }
-				    }
-				});			   
-			       			
-		        		}
-		        	}
-		        });
-			}
-
-        });
-        
-     $('#btnActualizarTasa').click(function(e) {
-        	e.preventDefault();
-			mensaje = '';
-			 
-		    if ($("#es_colaborador").val() == '1') {	
-		        if($("#inputNumColaborador").val() === ''){
-		        	mensaje+= "El campo de <strong>Colaborador</strong> está vacío.<br>"
-		        };
-		    }
-		    else {
-		    
-
-		    	if($("#estado").val() == ''){
-		    		mensaje+= "El campo de <strong>estado</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#tipoNomina").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo Nomina</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#tipoVariable").val() == ''){
-		    		mensaje+= "El campo de <strong>Tipo Variable</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#fechaAplicacion").val() == ''){
-		    		mensaje+= "El campo de <strong>Fecha Aplicacion</strong> está vacío.<br>"
-		    	};
-		    	
-		    	if($("#valor").val() == ''){
-		    		mensaje+= "El campo de <strong>Valor</strong> está vacío.<br>"
-		    	}else{
-		    		if($("#valor").val() < 0 ){
-		    		mensaje+= "El campo de <strong>Valor</strong> no puede contener numeros negativos<br>"
-		    	};
-		    	
-		    	}
-		    	
-		    	if($("#oficina").val() == ''){
-		    		mensaje+= "El campo de <strong>Oficina</strong> está vacío.<br>"
-		    	};
-}
-
-			if(mensaje != ''){
-				bootbox.alert(mensaje);
-			} else {
-		        bootbox.confirm({
-		        	title: "Actualizar Tasa",
-			        message: "¿Está seguro de que desea continuar?",
-			        buttons: {
-			        	cancel: {
-				            label: '<i class="fa fa-times"></i> Regresar'
-				        },
-				        confirm: {
-				            label: '<i class="fa fa-check"></i> Confirmar'
-				        }
-			        },	   
-			        callback: function(result){
-				     if(result){	
-				        		bootbox.prompt({
-				    title: "Escriba Justificación",
-				    inputType: 'textarea',
-				    callback: function (result) {
-				    	if(result != null && result != ""){
-					     $('#justificacionTasaForm').val(result);
-					       $('#saveTasa').submit();
-					    } else if(result === "") {
-					    	bootbox.alert({
-							   message: "<b>El campo de Justificación es obligatorio.</b>",
-							   size: 'small'
-							});
-					    }
-				    }
-				});			   
-			       			
-		        		}
-		        	}
-		        });
-			}
-
-        });
 	</tiles:putAttribute>
 
 	<tiles:putAttribute name="footer">
-		<div class="page-footer-inner">
-			2019 &copy; <a href="http://www.segurosargos.com/"
-				title="Seguros Argos" target="_blank">Seguros Argos</a>
-		</div>
-		<div class="scroll-to-top">
-			<i class="icon-arrow-up"></i>
-		</div>
+		<c:import url="/WEB-INF/views/template/footer.jsp"></c:import>
 	</tiles:putAttribute>
 
 </tiles:insertDefinition>
