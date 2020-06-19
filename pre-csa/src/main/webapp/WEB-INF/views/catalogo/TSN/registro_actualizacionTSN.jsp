@@ -127,7 +127,7 @@
 												<form:select path="tipoNomina" required="true"
 													class="form-control" id="tipoNomina">
 													<form:option value=""></form:option>
-													<form:options items="${tipoNomina}"></form:options>
+													<form:options items="${tipoNomina}" itemValue="value" itemLabel="label"></form:options>
 												</form:select>
 												<form:errors path="tipoNomina" class="help-block"></form:errors>
 											</div>

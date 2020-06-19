@@ -92,7 +92,7 @@ form.validate({
   submitHandler: function (form) {
     success.show();
     error.hide();
-    //form.submit();
+    form.submit();
     // add here some ajax code to submit your form or just call
     // form.submit() if you want to submit the form without ajax
   },
@@ -165,7 +165,7 @@ $('#btnActualizarVariable').click(function(e) {
 				        callback: function (result) {
 				          if (result != null && result != "") {
 				            $("#justificacionSolicitudForm").val(result);
-				            $("#saveVariable").submit();
+				            form.submit();
 				          } else if (result === "") {
 				            bootbox.alert({
 				              message: "<b>El campo de Justificación es obligatorio.</b>",

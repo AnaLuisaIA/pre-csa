@@ -73,7 +73,7 @@
 					</div>
 
 					<div class="portlet-body form">
-						<!-- Comienza formulario para registro de variables-->
+
 						<form:form id="saveVariable" action="save" method="POST"
 							modelAttribute="variable">
 
@@ -250,10 +250,6 @@
 				}
 			});
 		});
-
-		if($('#id').val() != "") {
-			$('#aplicacionDatePicker').datepicker('remove');
-		}
         
 	</tiles:putAttribute>
 

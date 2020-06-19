@@ -59,7 +59,7 @@ public class VariableDaoImpl extends AbstractHibernateDao<Variable> implements V
 				+ "com.sadss.csa.controller.beans.VariablesDTO(v.id, v.nombre, pv.valor, v.tipo) "
 				+ "from PeriodoVariable pv "
 				+ "join pv.variable v "
-				+ "where v.estado = :e "
+				+ "where pv.estado = :e "
 				+ "and pv.fechaAplicacion >= :f1 ");
 		
 		if(fechaTermino != null) {

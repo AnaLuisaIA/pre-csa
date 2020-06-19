@@ -97,7 +97,7 @@ form.validate({
   submitHandler: function (form) {
     success.show();
     error.hide();
-    //form.submit();
+    form.submit();
     // add here some ajax code to submit your form or just call
     // form.submit() if you want to submit the form without ajax
   },

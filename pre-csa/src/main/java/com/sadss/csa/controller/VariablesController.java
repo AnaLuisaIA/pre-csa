@@ -1,7 +1,5 @@
 package com.sadss.csa.controller;
 
-import java.security.Principal;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -53,7 +51,7 @@ public class VariablesController {
 	private static final Logger LOG = LoggerFactory.getLogger(VariablesController.class);
 
 	/**
-	 * Mï¿½todo principal
+	 * MÃ©todo principal
 	 * 
 	 * @param model
 	 * @param principal
@@ -65,6 +63,241 @@ public class VariablesController {
 		feedDetalles(model);
 		agregarLista(model);
 		return "catalogo/variables/IMSS-INFONAVIT";
+	}
+
+	/**
+	 * Vista de Alta de Variable
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/alta", method = RequestMethod.GET)
+	public String altaVariable(ModelMap model) {
+		agregarInformacion(model);
+		VariablesForm variable = new VariablesForm();
+		model.addAttribute("variable", variable);
+		return "catalogo/variables/registro_actualizacionIMSS-INFONAVIT";
+	}
+
+	/**
+	 * Vista para Editar una Variable
+	 * 
+	 * @param idvariable
+	 * @param idPeriodo
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/editar", method = RequestMethod.GET)
+	public String editarVariable(@RequestParam(required = true) Integer idvariable,
+			@RequestParam(required = true) Integer idPeriodo, ModelMap model) {
+
+		Variable variable = variablesService.findOne(idvariable);
+		PeriodoVariable pv = pvService.findOne(idPeriodo);
+
+		if (variable == null && pv == null) {
+			return "redirect:/variables/";
+		}
+
+		VariablesForm variableForm = (new VariablesForm().fromOrmModel(variable, VariablesForm.class));
+		variableForm.setValor(pv.getValor());
+		variableForm.setValorn(pv.getValor());
+		variableForm.setFechaAplicacion(pv.getFechaAplicacion());
+		variableForm.setFechaAplicacionn(pv.getFechaAplicacion());
+		variableForm.setFechaTermino(pv.getFechaTermino());
+		variableForm.setEstado(pv.getEstado());
+		variableForm.setId(idvariable);
+		variableForm.setIdPeriodo(idPeriodo);
+		model.addAttribute("variable", variableForm);
+
+		agregarInformacion(model);
+		
+		return "catalogo/variables/registro_actualizacionIMSS-INFONAVIT";
+	}
+
+	/**
+	 * Guarda / Modifica una Variable
+	 * 
+	 * @param variable VariablesForm
+	 * @param pv       PeriodoVariableForm
+	 * @param result
+	 * @param request
+	 * @param ra
+	 * @return
+	 */
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public ModelAndView agregarVariable(@Valid @ModelAttribute("variable") VariablesForm variable,
+			@Valid PeriodoVariablesForm pv, BindingResult result, HttpServletRequest request, RedirectAttributes ra) {
+
+		ModelMap map = new ModelMap();
+
+		if (result.hasErrors()) {
+			map.put("variable", variable);
+			agregarInformacion(map);
+			LOG.info("Existen errores: " + result.getAllErrors());
+			return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT", map);
+		}
+
+		String colaborador = SecurityUtils.getCurrentUser();
+		variable.setNombre(variable.getNombre().toUpperCase());
+
+		Variable modeloVariable = variable.toOrmModel(Variable.class);
+		PeriodoVariable modeloPeriodo = pv.toOrmModel(PeriodoVariable.class);
+
+		// NUEVA VARIABLE
+		if (modeloVariable.getId() == null) {
+
+			// Validaciones antes de agregar a BD
+			if (variablesService.esVariableDuplicada(modeloVariable)) {
+				map.put("variable", variable);
+				agregarInformacion(map);
+				map.put("infomsg", "La Variable ya existe en el catálogo.");
+				LOG.info("Existen errores: " + result.getAllErrors());
+				return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT", map);
+			}
+
+			this.variablesService.create(modeloVariable);
+
+			variablesService.registrarAccionBitacoraG("Alta de Variable: " + variable.getNombre(), new Date(),
+					colaborador);
+			variablesService.registrarAccionBitacora("Alta de  Variable: " + variable.getNombre(), new Date(),
+					variable.getJustificacion(), colaborador);
+
+			modeloPeriodo.setEstado(variable.getEstado());
+			modeloPeriodo.setVariable(modeloVariable);
+			this.pvService.create(modeloPeriodo);
+
+			map.put("succmsg", "Se creó correctamente el registro de la Variable");
+
+		} else {
+			System.out.println(modeloPeriodo.getValor().setScale(6));
+			// SI EL VALOR DE LA VARIABLE NO CAMBIÓ NO SE GENERA UN NUEVO PERIODO
+			if (modeloPeriodo.getValor() == variable.getValorn()) {
+
+				this.variablesService.update(modeloVariable);
+
+				modeloPeriodo.setFechaTermino(variable.getFechaTermino());
+				modeloPeriodo.setValor(variable.getValor());
+				modeloPeriodo.setVariable(modeloVariable);
+				modeloPeriodo.setFechaAplicacion(variable.getFechaAplicacion());
+				modeloPeriodo.setEstado(variable.getEstado());
+				this.pvService.update(modeloPeriodo);
+
+				variablesService.registrarAccionBitacoraG("Modificación de la Variable: " + variable.getNombre(),
+						new Date(), colaborador);
+
+				variablesService.registrarAccionBitacora("Modificación de la Variable: " + variable.getNombre(),
+						new Date(), variable.getJustificacion(), colaborador);
+
+			} else {
+				variable.setId((modeloPeriodo.getId()));
+				modeloPeriodo.setId(variable.getIdPeriodo());
+				modeloPeriodo.setFechaTermino(new Date());
+				modeloPeriodo.setFechaAplicacion(variable.getFechaAplicacionn());
+				modeloPeriodo.setValor(variable.getValorn());
+				modeloPeriodo.setVariable(modeloVariable);
+				modeloPeriodo.setEstado(variable.getEstado());
+				this.pvService.update(modeloPeriodo);
+
+				variable.setId((modeloVariable.getId()));
+				modeloPeriodo.setFechaAplicacion(variable.getFechaAplicacion());
+				modeloPeriodo.setFechaTermino(null);
+				modeloPeriodo.setValor(variable.getValor());
+				modeloPeriodo.setEstado(variable.getEstado());
+				this.pvService.create(modeloPeriodo);
+
+				variablesService
+						.registrarAccionBitacoraG(
+								"Modificación en el valor de la Variable :" + variable.getNombre() + " , del  Valor: "
+										+ variable.getValorn() + " al Valor: " + variable.getValor(),
+								new Date(), colaborador);
+
+				variablesService.registrarAccionBitacora(
+						"Modificación en el valor de la Variable :" + variable.getNombre() + " , del  Valor: "
+								+ variable.getValorn() + " al Valor: " + variable.getValor(),
+						new Date(), variable.getJustificacion(), colaborador);
+			}
+
+			map.put("succmsg", "La Variable se modificó con éxito.");
+
+		}
+
+		agregarLista(map);
+		feedDetalles(map);
+		return new ModelAndView("catalogo/variables/IMSS-INFONAVIT", map);
+	}
+
+	/**
+	 * Elimina Variable
+	 * 
+	 * @param idVariable
+	 * @param justificacionIMSSForm
+	 * @param ra
+	 * @param vf                    VariablesForms
+	 * @return
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public String deleteVariable(@ModelAttribute("variable") @RequestParam("idVariable") int idVariable,
+			@RequestParam("justificacionIMSSForm") String justificacionIMSSForm, RedirectAttributes ra,
+			VariablesForm vf) {
+		int id = idVariable;
+		Variable var = variablesService.findOne(id);
+
+		var.setNombre(var.getNombre());
+		String colaborador = SecurityUtils.getCurrentUser();
+		System.out.println("justificacion " + justificacionIMSSForm);
+
+		variablesService.registrarAccionBitacoraG("Variable Eliminada : " + var.getNombre(), new Date(), colaborador);
+		variablesService.registrarAccionBitacora("Variable Eliminada: " + var.getNombre(), new Date(),
+				justificacionIMSSForm, colaborador);
+
+		variablesService.deleteById(id);
+
+		ra.addFlashAttribute("succmsg", "La Variable ha sido eliminada con éxito.");
+		return "redirect:/variables/";
+	}
+
+	/**
+	 * Edita estatus de Variable
+	 * 
+	 * @param idPeriodo
+	 * @param justificacionIMSSForm
+	 * @param nombreV               Nombre Variable
+	 * @param model
+	 * @param ra
+	 * @param vf
+	 * @return
+	 */
+	@RequestMapping(value = "/editarEstado", method = RequestMethod.GET)
+	public String editarEstadoVariable(@RequestParam("idPeriodo") int idPeriodo,
+			@RequestParam("justificacionIMSSForm") String justificacionIMSSForm,
+			@RequestParam("nombreV") String nombreV, ModelMap model, RedirectAttributes ra, VariablesForm vf) {
+		int id = idPeriodo;
+		PeriodoVariable pv = pvService.findOne(id);
+		pv.setEstado(!pv.getEstado());
+		pvService.update(pv);
+		String colaborador = SecurityUtils.getCurrentUser();
+
+		variablesService.registrarAccionBitacoraG("Cambio en el estado de la Variable: " + nombreV, new Date(),
+				colaborador);
+		variablesService.registrarAccionBitacora("Cambio en el estado de la Variable: " + nombreV, new Date(),
+				justificacionIMSSForm, colaborador);
+
+		ra.addFlashAttribute("succmsg", "El estado de la Variable ha cambiado.");
+
+		return "redirect:/variables/";
+	}
+
+	@InitBinder
+	void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new FechaEditor(new SimpleDateFormat("dd/MM/yyyy")));
+	}
+
+	/*
+	 * Consulta bitacora
+	 */
+	public void feedDetalles(ModelMap model) {
+		List<BitacoraVariableDTO> acciones = bcService.getRegistros();
+		model.put("acciones", acciones);
 	}
 
 	/**
@@ -82,257 +315,12 @@ public class VariablesController {
 
 	}
 
-	/*
-	 * Consulta bitacora
-	 */
-	public void feedDetalles(ModelMap model) {
-		List<BitacoraVariableDTO> acciones = bcService.getRegistros();
-		model.put("acciones", acciones);
-	}
-
-	/**
-	 * Metodo Para registrar una Variable
-	 */
-	@RequestMapping(value = "/alta", method = RequestMethod.GET)
-	public String altaVariable(ModelMap model, Principal principal) {
-		agregarInformacion(model);
-		VariablesForm variable = new VariablesForm();
-		model.addAttribute("variable", variable);
-		return "catalogo/variables/registro_actualizacionIMSS-INFONAVIT";
-	}
-
 	/**
 	 * Mï¿½todo para encontrar los registros de variables
 	 */
 	private void agregarLista(ModelMap model) {
 		List<Variable> variable = variablesService.findVariables();
 		model.put("variable", variable);
-	}
-
-	/*
-	 * Mï¿½todo para editar una Variable
-	 * 
-	 * @param id (id de la variable)
-	 * 
-	 * @param model (Modeo vacï¿½o)
-	 *
-	 */
-	@RequestMapping(value = "/editar", method = RequestMethod.GET)
-	public String editarVariable(@RequestParam(required = true) Integer idvariable,
-			@RequestParam(required = true) Integer idPeriodo, ModelMap model) {
-
-		Variable variable = variablesService.findOne(idvariable);
-		PeriodoVariable pv = pvService.findOne(idPeriodo);
-
-		if (variable == null && pv == null) {
-			return "redirect:/variables/";
-		}
-
-		VariablesForm variableForm = (new VariablesForm().fromOrmModel(variable, VariablesForm.class));
-		variableForm.setValor(pv.getValor());
-
-		variableForm.setValorn(pv.getValor());
-		variableForm.setFechaAplicacion(pv.getFechaAplicacion());
-		variableForm.setFechaAplicacionn(pv.getFechaAplicacion());
-		variableForm.setFechaTermino(pv.getFechaTermino());
-		variableForm.setEstado(pv.getEstado());
-		variableForm.setId(idvariable);
-		variableForm.setIdPeriodo(idPeriodo);
-		model.addAttribute("variable", variableForm);
-
-		agregarInformacion(model);
-		return "catalogo/variables/registro_actualizacionIMSS-INFONAVIT";
-	}
-
-	/**
-	 * Metodo para Registar una Variable
-	 */
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView agregarVariable(@Valid @ModelAttribute("variable") VariablesForm variable,
-			@Valid PeriodoVariablesForm pv, BindingResult result, HttpServletRequest request, RedirectAttributes ra) {
-		
-		ModelMap map = new ModelMap();
-
-		if (result.hasErrors()) {
-			map.put("variable", variable);
-			agregarInformacion(map);
-			LOG.info("Existen errores: " + result.getAllErrors());
-			return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT", map);
-		}
-
-		String colaborador = SecurityUtils.getCurrentUser();
-		variable.setNombre(variable.getNombre().toUpperCase());
-		
-		Variable modeloVariable = variable.toOrmModel(Variable.class);
-		PeriodoVariable modeloPeriodo = pv.toOrmModel(PeriodoVariable.class);
-
-		// NUEVA VARIABLE
-		if (modeloVariable.getId() == null) {
-			
-			// Validaciones antes de agregar a BD
-			if (variablesService.esVariableDuplicada(modeloVariable)) {
-				map.put("variable", variable);
-				agregarInformacion(map);
-				map.put("infomsg", "La variable ya existe en el catÃ¡logo.");
-				LOG.info("Existen errores: " + result.getAllErrors());
-				return new ModelAndView("catalogo/variables/registro_actualizacionIMSS-INFONAVIT", map);
-			}
-			
-			this.variablesService.create(modeloVariable);
-			
-			variablesService.registrarAccionBitacoraG("Registro Variable: " + variable.getNombre(), new Date(),
-					colaborador);
-			variablesService.registrarAccionBitacora("Registro Variable: " + variable.getNombre(), new Date(),
-					variable.getJustificacion(), colaborador);
-			modeloPeriodo.setEstado(variable.getEstado());
-			modeloPeriodo.setVariable(modeloVariable);
-			this.pvService.create(modeloPeriodo);
-			
-			map.put("succmsg", "Se creÃ³ correctamente el registro la Variable");
-
-		} else {
-			
-			//SI EL VALOR DE LA VARIABLE NO CAMBIï¿½
-			if (modeloPeriodo.getValor().equals(variable.getValorn())) {
-
-				//Si la fecha Termino esta en NULL
-				if(modeloPeriodo.getFechaTermino() == null) {
-					
-					variable.setId((modeloVariable.getId()));
-					modeloPeriodo.setId(variable.getIdPeriodo());
-					this.variablesService.update(modeloVariable);
-					
-					//Se envia la fecha termino
-					modeloPeriodo.setFechaTermino(null);
-					//se envia el valor anterior
-					modeloPeriodo.setValor(variable.getValor());
-					//Se envia el formulario variables a periodo 
-					modeloPeriodo.setVariable(modeloVariable);
-					//Fecha aplicaciï¿½n
-					modeloPeriodo.setFechaAplicacion(variable.getFechaAplicacion());
-					//Estado
-					modeloPeriodo.setEstado(variable.getEstado());
-					//Modifica datos de periodo
-					this.pvService.update(modeloPeriodo);
-					variablesService.registrarAccionBitacoraG("Modificaciï¿½n  de variable : " + variable.getNombre(), new Date(), colaborador);
-
-					variablesService.registrarAccionBitacora("Modificaciï¿½n de variable : " + variable.getNombre(), new Date(), 
-							variable.getJustificacion(), colaborador);
-				}else {
-					
-					variable.setId((modeloVariable.getId()));
-					modeloPeriodo.setId(variable.getIdPeriodo());
-					this.variablesService.update(modeloVariable);
-					//Se envia la fecha termino
-					modeloPeriodo.setFechaTermino(variable.getFechaTermino());
-
-					//se envia el valor anterior
-					modeloPeriodo.setValor(variable.getValor());
-					//Se envia el formulario variables a periodo 
-					modeloPeriodo.setVariable(modeloVariable);
-					//Fecha aplicaciï¿½n
-					modeloPeriodo.setFechaAplicacion(variable.getFechaAplicacion());
-					//Estado
-					modeloPeriodo.setEstado(variable.getEstado());
-					//Modifica datos de periodo
-					this.pvService.update(modeloPeriodo);
-					
-					variablesService.registrarAccionBitacoraG("ModificaciÃ³n de variable : " + variable.getNombre(), new Date(), colaborador);
-
-					variablesService.registrarAccionBitacora("ModificaciÃ³n de variable : " + variable.getNombre(), new Date(), 
-							variable.getJustificacion(), colaborador);
-					
-				}
-				
-			}else {
-				variable.setId((modeloPeriodo.getId()));
-				modeloPeriodo.setId(variable.getIdPeriodo());
-				modeloPeriodo.setFechaTermino(new Date());
-				modeloPeriodo.setFechaAplicacion(variable.getFechaAplicacionn());
-				modeloPeriodo.setValor(variable.getValorn());
-				modeloPeriodo.setVariable(modeloVariable);
-				modeloPeriodo.setEstado(variable.getEstado());
-				this.pvService.update(modeloPeriodo);
-
-				variable.setId((modeloVariable.getId()));
-				modeloPeriodo.setFechaAplicacion(variable.getFechaAplicacion());
-				modeloPeriodo.setId(null);
-				modeloPeriodo.setFechaTermino(null);
-				modeloPeriodo.setValor(variable.getValor());
-				modeloPeriodo.setEstado(variable.getEstado());
-				this.pvService.create(modeloPeriodo);
-				
-				variablesService.registrarAccionBitacoraG("Modificaciï¿½n en el valor de variable : " + variable.getNombre() + " , de  Valor: "
-						+ variable.getValorn() + " al Valor: " + variable.getValor(), new Date(), colaborador);
-
-				variablesService.registrarAccionBitacora("Modificaciï¿½n en el valor de variable : " + variable.getNombre(), new Date(), 
-				variable.getJustificacion(), colaborador);
-			}
-			
-			map.put("succmsg", "Se actualizo correctamente la Variable");
-			
-		}
-		
-		agregarLista(map);
-		feedDetalles(map);
-		return new ModelAndView("catalogo/variables/IMSS-INFONAVIT", map);
-	}
-
-	/**
-	 * Mï¿½todo para eliminar una variable
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deleteVariable(@ModelAttribute("variable") @RequestParam("idVariable") int idVariable,
-			@RequestParam("justificacionIMSSForm") String justificacionIMSSForm, RedirectAttributes ra,
-			VariablesForm vf) {
-		int id = idVariable;
-		Variable var = variablesService.findOne(id);
-
-		var.setNombre(var.getNombre());
-		String colaborador = SecurityUtils.getCurrentUser();
-		System.out.println("justificacion " + justificacionIMSSForm);
-
-		variablesService.registrarAccionBitacoraG("Variable Eliminada : " + var.getNombre(), new Date(), colaborador);
-		variablesService.registrarAccionBitacora("Variable Eliminada " + var.getNombre(), new Date(),
-				justificacionIMSSForm, colaborador);
-
-		variablesService.deleteById(id);
-
-		ra.addFlashAttribute("succmsg", "La variable a sido eliminada con exito");
-		return "redirect:/variables/";
-	}
-
-	/*
-	 * MÃ©todo para editar el estado de Variable
-	 * 
-	 * @param id (id de la variable)
-	 * 
-	 * @param model (Modeo vacï¿½o)
-	 *
-	 */
-	@RequestMapping(value = "/editarEstado", method = RequestMethod.GET)
-	public String editarEstadoVariable(@RequestParam("idPeriodo") int idPeriodo,
-			@RequestParam("justificacionIMSSForm") String justificacionIMSSForm,@RequestParam("nombreV") String nombreV, ModelMap model, RedirectAttributes ra,
-			VariablesForm vf) {
-		int id = idPeriodo;
-		PeriodoVariable pv = pvService.findOne(id);
-		pv.setEstado(!pv.getEstado());
-		pvService.update(pv);
-		String colaborador = SecurityUtils.getCurrentUser();
-
-		variablesService.registrarAccionBitacoraG("Modifico el estado de la Variable: " + nombreV, new Date(),
-				colaborador);
-		variablesService.registrarAccionBitacora("Modifico el estado de la Variable: " + nombreV, new Date(),
-				justificacionIMSSForm, colaborador);
-
-		ra.addFlashAttribute("succmsg", "Se cambio correctamente el estado de la Variable");
-
-		return "redirect:/variables/";
-	}
-	
-	@InitBinder
-	void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(Date.class, new FechaEditor(new SimpleDateFormat("dd/MM/yyyy")));
 	}
 
 }
