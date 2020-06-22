@@ -2,6 +2,7 @@ package com.sadss.csa.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.sadss.csa.controller.beans.Bono;
 import com.sadss.csa.controller.beans.CalculosImssDTO;
 import com.sadss.csa.controller.beans.CalculosImssForm;
 import com.sadss.csa.controller.beans.VariablesDTO;
@@ -29,6 +31,7 @@ import com.sadss.csa.modelo.generic.IOperations;
 import com.sadss.csa.service.CalculoIMSSService;
 import com.sadss.csa.service.UsuarioService;
 import com.sadss.csa.service.generic.AbstractService;
+import com.sadss.csa.util.BonosWS;
 import com.sadss.csa.util.FillManager;
 import com.sadss.csa.util.Layouter;
 import com.sadss.csa.util.Writer;
@@ -480,5 +483,52 @@ public class CalculoIMSSServiceImpl extends AbstractService<CalculoIMSS> impleme
 	public CalculosImssDTO consultarInfoCalculo(Integer id) {
 		return this.dao.consultarInfoCalculo(id);
 	}
+
+	@Override
+	public void setBonosWS(DatosCarga datos, int clave_agente, Date fecha1, Date fecha2) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		List<Bono> bonos = BonosWS.getBonosAgente(String.valueOf(clave_agente), sdf.format(fecha1), sdf.format(fecha2));
+		
+		for(Bono b: bonos) {
+			String nombreBono = b.getConcepto().trim();
+			BigDecimal importe = new BigDecimal(b.getImporte()).setScale(2, RoundingMode.HALF_UP);
+			
+			if(nombreBono.equalsIgnoreCase("BONO LEALTAD")) {
+				datos.setBonoLealtad(importe);
+			} else if(nombreBono.equalsIgnoreCase("BONO DIGITAL")) {
+				datos.setBonoDigital(importe);
+			} else if(nombreBono.equalsIgnoreCase("BONO TRASLADO")) {
+				datos.setBonoDigital(importe);
+			} else {
+				
+				if(datos.getOtroBono1() == null) {
+					datos.setOtroBono1(importe);
+				} else if (datos.getOtroBono2() == null) {
+					datos.setOtroBono2(importe);
+				} else if (datos.getOtroBono3() == null) {
+					datos.setOtroBono3(importe);
+				} else if (datos.getOtroBono4() == null) {
+					datos.setOtroBono4(importe);
+				} else if (datos.getOtroBono5() == null) {
+					datos.setOtroBono5(importe);
+				} else if (datos.getOtroBono6() == null) {
+					datos.setOtroBono6(importe);
+				} else if (datos.getOtroBono7() == null) {
+					datos.setOtroBono7(importe);
+				} else if (datos.getOtroBono8() == null) {
+					datos.setOtroBono8(importe);
+				} else if (datos.getOtroBono9() == null) {
+					datos.setOtroBono9(importe);
+				} else if (datos.getOtroBono10() == null) {
+					datos.setOtroBono2(importe);
+				}
+				
+			}
+			
+		}
+		
+	}
+
 
 }

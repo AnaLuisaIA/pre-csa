@@ -411,18 +411,19 @@ public class CalculosController {
 					if (col > 5 && col < 16) {
 						imssService.setValoresComplemento(datos, col, celda);
 					}
-					// Tipo Nómina Normal (Bonos WEB)
-					else if (cif.getTipoNomina() == TipoNominaIMSS.NOR) {
-
-					}
+					
 					// Tipo Nómina Finiquito (Bonos archivo)
-					else if (cif.getTipoNomina() == TipoNominaIMSS.FIN) {
+					else if (col > 15 && cif.getTipoNomina() == TipoNominaIMSS.FIN) {
 						imssService.setValoresBonos(datos, col, celda);
 					}
 
 					break;
 				}
 
+			}
+			
+			if(cif.getTipoNomina().equals(TipoNominaIMSS.NOR)) {
+				imssService.setBonosWS(datos, clave_agente, cif.getFechaInicio(), cif.getFechaFin());
 			}
 
 			datosService.create(datos);
@@ -499,11 +500,11 @@ public class CalculosController {
 
 			base_gravable = total_percepciones.subtract(sumaReparto);
 
-			// Si la localidad del agente es Total A Pagar
+			// Si la oficina del agente es Total A Pagar
 			datosTAP.add(d);
 			suma_baseG = suma_baseG.add(base_gravable);
 
-			// Si el agente tiene localidad de Tasa
+			// Si el agente tiene oficina de Tasa
 			// CalculoISN calculo = isnService.realizarCalculos(cif, n_semanas, d,
 			// colaborador, base_gravable);
 			// isnService.create(calculo);

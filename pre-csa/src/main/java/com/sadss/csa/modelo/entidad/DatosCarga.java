@@ -49,6 +49,36 @@ public class DatosCarga extends GenericModel<DatosCarga> implements Serializable
 
 	private Set<CalculoIMSS> calculosImss = new HashSet<CalculoIMSS>();
 
+	public DatosCarga() {
+
+		this.salarioDiario = BigDecimal.ZERO;
+		this.sdBase = BigDecimal.ZERO;
+		this.sueldo = BigDecimal.ZERO;
+		this.aguinaldo = BigDecimal.ZERO;
+		this.vacaciones = BigDecimal.ZERO;
+		this.primaVacacional = BigDecimal.ZERO;
+		this.repUtil = BigDecimal.ZERO;
+		this.indemnizacion =BigDecimal.ZERO;
+		this.veinteDias = BigDecimal.ZERO;
+		this.primaAnti = BigDecimal.ZERO;
+		this.compensacionV = BigDecimal.ZERO;
+		this.premios = BigDecimal.ZERO;
+		this.bono = BigDecimal.ZERO;
+		this.bonoLealtad = BigDecimal.ZERO;
+		this.bonoDigital = BigDecimal.ZERO;
+		this.bonoTraslado = BigDecimal.ZERO;
+		this.otroBono1 = BigDecimal.ZERO;
+		this.otroBono2 = BigDecimal.ZERO;
+		this.otroBono3 = BigDecimal.ZERO;
+		this.otroBono4 = BigDecimal.ZERO;
+		this.otroBono5 = BigDecimal.ZERO;
+		this.otroBono6 = BigDecimal.ZERO;
+		this.otroBono7 = BigDecimal.ZERO;
+		this.otroBono8 = BigDecimal.ZERO;
+		this.otroBono9 = BigDecimal.ZERO;
+		this.otroBono10 = BigDecimal.ZERO;
+	}
+
 	public Integer getId() {
 		return id;
 	}

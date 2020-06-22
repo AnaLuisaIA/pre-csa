@@ -126,4 +126,6 @@ public interface CalculoIMSSService extends CrudService<CalculoIMSS> {
 	 * @return CalculoImssDTO
 	 */
 	public CalculosImssDTO consultarInfoCalculo(Integer id);
+	
+	public void setBonosWS(DatosCarga datos, int clave_agente, Date fechaInicio, Date fechaFin);
 }
